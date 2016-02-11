@@ -42,33 +42,43 @@ public class InternalAudits extends javax.swing.JFrame {
     private static final AtomicInteger counter = new AtomicInteger(0);
     private  int staffId;
     private void setReferenceNumber(){
-        String sql = "select SHE_ID from AUTOAUD";
+        String sql = "select AUD_ID from AUTOAUD";
+        String sql1 = "select INS_ID from AUTOINS";
+        if(cboOperation.getSelectedItem().toString().equals("Audit")){
         try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
             PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
                 ResultSet rs = pst.executeQuery()){
             rs.afterLast();
             while(rs.previous()){
-            staffId = rs.getInt("SHE_ID");
+            staffId = rs.getInt("AUD_ID");
             if(staffId == 0){ staffId = +1;
-            if(cboAuditType.getSelectedItem().equals("Audit")){
             txtReferenceNumber.setText("AUD-00"+ staffId);
             staffId = counter.incrementAndGet();
             }else{
-            txtReferenceNumber.setText("INS-00"+ staffId);
-            staffId = counter.incrementAndGet();
-            }
-            }
-            if(cboAuditType.getSelectedItem().equals("Audit")){
             txtReferenceNumber.setText("AUD-00"+ staffId);
             staffId = counter.incrementAndGet();
-            }else{
-            txtReferenceNumber.setText("INS-00"+ staffId);
-            staffId = counter.incrementAndGet();
-            }
-            }
+            }}
         }catch(SQLException e){
         JOptionPane.showMessageDialog(InternalAudits.this, e + "Unable to set counter");}
+        }else{
+        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = pst.executeQuery()){
+            rs.afterLast();
+            while(rs.previous()){
+            staffId = rs.getInt("INS_ID");
+            if(staffId == 0){ staffId = +1;
+            txtReferenceNumber.setText("INS-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }else{
+            txtReferenceNumber.setText("INS-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }}
+        }catch(SQLException e){
+        JOptionPane.showMessageDialog(InternalAudits.this, e + "Unable to set counter");}
+        }
     }
+    
     private void fillId(){
         String sql ="Select * from Persons";
             try {
@@ -659,6 +669,7 @@ public static InternalAudits getObj(){
         }else{
             cboAuditType.setEnabled(true);
         }
+        setReferenceNumber();
     }//GEN-LAST:event_cboOperationItemStateChanged
 
     /**

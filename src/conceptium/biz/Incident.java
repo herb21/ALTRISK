@@ -62,10 +62,10 @@ private static Incident obj = null;
             while(rs.previous()){
             staffId = rs.getInt("SHE_ID");
             if(staffId == 0){ staffId = +1;
-            txtReferenceNumber.setText("SHE-00"+ staffId);
+            txtReferenceNumber.setText("SHE-"+ staffId);
             staffId = counter.incrementAndGet();
             }
-            txtReferenceNumber.setText("SHE-00"+ staffId);
+            txtReferenceNumber.setText("SHE-"+ staffId);
             staffId = counter.incrementAndGet();}
         }catch(SQLException e){
         JOptionPane.showMessageDialog(Incident.this, e + "Unable to set counter");}
