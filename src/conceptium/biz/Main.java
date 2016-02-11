@@ -127,7 +127,7 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Incident iI = new Incident();
-                Incident.getObj().setVisible(true);
+                //Incident.getObj().setVisible(true);
             }
         });
         jXTaskPane5.add(new AbstractAction() {
@@ -2041,7 +2041,7 @@ private String sum;
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         //Incident incident = new Incident();
-        Incident.getObj().setVisible(true);
+        //Incident.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed

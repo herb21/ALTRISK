@@ -35,11 +35,11 @@ import net.proteanit.sql.DbUtils;
  * @author MathomeTD
  */
 public class Incident extends javax.swing.JFrame {
-private static Incident obj = null;
+//private static Incident obj = null;
     /**
      * Creates new form Incident
      */
-    private Incident() {
+    public Incident() {
         setUndecorated(true);
         setResizable(false);
         initComponents();
@@ -51,22 +51,26 @@ private static Incident obj = null;
         txtReferenceNumber.setEditable(false);
         //fillOccurance();
     }
-    private static final AtomicInteger counter = new AtomicInteger(0);
     private  int staffId;
+    private static final AtomicInteger counter = new AtomicInteger(0);
     private void setReferenceNumber(){
         String sql = "select SHE_ID from AUTOSHE";
         try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
             PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
                 ResultSet rs = pst.executeQuery()){
             rs.afterLast();
-            while(rs.previous()){
+            if(rs.last()){
             staffId = rs.getInt("SHE_ID");
-            if(staffId == 0){ staffId = +1;
+            //if(staffId == 0){ staffId = +1;
             txtReferenceNumber.setText("SHE-"+ staffId);
-            staffId = counter.incrementAndGet();
+            //staffId ++;
+            //staffId = counter.incrementAndGet();
+            //}
+            //staffId ++;
+            txtReferenceNumber.setText("SHE-"+ staffId);
+            staffId ++;
+            //staffId = counter.incrementAndGet();
             }
-            txtReferenceNumber.setText("SHE-"+ staffId);
-            staffId = counter.incrementAndGet();}
         }catch(SQLException e){
         JOptionPane.showMessageDialog(Incident.this, e + "Unable to set counter");}
     }
@@ -103,12 +107,12 @@ private static Incident obj = null;
     }
         
         
-        public static Incident getObj(){
-            if (obj == null){
-                obj = new Incident();
-            }
-            return obj;
-        }
+        //public static Incident getObj(){
+            //if (obj == null){
+                //obj = new Incident();
+            //}
+            //return obj;
+        //}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1099,6 +1103,7 @@ public void fillsupervisor(){
 }
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         //staffId = counter.incrementAndGet();
+        //setReferenceNumber();
         Locale RSA = new Locale("en", "ZA");
         NumberFormat format = NumberFormat.getCurrencyInstance(RSA);
         format.setMaximumFractionDigits(2);

@@ -164,7 +164,7 @@ public class Dash extends javax.swing.JFrame {
             }
             @Override
             public void actionPerformed(ActionEvent e) {
-                Incident.getObj().setVisible(true);
+                //Incident.getObj().setVisible(true);
             }
         });
         jXTaskPane5.add(new AbstractAction() {
@@ -2040,7 +2040,7 @@ jXTaskPane6.setTitle("SHEQ System Documentation");
     }//GEN-LAST:event_jMenuItem46ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        Incident.getObj().setVisible(true);
+        //Incident.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed

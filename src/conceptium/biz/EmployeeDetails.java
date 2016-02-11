@@ -426,7 +426,7 @@ private void updateTable(){
         int row = jXTable1.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel)jXTable1.getModel();
         String selected = model.getValueAt(row, 3).toString();
-        //Incident iI = new Incident();
+        Incident iI = new Incident();
         //Incident.cboEmployeeNumber.removeAllItems();
         String sql = "Select * from Persons where EmployeeNumber = ?";
         try{
@@ -450,8 +450,8 @@ private void updateTable(){
             JOptionPane.showMessageDialog(EmployeeDetails.this, e);
         }
 
-        
-        Incident.getObj().setVisible(true);
+        iI.setVisible(true);
+        //Incident.getObj().setVisible(true);
     }//GEN-LAST:event_captureIncidentActionPerformed
 
     private void editEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEmployeeActionPerformed

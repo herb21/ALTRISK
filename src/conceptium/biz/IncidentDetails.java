@@ -481,7 +481,8 @@ public static IncidentDetails getObj(){
     }//GEN-LAST:event_cboReferenceItemStateChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Incident iI = Incident.getObj();
+        //Incident iI = Incident.getObj();
+        Incident iI = new Incident();
         Incident.jButton1.setEnabled(false);
         //Incident.cboEmployeeNumber.setSelectedItem(selected);
         //Incident.cboIncidentType.removeAll();;;

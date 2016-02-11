@@ -258,7 +258,9 @@ private void updateTable(){
         catch(Exception e){
             JOptionPane.showMessageDialog(IncidentRegistry.this, e);
         }
-        Incident.getObj().setVisible(true);
+        Incident iI = new Incident();
+        iI.setVisible(true);
+        //Incident.getObj().setVisible(true);
     }//GEN-LAST:event_incidentInformationActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased

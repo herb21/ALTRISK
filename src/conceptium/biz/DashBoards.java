@@ -2441,8 +2441,9 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        //Incident incident = new Incident();
-        Incident.getObj().setVisible(true);
+        Incident incident = new Incident();
+        //Incident.getObj().setVisible(true);
+        incident.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -2567,7 +2568,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         String node = evt.getNewLeadSelectionPath().getLastPathComponent().toString();
         switch (node) {
             case "Create Incident":
-            Incident.getObj().setVisible(true);
+            //Incident.getObj().setVisible(true);
             break;
             case "Additional Information":
             IncidentDetails.getObj().setVisible(true);

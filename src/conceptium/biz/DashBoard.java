@@ -210,7 +210,7 @@ public class DashBoard extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Incident iI = new Incident();
-                Incident.getObj().setVisible(true);
+                //Incident.getObj().setVisible(true);
             }
         });
         jXTaskPane5.add(new AbstractAction() {
