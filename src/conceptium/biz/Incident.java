@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -34,8 +35,6 @@ import net.proteanit.sql.DbUtils;
  * @author MathomeTD
  */
 public class Incident extends javax.swing.JFrame {
-private static final AtomicInteger counter = new AtomicInteger(0);
-private  int staffId;
 private static Incident obj = null;
     /**
      * Creates new form Incident
@@ -46,8 +45,30 @@ private static Incident obj = null;
         initComponents();
         fillId();
         supervisor();
-        
+        setReferenceNumber();
+        txtReferenceNumber.setBackground(Color.red);
+        txtReferenceNumber.setFont(new Font("Arial", Font.BOLD, 14));
+        txtReferenceNumber.setEditable(false);
         //fillOccurance();
+    }
+    private static final AtomicInteger counter = new AtomicInteger(0);
+    private  int staffId;
+    private void setReferenceNumber(){
+        String sql = "select SHE_ID from AUTOSHE";
+        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = pst.executeQuery()){
+            rs.afterLast();
+            while(rs.previous()){
+            staffId = rs.getInt("SHE_ID");
+            if(staffId == 0){ staffId = +1;
+            txtReferenceNumber.setText("SHE-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }
+            txtReferenceNumber.setText("SHE-00"+ staffId);
+            staffId = counter.incrementAndGet();}
+        }catch(SQLException e){
+        JOptionPane.showMessageDialog(Incident.this, e + "Unable to set counter");}
     }
    private void fillId(){
         String sql ="Select * from Persons";
@@ -651,13 +672,12 @@ private static Incident obj = null;
                     .addComponent(jRadioButton8)
                     .addComponent(jRadioButton2))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRadioButton1)
-                        .addComponent(jRadioButton4)
-                        .addComponent(jRadioButton3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jRadioButton5)))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jRadioButton4, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jRadioButton3)))
+                    .addComponent(jRadioButton5, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -731,7 +751,6 @@ private static Incident obj = null;
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addComponent(jLabel20)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane2)
@@ -784,7 +803,6 @@ private static Incident obj = null;
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel26, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.LEADING))
@@ -997,6 +1015,13 @@ private static Incident obj = null;
         catch(Exception e){
         JOptionPane.showMessageDialog(Incident.this, e);
         }
+        String sql2 = "insert into AUTOSHE(SHE_ID) values(?)";
+        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql2);){
+            pst.setInt(1, staffId);
+            pst.executeUpdate();
+        }catch(SQLException e){
+        JOptionPane.showMessageDialog(Incident.this, e + "Unable to set counter");}
        // SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 Calendar c = Calendar.getInstance();
                 //c.setTime(new Date());
@@ -1073,7 +1098,7 @@ public void fillsupervisor(){
         }
 }
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        staffId = counter.incrementAndGet();
+        //staffId = counter.incrementAndGet();
         Locale RSA = new Locale("en", "ZA");
         NumberFormat format = NumberFormat.getCurrencyInstance(RSA);
         format.setMaximumFractionDigits(2);
@@ -1087,9 +1112,7 @@ public void fillsupervisor(){
         DefaultFormatterFactory dff = new DefaultFormatterFactory(formatter);
         txtEstimatedValue.setFormatterFactory(dff);
         txtEstimatedValue.setValue(0.00);
-        txtReferenceNumber.setBackground(Color.red);
-        txtReferenceNumber.setFont(new Font("Arial", Font.BOLD, 14));
-        txtReferenceNumber.setText("SHE-00"+ staffId);
+
         txtEstimatedValue.setBackground(Color.green);
         txtTimeExposed.setEnabled(false);
         txtTimeExposed.setText("0");
@@ -1103,11 +1126,11 @@ public void fillsupervisor(){
         //txtStatus.setBackground(Color.RED);
         //txtStatus.setFont(new Font("Arial", Font.BOLD, 14));
         String search = cboIncidentType.getSelectedItem().toString();
-        String sql ="Select * from IncidentOccurrance where IncidentType = ?";
+        String sql1 ="Select * from IncidentOccurrance where IncidentType = ?";
             //String sql = "select * from IncidentOccurance";
             try {
                 Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-                PreparedStatement pst = con.prepareStatement(sql);
+                PreparedStatement pst = con.prepareStatement(sql1);
                 pst.setString(1, search);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){

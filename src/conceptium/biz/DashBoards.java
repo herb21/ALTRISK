@@ -620,7 +620,6 @@ jSeparator26 = new javax.swing.JPopupMenu.Separator();
 jSeparator14 = new javax.swing.JPopupMenu.Separator();
 jMenu13 = new javax.swing.JMenu();
 jSeparator31 = new javax.swing.JPopupMenu.Separator();
-jMenuItem6 = new javax.swing.JMenuItem();
 jSeparator30 = new javax.swing.JPopupMenu.Separator();
 jMenuItem7 = new javax.swing.JMenuItem();
 jSeparator29 = new javax.swing.JPopupMenu.Separator();
@@ -1864,14 +1863,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jMenu13.setText("Risk Assessment     ");
     jMenu13.add(jSeparator31);
-
-    jMenuItem6.setText("Define Investigation Teams");
-    jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItem6ActionPerformed(evt);
-        }
-    });
-    jMenu13.add(jMenuItem6);
     jMenu13.add(jSeparator30);
 
     jMenuItem7.setText("Rate Incident Risk");
@@ -2459,11 +2450,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         IncidentDetails.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        InvestigationTeams iT = InvestigationTeams.getObj();
-        iT.setVisible(true);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
       RiskRating.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
@@ -2939,7 +2925,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem57;
     private javax.swing.JMenuItem jMenuItem58;
     private javax.swing.JMenuItem jMenuItem59;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem60;
     private javax.swing.JMenuItem jMenuItem61;
     private javax.swing.JMenuItem jMenuItem62;

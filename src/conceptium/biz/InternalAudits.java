@@ -5,17 +5,17 @@
  */
 package conceptium.biz;
 
-import static conceptium.biz.Incident.jDateChooser2;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -37,8 +37,38 @@ public class InternalAudits extends javax.swing.JFrame {
         initComponents();
         fillId();
         site();
+        setReferenceNumber();
     }
-    
+    private static final AtomicInteger counter = new AtomicInteger(0);
+    private  int staffId;
+    private void setReferenceNumber(){
+        String sql = "select SHE_ID from AUTOAUD";
+        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = pst.executeQuery()){
+            rs.afterLast();
+            while(rs.previous()){
+            staffId = rs.getInt("SHE_ID");
+            if(staffId == 0){ staffId = +1;
+            if(cboAuditType.getSelectedItem().equals("Audit")){
+            txtReferenceNumber.setText("AUD-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }else{
+            txtReferenceNumber.setText("INS-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }
+            }
+            if(cboAuditType.getSelectedItem().equals("Audit")){
+            txtReferenceNumber.setText("AUD-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }else{
+            txtReferenceNumber.setText("INS-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }
+            }
+        }catch(SQLException e){
+        JOptionPane.showMessageDialog(InternalAudits.this, e + "Unable to set counter");}
+    }
     private void fillId(){
         String sql ="Select * from Persons";
             try {
