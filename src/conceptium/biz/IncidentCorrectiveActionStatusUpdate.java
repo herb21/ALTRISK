@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -448,11 +449,14 @@ public static IncidentCorrectiveActionStatusUpdate getObj(){
             JOptionPane.showMessageDialog(StatusUpdate.this, e);
             }**/
 
+
+            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formatter = myFormat.format(jDateChooser1.getDate());
             DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
             model.setValueAt(txtAllocatedTask.getText(), Corrective.jTable1.getSelectedRow(),0);
             model.setValueAt(cboHierachy.getSelectedItem().toString(), Corrective.jTable1.getSelectedRow(),1);
             model.setValueAt(txtName.getText(), Corrective.jTable1.getSelectedRow(),2);
-            model.setValueAt(jDateChooser1.getDate(), Corrective.jTable1.getSelectedRow(),3);
+            model.setValueAt(formatter, Corrective.jTable1.getSelectedRow(),3);
             model.setValueAt(choice, Corrective.jTable1.getSelectedRow(),4);
             
             this.dispose();

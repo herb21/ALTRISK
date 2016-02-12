@@ -52,6 +52,7 @@ public class Corrective extends javax.swing.JFrame {
         names();
         reference();
         txtStatus.setEditable(false);
+        
     }
     public static Corrective getObj(){
             if (obj == null){
@@ -172,7 +173,7 @@ public class Corrective extends javax.swing.JFrame {
             }
         });
 
-        cboHierachyOfControl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Choose", "Eliminate", "Substitute", "Seperate", "Redesign", "Administrate", "PPE", " " }));
+        cboHierachyOfControl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Eliminate", "Substitute", "Seperate", "Redesign", "Administrate", "PPE", " " }));
 
         jLabel1.setText("Actions:");
 
@@ -218,9 +219,7 @@ public class Corrective extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(txtAction, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
-                                .addComponent(cboHierachyOfControl, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cboHierachyOfControl, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,11 +234,9 @@ public class Corrective extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
                                 .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, 0))))
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,7 +321,7 @@ public class Corrective extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Update Status");
+        jButton5.setText("Update Incident Status");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -347,11 +344,11 @@ public class Corrective extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -499,14 +496,52 @@ public class Corrective extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        //DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
-        //for(int i =0; i < model.getRowCount(); i++){
-            //String use = model.getValueAt(i, 4).toString();
-            //if(use.equals("Open")){
-            //System.out.println("Test sustefull");
-                    //}
-        //} 
-        //IncidentCorrectiveActionStatusUpdate.txtAllocatedTask.setText(model.getValueAt(jTable1.getSelectedRow(), 0).toString().trim());
+        String search = cboReferenceNumber.getSelectedItem().toString();
+        String sql = "select ReferenceNumber from KeyLearnings  where ReferenceNumber = ? ";
+        String sql1 = "select * from checklist where referencenumber = ?";
+        try{
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            pst.setString(1, search);
+            //pst.setString(2, search);
+                ResultSet rs = pst.executeQuery();
+                if(!rs.last()){
+                    JOptionPane.showMessageDialog(Corrective.this, "Please ensure that KeyLearnings have been shared");
+                }
+                else{
+                    DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
+        for(int i =0; i < model.getRowCount(); i++){
+            String use = model.getValueAt(i, 4).toString();
+            if(use.equals("Open")){
+                JOptionPane.showMessageDialog(Corrective.this, "please ensure all open cases are closed first");
+            System.out.println("Test sustefull");
+                    }
+        } 
+        Incident iI = new Incident();
+        iI.statusClosed.setSelected(true);
+        iI.statusOpen.setSelected(false);
+        iI.statusOpen.setEnabled(false);
+        iI.jButton1.setEnabled(false);
+        iI.txtReferenceNumber.setText(cboReferenceNumber.getSelectedItem().toString());
+        java.util.Date date = new java.util.Date();
+        iI.dcClosingDate.setDate(date);
+        try{
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
+            pst = con.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            pst.setString(1, search);
+            //pst.setString(2, search);
+                rs = pst.executeQuery();
+                if(!rs.last()){
+                    JOptionPane.showMessageDialog(Corrective.this, "Please ensure that the CheckList has been completed","Warning",JOptionPane.ERROR_MESSAGE);
+                }else{iI.setVisible(true);}
+        }catch(SQLException | HeadlessException e){
+                JOptionPane.showMessageDialog(Corrective.this, e);}
+        
+                }
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(Corrective.this, e);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -517,8 +552,13 @@ public class Corrective extends javax.swing.JFrame {
         dueDate = new java.sql.Date (jDateChooser2.getDate().getTime());
         String status = txtStatus.getText();
         Object[] row = {action,hierachyOfControl,responsiblePerson,dueDate,status};
+        if(!txtAction.getText().equals("")  ){
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.addRow(row);
+        }
+        else{
+            JOptionPane.showMessageDialog(Corrective.this, "Please enter action required");
+        }
 
     }//GEN-LAST:event_jButton7ActionPerformed
 

@@ -749,6 +749,7 @@ jMenuItem27 = new javax.swing.JMenuItem();
 jSeparator54 = new javax.swing.JPopupMenu.Separator();
 jMenuItem28 = new javax.swing.JMenuItem();
 jSeparator55 = new javax.swing.JPopupMenu.Separator();
+jMenu28 = new javax.swing.JMenu();
 jMenu2 = new javax.swing.JMenu();
 jSeparator99 = new javax.swing.JPopupMenu.Separator();
 jMenuItem16 = new javax.swing.JMenuItem();
@@ -2267,6 +2268,9 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jMenuBar1.add(jMenu8);
 
+    jMenu28.setText("Messages");
+    jMenuBar1.add(jMenu28);
+
     jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/call center.png"))); // NOI18N
     jMenu2.setMnemonic('e');
     jMenu2.setText("Help");
@@ -2858,6 +2862,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenu jMenu25;
     private javax.swing.JMenu jMenu26;
     private javax.swing.JMenu jMenu27;
+    private javax.swing.JMenu jMenu28;
     private javax.swing.JMenu jMenu29;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu31;

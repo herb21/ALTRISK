@@ -38,7 +38,7 @@ public class CheckList extends javax.swing.JFrame {
     public String ID;
     public String surname;
     private void names(){
-        String sql ="Select * from Person";
+        String sql ="Select * from Persons";
             try {
                 Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
                 PreparedStatement pst = con.prepareStatement(sql);
@@ -310,14 +310,48 @@ public class CheckList extends javax.swing.JFrame {
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
         choice1 = "Yes";
+        if(jCheckBox3.isSelected()){
+        jCheckBox4.setEnabled(false);
+        }else{
+        jCheckBox4.setEnabled(true);}
     }//GEN-LAST:event_jCheckBox3ActionPerformed
 
     private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
         choice1 = "No";
+        if(jCheckBox4.isSelected()){
+        jCheckBox3.setEnabled(false);
+        }else{
+        jCheckBox3.setEnabled(true);}
     }//GEN-LAST:event_jCheckBox4ActionPerformed
 
     private void cboManagerItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboManagerItemStateChanged
-        //names();
+       String search  = cboManager.getSelectedItem().toString();
+        String [] args = search.split(" ");
+        String sql ="Select * from Persons where name = ? and surname = ?";
+            try {
+                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, args[0]);
+                pst.setString(2, args[1]);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                    //ID = rs.getString("Name");
+                    //surname = rs.getString("Surname");
+                    //String idNumber = rs.getString("IDNumber");
+                    //txtId.setText(idNumber);
+                    //cboManager.addItem(ID.trim()+" "+surname.trim());
+                    String telephone = rs.getString("ContactNumber");
+                    txtTelephone.setText(telephone);
+                    String email = rs.getString("EmailAddress");
+                    txtEmail.setText(email.trim());
+                    String job = rs.getString("JobTitle");
+                    cboJobTitle.setSelectedItem(job.trim());
+                }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
+        }
+//names();
     }//GEN-LAST:event_cboManagerItemStateChanged
 
     private void txtTelephoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelephoneActionPerformed
@@ -360,10 +394,18 @@ public class CheckList extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         choice2 = "Yes";
+        if(jCheckBox1.isSelected()){
+        jCheckBox2.setEnabled(false);
+        }else{
+        jCheckBox2.setEnabled(true);}
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
         choice2 = "No";
+        if(jCheckBox2.isSelected()){
+        jCheckBox1.setEnabled(false);
+        }else{
+        jCheckBox1.setEnabled(true);}
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     /**
