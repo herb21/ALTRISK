@@ -2456,7 +2456,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        
+        IncidentAnalysis.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
@@ -2583,7 +2583,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
             Corrective.getObj().setVisible(true);
             break;
             case "Root Cause":
-            RootCause.getObj().setVisible(true);
+            IncidentRootCause.getObj().setVisible(true);
             break;
             case "High Priority":
             HighPriority.getObj().setVisible(true);

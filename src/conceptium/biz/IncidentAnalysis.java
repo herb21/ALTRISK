@@ -6,8 +6,14 @@
 package conceptium.biz;
 
 import com.alee.laf.WebLookAndFeel;
+import static conceptium.biz.AuditCorrective.cboHierachy;
+import static conceptium.biz.AuditCorrective.cboName;
+import static conceptium.biz.AuditCorrective.jDateChooser1;
+import static conceptium.biz.AuditCorrective.txtAction;
+import static conceptium.biz.AuditCorrective.txtStatus;
 import java.awt.HeadlessException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +23,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -67,39 +74,34 @@ public class IncidentAnalysis extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        cboAbsent2 = new javax.swing.JComboBox();
-        cboAbsent3 = new javax.swing.JComboBox();
         cboAbsent1 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         txtDesc1 = new javax.swing.JTextField();
-        txtDesc2 = new javax.swing.JTextField();
-        txtDesc3 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         cboTeam = new javax.swing.JComboBox();
-        txtTeamDesc2 = new javax.swing.JTextField();
-        cboTeam2 = new javax.swing.JComboBox();
-        cboTeam3 = new javax.swing.JComboBox();
-        cboTeam1 = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         txtTeamDesc3 = new javax.swing.JTextField();
-        txtTeamDesc1 = new javax.swing.JTextField();
-        txtTeamDesc = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtTaskDesc = new javax.swing.JTextField();
         cboTask = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        cboFactors2 = new javax.swing.JComboBox();
         cboFactors = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
-        txtFactors2 = new javax.swing.JTextField();
-        txtFactors3 = new javax.swing.JTextField();
         txtFactors1 = new javax.swing.JTextField();
-        cboFactors1 = new javax.swing.JComboBox();
         jLabel13 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         txtEnvironmentDesc = new javax.swing.JTextField();
         cboEnvironment = new javax.swing.JComboBox();
@@ -118,10 +120,6 @@ public class IncidentAnalysis extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cboAbsent2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable","DF01:Guards or Barriers", "DF02:Detection Systems", "DF03:Warning Systems", "DF4:Protection system", "DF05:Recovery", "DF06:Escape", "DF07:Rescue", "SDF08:afety device operation", "DF09:Personal protective equipment", "DF10:Hazard indefication", "DF:11Control Systems", " " }));
-
-        cboAbsent3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable","DF01:Guards or Barriers", "DF02:Detection Systems", "DF03:Warning Systems", "DF4:Protection system", "DF05:Recovery", "DF06:Escape", "DF07:Rescue", "SDF08:afety device operation", "DF09:Personal protective equipment", "DF10:Hazard indefication", "DF:11Control Systems", " " }));
-
         cboAbsent1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable","DF01:Guards or Barriers", "DF02:Detection Systems", "DF03:Warning Systems", "DF4:Protection system", "DF05:Recovery", "DF06:Escape", "DF07:Rescue", "SDF08:afety device operation", "DF09:Personal protective equipment", "DF10:Hazard indefication", "DF:11Control Systems", " " }));
         cboAbsent1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,60 +137,60 @@ public class IncidentAnalysis extends javax.swing.JFrame {
 
         jLabel8.setText("Description:");
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Absent or Failed defenses", "Description"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jButton4.setText("jButton4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addComponent(cboAbsent2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboAbsent1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboAbsent3, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel8)
-                        .addGap(0, 343, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDesc3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtDesc2, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDesc1)))
-                .addContainerGap())
+                            .addComponent(jLabel1)
+                            .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtDesc1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4)))))
+                .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(21, 21, 21))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cboAbsent2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtDesc2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(21, 21, 21))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cboAbsent3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(0, 0, 0)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -204,12 +202,6 @@ public class IncidentAnalysis extends javax.swing.JFrame {
             }
         });
 
-        cboTeam2.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Not Applicable","IT00 : Make a Selection", "IT01: Supervision", "IT02: Operating authority", "IT03: Operating speed", "IT04: Equipment use", "IT05: Personal protactive equipment", "IT06: Procedural compliance", "IT07: Change management", "IT08: Equipment/Materails handling", "IT09: Misconduct", "IT10: Work method", "IT11: Occupational hygine practices", "IT12: Hazard recognition/perception", "IT:13 Risk Management", "Other(specify)" }));
-
-        cboTeam3.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Not Applicable","IT00 : Make a Selection", "IT01: Supervision", "IT02: Operating authority", "IT03: Operating speed", "IT04: Equipment use", "IT05: Personal protactive equipment", "IT06: Procedural compliance", "IT07: Change management", "IT08: Equipment/Materails handling", "IT09: Misconduct", "IT10: Work method", "IT11: Occupational hygine practices", "IT12: Hazard recognition/perception", "IT:13 Risk Management", "Other(specify)" }));
-
-        cboTeam1.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Not Applicable","IT00 : Make a Selection", "IT01: Supervision", "IT02: Operating authority", "IT03: Operating speed", "IT04: Equipment use", "IT05: Personal protactive equipment", "IT06: Procedural compliance", "IT07: Change management", "IT08: Equipment/Materails handling", "IT09: Misconduct", "IT10: Work method", "IT11: Occupational hygine practices", "IT12: Hazard recognition/perception", "IT:13 Risk Management", "Other(specify)" }));
-
         jLabel2.setText("Individual / Team Actions:");
 
         txtTeamDesc3.addActionListener(new java.awt.event.ActionListener() {
@@ -220,36 +212,43 @@ public class IncidentAnalysis extends javax.swing.JFrame {
 
         jLabel9.setText("Description:");
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Individual / team Actions", "Description"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jButton5.setText("jButton5");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(227, 227, 227)
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cboTeam, 0, 399, Short.MAX_VALUE)
-                            .addComponent(cboTeam1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboTeam3, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboTeam2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtTeamDesc1)
-                                    .addComponent(txtTeamDesc2)))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtTeamDesc3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtTeamDesc))))))
-                .addContainerGap())
+                                .addComponent(jButton5)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 0, 0))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,20 +261,11 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboTeam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboTeam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTeamDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboTeam2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTeamDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboTeam3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTeamDesc2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -291,17 +281,17 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(cboTask, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
+                        .addComponent(jLabel3)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(txtTaskDesc))
-                .addContainerGap())
+                    .addComponent(cboTask, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTaskDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(0, 0, 0))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,12 +303,10 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTaskDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        cboFactors2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable", "OS01: Leadership and accountability", "OS02: Legal requirements, committment and document control", "OS03: Risk and change management", "OS04: Planning, goals and targets", "OS05: Health and hygiene", "SO07: Communication, consult and participation", "SO08: Business conduct, human rights, community", "SO09: Design, construction and commisioning", "SO10: Operations and maintenance", "SO11: Suppliers, contractors and patners", "SO12: Stewardship", "SO13: Incident reporting and investigation", "SO14: Crisis and emergency management", "SO15: Monitoring, audit and review", "Others(specify)", " " }));
 
         cboFactors.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable", "OS01: Leadership and accountability", "OS02: Legal requirements, committment and document control", "OS03: Risk and change management", "OS04: Planning, goals and targets", "OS05: Health and hygiene", "SO07: Communication, consult and participation", "SO08: Business conduct, human rights, community", "SO09: Design, construction and commisioning", "SO10: Operations and maintenance", "SO11: Suppliers, contractors and patners", "SO12: Stewardship", "SO13: Incident reporting and investigation", "SO14: Crisis and emergency management", "SO15: Monitoring, audit and review", "Others(specify)", " ", " ", " " }));
         cboFactors.addActionListener(new java.awt.event.ActionListener() {
@@ -329,69 +317,62 @@ public class IncidentAnalysis extends javax.swing.JFrame {
 
         jLabel5.setText("Organisational Factors:");
 
-        txtFactors2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFactors2ActionPerformed(evt);
-            }
-        });
-
-        cboFactors1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable", "OS01: Leadership and accountability", "OS02: Legal requirements, committment and document control", "OS03: Risk and change management", "OS04: Planning, goals and targets", "OS05: Health and hygiene", "SO07: Communication, consult and participation", "SO08: Business conduct, human rights, community", "SO09: Design, construction and commisioning", "SO10: Operations and maintenance", "SO11: Suppliers, contractors and patners", "SO12: Stewardship", "SO13: Incident reporting and investigation", "SO14: Crisis and emergency management", "SO15: Monitoring, audit and review", "Others(specify)", " ", " ", " " }));
-        cboFactors1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboFactors1ActionPerformed(evt);
-            }
-        });
-
         jLabel13.setText("Description:");
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Organisational Factors", "Description"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
+
+        jButton6.setText("jButton6");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel13)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cboFactors2, javax.swing.GroupLayout.Alignment.LEADING, 0, 392, Short.MAX_VALUE)
-                            .addComponent(cboFactors1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboFactors, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(cboFactors, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, 0)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(txtFactors1)
-                                .addGap(8, 8, 8))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtFactors3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFactors2))
-                                .addContainerGap())))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton6)))))
+                .addGap(0, 0, 0))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboFactors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFactors1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboFactors1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFactors2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboFactors2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFactors3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 11, Short.MAX_VALUE))
+                    .addComponent(txtFactors1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -412,22 +393,22 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(cboEnvironment, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(txtEnvironmentDesc))
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel12))
@@ -435,7 +416,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboEnvironment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEnvironmentDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jLabel4.setText("Reference Number:");
@@ -445,7 +426,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -456,10 +437,8 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,7 +457,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
 
         jButton1.setText("Add the incident Analysis");
@@ -541,10 +520,6 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboTeamActionPerformed
 
-    private void txtFactors2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFactors2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFactors2ActionPerformed
-
     private void cboAbsent1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAbsent1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboAbsent1ActionPerformed
@@ -556,57 +531,33 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                 "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String reference = cboRef.getSelectedItem().toString();
         String absent1 = cboAbsent1.getSelectedItem().toString();
-        String absent2 = cboAbsent2.getSelectedItem().toString();
-        String absent3 = cboAbsent3.getSelectedItem().toString();
         String team = cboTeam.getSelectedItem().toString();
-        String team1 = cboTeam1.getSelectedItem().toString();
-        String team2 = cboTeam2.getSelectedItem().toString();
-        String team3 = cboTeam3.getSelectedItem().toString();
         String task = cboTask.getSelectedItem().toString();
         String environment = cboEnvironment.getSelectedItem().toString();
         String factors = cboFactors.getSelectedItem().toString();
         String factors1 = cboFactors.getSelectedItem().toString();
         String factors2 = cboFactors.getSelectedItem().toString();
         String desc = txtDesc1.getText();
-        String desc1 = txtDesc2.getText();
-        String desc2 = txtDesc3.getText();
-        String teamDisc = txtTeamDesc.getText();
-        String teamDisc1 = txtTeamDesc1.getText();
-        String teamDisc2 = txtTeamDesc2.getText();
         String teamDisc3 = txtTeamDesc3.getText();
         String taskDesc = txtTaskDesc.getText();
         String environmentDesc = txtEnvironmentDesc.getText();
         String factorsDesc = txtFactors1.getText();
-        String factorsDesc1 = txtFactors2.getText();
-        String factorsDesc2 = txtFactors3.getText();
         try{
             Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, reference);
             pst.setString(2, absent1);
-            pst.setString(3, absent2);
-            pst.setString(4, absent3);
             pst.setString(5, team);
-            pst.setString(6, team1);
-            pst.setString(7,team2);
-            pst.setString(8, team3);
             pst.setString(9, task);
             pst.setString(10, environment);
             pst.setString(11, factors);
             pst.setString(12, factors1);
             pst.setString(13, factors2);
             pst.setString(14, desc);
-            pst.setString(15, desc1);
-            pst.setString(16, desc2);
-            pst.setString(17, teamDisc);
-            pst.setString(18, teamDisc1);
-            pst.setString(19, teamDisc2);
             pst.setString(20, teamDisc3);
             pst.setString(21, taskDesc);
             pst.setString(22, environmentDesc);
             pst.setString(23, factorsDesc);
-            pst.setString(24, factorsDesc1);
-            pst.setString(25, factorsDesc2);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(IncidentAnalysis.this, "Analysis successfully save.");
         }
@@ -624,14 +575,10 @@ public class IncidentAnalysis extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        RootCause rR = RootCause.getObj();
+        IncidentRootCause rR = IncidentRootCause.getObj();
         rR.cboReference.setSelectedItem(cboRef.getSelectedItem().toString().trim());
-        RootCause.getObj().setVisible(true);
+        IncidentRootCause.getObj().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void cboFactors1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFactors1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboFactors1ActionPerformed
 
     private void cboEnvironmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEnvironmentActionPerformed
         // TODO add your handling code here:
@@ -644,6 +591,30 @@ public class IncidentAnalysis extends javax.swing.JFrame {
     private void txtDesc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDesc1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDesc1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String absent = cboAbsent1.getSelectedItem().toString();
+        String description = txtDesc1.getText();
+        Object[] row = {absent,description};
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.addRow(row);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        String absent = cboTeam.getSelectedItem().toString();
+        String description = txtTeamDesc3.getText();
+        Object[] row = {absent,description};
+        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
+        model.addRow(row);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String absent = cboFactors.getSelectedItem().toString();
+        String description = txtFactors1.getText();
+        Object[] row = {absent,description};
+        DefaultTableModel model = (DefaultTableModel)jTable3.getModel();
+        model.addRow(row);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -682,21 +653,17 @@ public class IncidentAnalysis extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cboAbsent1;
-    private javax.swing.JComboBox cboAbsent2;
-    private javax.swing.JComboBox cboAbsent3;
     private javax.swing.JComboBox cboEnvironment;
     private javax.swing.JComboBox cboFactors;
-    private javax.swing.JComboBox cboFactors1;
-    private javax.swing.JComboBox cboFactors2;
     private javax.swing.JComboBox cboRef;
     private javax.swing.JComboBox cboTask;
     private javax.swing.JComboBox cboTeam;
-    private javax.swing.JComboBox cboTeam1;
-    private javax.swing.JComboBox cboTeam2;
-    private javax.swing.JComboBox cboTeam3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -714,17 +681,16 @@ public class IncidentAnalysis extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField txtDesc1;
-    private javax.swing.JTextField txtDesc2;
-    private javax.swing.JTextField txtDesc3;
     private javax.swing.JTextField txtEnvironmentDesc;
     private javax.swing.JTextField txtFactors1;
-    private javax.swing.JTextField txtFactors2;
-    private javax.swing.JTextField txtFactors3;
     private javax.swing.JTextField txtTaskDesc;
-    private javax.swing.JTextField txtTeamDesc;
-    private javax.swing.JTextField txtTeamDesc1;
-    private javax.swing.JTextField txtTeamDesc2;
     private javax.swing.JTextField txtTeamDesc3;
     // End of variables declaration//GEN-END:variables
 }
