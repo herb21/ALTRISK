@@ -27,26 +27,28 @@ import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author MathomeTD
  */
-public class StatusUpdate extends javax.swing.JFrame {
+public class IncidentCorrectiveActionStatusUpdate extends javax.swing.JFrame {
 
     /**
-     * Creates new form StatusUpdate
+     * Creates new form IncidentCorrectiveActionStatusUpdate
      */
-    private static StatusUpdate obj = null;
-    private StatusUpdate() {;
+    private static IncidentCorrectiveActionStatusUpdate obj = null;
+    private IncidentCorrectiveActionStatusUpdate() {;
         setResizable(false);
         setUndecorated(true);
         initComponents();
         reference();
+        
     }
-public static StatusUpdate getObj(){
+public static IncidentCorrectiveActionStatusUpdate getObj(){
             if (obj == null){
-                obj = new StatusUpdate();
+                obj = new IncidentCorrectiveActionStatusUpdate();
             }
             return obj;
         }
@@ -160,6 +162,11 @@ public static StatusUpdate getObj(){
         jLabel5.setText("Supporting Docs:");
 
         jButton1.setText("Upload");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Responsible Person:");
 
@@ -181,6 +188,18 @@ public static StatusUpdate getObj(){
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Reason for Pending"));
 
+        txtReason2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtReason2ActionPerformed(evt);
+            }
+        });
+
+        txtReason4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtReason4ActionPerformed(evt);
+            }
+        });
+
         txtReason3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtReason3ActionPerformed(evt);
@@ -191,13 +210,13 @@ public static StatusUpdate getObj(){
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtReason1)
-                    .addComponent(txtReason2)
-                    .addComponent(txtReason3)
-                    .addComponent(txtReason4))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtReason4, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                    .addComponent(txtReason3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtReason2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtReason1))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -236,31 +255,31 @@ public static StatusUpdate getObj(){
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(statusCompleted)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(statusPending))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
                     .addComponent(txtAllocatedTask)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cboHierachy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
-                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboHierachy, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboReference, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtUpload, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(statusCompleted)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(statusPending)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cboReference, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 14, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,7 +343,7 @@ public static StatusUpdate getObj(){
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -428,25 +447,28 @@ public static StatusUpdate getObj(){
             catch(Exception e){
             JOptionPane.showMessageDialog(StatusUpdate.this, e);
             }**/
-            corrective.txtAction.setText(allocatedTask);
-            corrective.cboName.setSelectedItem(responsiblePerson);
-            corrective.cboHierachyOfControl.setSelectedItem(hierachy);
-            corrective.jDateChooser2.setDate(dueDate);
-            corrective.checkStatus.setSelected(true);
-            corrective.setVisible(true);
+
+            DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
+            model.setValueAt(txtAllocatedTask.getText(), Corrective.jTable1.getSelectedRow(),0);
+            model.setValueAt(cboHierachy.getSelectedItem().toString(), Corrective.jTable1.getSelectedRow(),1);
+            model.setValueAt(txtName.getText(), Corrective.jTable1.getSelectedRow(),2);
+            model.setValueAt(jDateChooser1.getDate(), Corrective.jTable1.getSelectedRow(),3);
+            model.setValueAt(choice, Corrective.jTable1.getSelectedRow(),4);
+            
             this.dispose();
         }
+        
         else{
             this.dispose();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    
     private void txtAllocatedTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAllocatedTaskActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAllocatedTaskActionPerformed
 
     private void statusCompletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusCompletedActionPerformed
-        choice = "completed";
+        choice = "Closed";
         if(statusCompleted.isSelected()){
             statusPending.setEnabled(false);
         }
@@ -490,6 +512,18 @@ public static StatusUpdate getObj(){
         txtReason4.setEnabled(false);
     }//GEN-LAST:event_formWindowActivated
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtReason4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReason4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtReason4ActionPerformed
+
+    private void txtReason2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReason2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtReason2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -507,31 +541,32 @@ public static StatusUpdate getObj(){
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StatusUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IncidentCorrectiveActionStatusUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StatusUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IncidentCorrectiveActionStatusUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StatusUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IncidentCorrectiveActionStatusUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StatusUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IncidentCorrectiveActionStatusUpdate.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StatusUpdate().setVisible(true);
+                new IncidentCorrectiveActionStatusUpdate().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cboHierachy;
+    public static javax.swing.JComboBox cboHierachy;
     public static javax.swing.JComboBox cboReference;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    public static com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -545,9 +580,9 @@ public static StatusUpdate getObj(){
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox statusCompleted;
     private javax.swing.JCheckBox statusPending;
-    private javax.swing.JTextField txtAllocatedTask;
+    public static javax.swing.JTextField txtAllocatedTask;
     private javax.swing.JTextArea txtFeedback;
-    private javax.swing.JTextField txtName;
+    public static javax.swing.JTextField txtName;
     private javax.swing.JTextField txtReason1;
     private javax.swing.JTextField txtReason2;
     private javax.swing.JTextField txtReason3;

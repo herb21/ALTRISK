@@ -2742,7 +2742,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem78ActionPerformed
 
     private void jMenuItem79ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem79ActionPerformed
-        StatusUpdate.getObj().setVisible(true);
+        IncidentCorrectiveActionStatusUpdate.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem79ActionPerformed
 
     private void jTree3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree3MouseReleased
