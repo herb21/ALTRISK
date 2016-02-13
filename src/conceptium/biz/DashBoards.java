@@ -2351,6 +2351,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu38.add(jSeparator149);
 
     jMenuItem84.setText("New Incident");
+    jMenuItem84.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem84ActionPerformed(evt);
+        }
+    });
     jMenu38.add(jMenuItem84);
 
     jMenu28.add(jMenu38);
@@ -2379,6 +2384,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jMenuItem42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/travelling12.png"))); // NOI18N
     jMenuItem42.setText("About");
+    jMenuItem42.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem42ActionPerformed(evt);
+        }
+    });
     jMenu2.add(jMenuItem42);
     jMenu2.add(jSeparator98);
 
@@ -2875,6 +2885,14 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
         Person.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem32ActionPerformed
+
+    private void jMenuItem84ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem84ActionPerformed
+        CreatedIncident.getObj().setVisible(true);
+    }//GEN-LAST:event_jMenuItem84ActionPerformed
+
+    private void jMenuItem42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem42ActionPerformed
+        About.getObj().setVisible(true);
+    }//GEN-LAST:event_jMenuItem42ActionPerformed
 
     /**
      * @param args the command line arguments
