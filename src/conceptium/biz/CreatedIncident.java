@@ -23,7 +23,7 @@ import org.jdesktop.swingx.decorator.ShadingColorHighlighter;
 
 /**
  *
- * @author MathomeTD
+ * @author Conceptium
  */
 public class CreatedIncident extends javax.swing.JFrame {
 
@@ -31,7 +31,7 @@ public class CreatedIncident extends javax.swing.JFrame {
      * Creates new form CreatedIncident
      */
     private static CreatedIncident obj = null;
-    public CreatedIncident() {
+    private CreatedIncident() {
         setUndecorated(true);
         setResizable(false);
         initComponents();

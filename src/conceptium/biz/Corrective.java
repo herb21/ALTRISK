@@ -185,7 +185,7 @@ public class Corrective extends javax.swing.JFrame {
 
         jLabel6.setText("Status");
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -306,7 +306,7 @@ public class Corrective extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Check List");
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/newspaper18.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -521,6 +521,8 @@ public class Corrective extends javax.swing.JFrame {
         iI.statusClosed.setSelected(true);
         iI.statusOpen.setSelected(false);
         iI.statusOpen.setEnabled(false);
+        iI.statusPending.setEnabled(false);
+        iI.statusClosed.setEnabled(false);
         iI.jButton1.setEnabled(false);
         iI.txtReferenceNumber.setText(cboReferenceNumber.getSelectedItem().toString());
         java.util.Date date = new java.util.Date();

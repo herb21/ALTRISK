@@ -624,6 +624,7 @@ jMenuItem22 = new javax.swing.JMenuItem();
 jSeparator48 = new javax.swing.JPopupMenu.Separator();
 jSeparator43 = new javax.swing.JPopupMenu.Separator();
 jMenu19 = new javax.swing.JMenu();
+jMenuItem86 = new javax.swing.JMenuItem();
 jSeparator3 = new javax.swing.JPopupMenu.Separator();
 jMenu6 = new javax.swing.JMenu();
 jSeparator10 = new javax.swing.JPopupMenu.Separator();
@@ -800,6 +801,9 @@ jSeparator151 = new javax.swing.JPopupMenu.Separator();
 jMenu38 = new javax.swing.JMenu();
 jSeparator149 = new javax.swing.JPopupMenu.Separator();
 jMenuItem84 = new javax.swing.JMenuItem();
+jSeparator158 = new javax.swing.JPopupMenu.Separator();
+jMenuItem85 = new javax.swing.JMenuItem();
+jSeparator157 = new javax.swing.JPopupMenu.Separator();
 jSeparator152 = new javax.swing.JPopupMenu.Separator();
 jMenu39 = new javax.swing.JMenu();
 jSeparator148 = new javax.swing.JPopupMenu.Separator();
@@ -1623,6 +1627,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu3.setText("Auditing");
     jMenu3.add(jSeparator71);
 
+    jMenuItem47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/search102.png"))); // NOI18N
     jMenuItem47.setText("Findings");
     jMenuItem47.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1632,6 +1637,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu3.add(jMenuItem47);
     jMenu3.add(jSeparator78);
 
+    jMenuItem48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/checked2.png"))); // NOI18N
     jMenuItem48.setText("Corrective Actions");
     jMenuItem48.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1641,6 +1647,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu3.add(jMenuItem48);
     jMenu3.add(jSeparator137);
 
+    jMenuItem78.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add98.png"))); // NOI18N
     jMenuItem78.setText("Scheduling");
     jMenuItem78.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1650,6 +1657,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu3.add(jMenuItem78);
     jMenu3.add(jSeparator79);
 
+    jMenu36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/panel.png"))); // NOI18N
     jMenu36.setText("Statistics");
     jMenu36.add(jSeparator142);
 
@@ -1687,6 +1695,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu3.add(jMenu36);
     jMenu3.add(jSeparator67);
 
+    jMenu37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/report1.png"))); // NOI18N
     jMenu37.setText("Reports");
     jMenu37.add(jSeparator147);
 
@@ -1826,6 +1835,10 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu19.setText("Training Report");
     jMenu5.add(jMenu19);
 
+    jMenuItem86.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add98.png"))); // NOI18N
+    jMenuItem86.setText("Plan Training");
+    jMenu5.add(jMenuItem86);
+
     jMenu1.add(jMenu5);
     jMenu1.add(jSeparator3);
 
@@ -1886,6 +1899,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu10.add(jSeparator16);
     jMenu10.add(jSeparator15);
 
+    jMenu12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/exclamation mark1.png"))); // NOI18N
     jMenu12.setText("Incidents");
     jMenu12.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1894,6 +1908,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     });
     jMenu12.add(jSeparator28);
 
+    jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add118.png"))); // NOI18N
     jMenuItem4.setText("Capture Incident");
     jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1915,10 +1930,12 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu10.add(jMenu12);
     jMenu10.add(jSeparator14);
 
+    jMenu13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/dangerous3.png"))); // NOI18N
     jMenu13.setText("Risk Assessment     ");
     jMenu13.add(jSeparator31);
     jMenu13.add(jSeparator30);
 
+    jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/symbol147.png"))); // NOI18N
     jMenuItem7.setText("Rate Incident Risk");
     jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1931,9 +1948,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu10.add(jMenu13);
     jMenu10.add(jSeparator13);
 
+    jMenu14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/graphic49.png"))); // NOI18N
     jMenu14.setText("Analysis");
     jMenu14.add(jSeparator37);
 
+    jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/search109.png"))); // NOI18N
     jMenuItem8.setText("Analysize Incident");
     jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1978,6 +1997,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu10.add(jMenu14);
     jMenu10.add(jSeparator11);
 
+    jMenu15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/checked2.png"))); // NOI18N
     jMenu15.setText("Corrective Action");
     jMenu15.add(jSeparator21);
 
@@ -2110,6 +2130,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu7.add(jMenu31);
     jMenu7.add(jSeparator108);
 
+    jMenuItem57.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add118.png"))); // NOI18N
     jMenuItem57.setText("Create Document");
     jMenu7.add(jMenuItem57);
     jMenu7.add(jSeparator107);
@@ -2321,7 +2342,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jMenuBar1.add(jMenu8);
 
-    jMenu28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/data112.png"))); // NOI18N
+    jMenu28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/email5-2.png"))); // NOI18N
     jMenu28.setText("Messages");
     jMenu28.add(jSeparator150);
 
@@ -2357,6 +2378,16 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         }
     });
     jMenu38.add(jMenuItem84);
+    jMenu38.add(jSeparator158);
+
+    jMenuItem85.setText("Incidents Closed");
+    jMenuItem85.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem85ActionPerformed(evt);
+        }
+    });
+    jMenu38.add(jMenuItem85);
+    jMenu38.add(jSeparator157);
 
     jMenu28.add(jMenu38);
     jMenu28.add(jSeparator152);
@@ -2402,9 +2433,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jMenuBar1.add(jMenu2);
 
-    jMenu33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/arrow222.png"))); // NOI18N
-    jMenu33.setMnemonic('x');
-    jMenu33.setText("Exit");
+    jMenu33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/power28.png"))); // NOI18N
     jMenu33.addMenuListener(new javax.swing.event.MenuListener() {
         public void menuSelected(javax.swing.event.MenuEvent evt) {
             jMenu33MenuSelected(evt);
@@ -2894,6 +2923,10 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         About.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem42ActionPerformed
 
+    private void jMenuItem85ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem85ActionPerformed
+        ClosedIncidents.getObj().setVisible(true);
+    }//GEN-LAST:event_jMenuItem85ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3074,6 +3107,8 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem82;
     private javax.swing.JMenuItem jMenuItem83;
     public static javax.swing.JMenuItem jMenuItem84;
+    private javax.swing.JMenuItem jMenuItem85;
+    private javax.swing.JMenuItem jMenuItem86;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -3170,6 +3205,8 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPopupMenu.Separator jSeparator154;
     private javax.swing.JPopupMenu.Separator jSeparator155;
     private javax.swing.JPopupMenu.Separator jSeparator156;
+    private javax.swing.JPopupMenu.Separator jSeparator157;
+    private javax.swing.JPopupMenu.Separator jSeparator158;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator17;
     private javax.swing.JPopupMenu.Separator jSeparator18;

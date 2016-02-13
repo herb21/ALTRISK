@@ -138,6 +138,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem47">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/search102.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Findings"/>
                   </Properties>
                   <Events>
@@ -148,6 +151,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem48">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/checked2.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Corrective Actions"/>
                   </Properties>
                   <Events>
@@ -158,6 +164,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem78">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/add98.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Scheduling"/>
                   </Properties>
                   <Events>
@@ -168,6 +177,9 @@
                 </MenuItem>
                 <Menu class="javax.swing.JMenu" name="jMenu36">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/panel.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Statistics"/>
                   </Properties>
                   <SubComponents>
@@ -216,6 +228,9 @@
                 </MenuItem>
                 <Menu class="javax.swing.JMenu" name="jMenu37">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/report1.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Reports"/>
                   </Properties>
                   <SubComponents>
@@ -427,6 +442,14 @@
                     <Property name="text" type="java.lang.String" value="Training Report"/>
                   </Properties>
                 </Menu>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem86">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/add98.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Plan Training"/>
+                  </Properties>
+                </MenuItem>
               </SubComponents>
             </Menu>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
@@ -521,6 +544,9 @@
                 </MenuItem>
                 <Menu class="javax.swing.JMenu" name="jMenu12">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/exclamation mark1.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Incidents"/>
                   </Properties>
                   <Events>
@@ -531,6 +557,9 @@
                     </MenuItem>
                     <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/Dbase/Resources/add118.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Capture Incident"/>
                       </Properties>
                       <Events>
@@ -555,6 +584,9 @@
                 </MenuItem>
                 <Menu class="javax.swing.JMenu" name="jMenu13">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/dangerous3.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Risk Assessment     "/>
                   </Properties>
                   <SubComponents>
@@ -564,6 +596,9 @@
                     </MenuItem>
                     <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/Dbase/Resources/symbol147.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Rate Incident Risk"/>
                       </Properties>
                       <Events>
@@ -578,6 +613,9 @@
                 </MenuItem>
                 <Menu class="javax.swing.JMenu" name="jMenu14">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/graphic49.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Analysis"/>
                   </Properties>
                   <SubComponents>
@@ -585,6 +623,9 @@
                     </MenuItem>
                     <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/Dbase/Resources/search109.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Analysize Incident"/>
                       </Properties>
                       <Events>
@@ -638,6 +679,9 @@
                 </MenuItem>
                 <Menu class="javax.swing.JMenu" name="jMenu15">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/checked2.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Corrective Action"/>
                   </Properties>
                   <SubComponents>
@@ -858,6 +902,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem57">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/add118.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Create Document"/>
                   </Properties>
                 </MenuItem>
@@ -1174,7 +1221,7 @@
         <Menu class="javax.swing.JMenu" name="jMenu28">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Dbase/Resources/data112.png"/>
+              <Image iconType="3" name="/Dbase/Resources/email5-2.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Messages"/>
           </Properties>
@@ -1240,6 +1287,18 @@
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
+                </MenuItem>
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator158">
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem85">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Incidents Closed"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem85ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator157">
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -1309,10 +1368,8 @@
         <Menu class="javax.swing.JMenu" name="jMenu33">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Dbase/Resources/arrow222.png"/>
+              <Image iconType="3" name="/Dbase/Resources/power28.png"/>
             </Property>
-            <Property name="mnemonic" type="int" value="120"/>
-            <Property name="text" type="java.lang.String" value="Exit"/>
           </Properties>
           <Events>
             <EventHandler event="menuSelected" listener="javax.swing.event.MenuListener" parameters="javax.swing.event.MenuEvent" handler="jMenu33MenuSelected"/>

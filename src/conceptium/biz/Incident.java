@@ -946,7 +946,7 @@ public class Incident extends javax.swing.JFrame {
                             .addGap(0, 0, 0)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 361, Short.MAX_VALUE)
                         .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(0, 0, Short.MAX_VALUE))
             );
@@ -1374,7 +1374,71 @@ public void fillsupervisor(){
     }//GEN-LAST:event_txtEquipmentDemagedActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        String name = txtName.getText();
+        String surname = txtSurname.getText();
+        String idNumber = txtIdNumber.getText();
+        String employeeNumber = cboEmployeeNumber.getSelectedItem().toString();
+        String referenceNumber = txtReferenceNumber.getText();
+        String incidentType = cboIncidentType.getSelectedItem().toString();
+        String natureOfIncident = cboNature.getSelectedItem().toString();
+        String shift = cboShift.getSelectedItem().toString();
+        String hoursOnShift = cboHrs.getSelectedItem().toString();
+        String reportTo = cboReportedTo.getSelectedItem().toString();
+        String numberOfContiniousDaysWorked = cboNOCDW.getSelectedItem().toString();
+        String contactNumber = txtContactNumber.getText();
+        String contactEmail = txtEmail.getText();
+        String department = txtDepartment.getText();
+        String site = txtSite.getText();
+        String equipmentUsed = txtEquipmentUsed.getText();
+        String activityBiengDone = txtActivity.getText();
+        String yearsOfExperience = txtYears.getText();
+        String agent = cboAgent.getSelectedItem().toString();
+        String timeExposed = txtTimeExposed.getText();
+        String equipmentDemaged = txtEquipmentDemaged.getText();
+        String estimatedValue = txtEstimatedValue.getText();
+        String head_Neck = choice;
+        String eye = choice;
+        String truck = choice;
+        String finger = choice;
+        String hand = choice;
+        String arm = choice;
+        String foot = choice;
+        String toe = choice;
+        String area = txtArea.getText();
+        java.sql.Date dateOfIncident = new java.sql.Date(jDateChooser1.getDate().getTime());
+        java.sql.Date dateOfReporting = new java.sql.Date(jDateChooser2.getDate().getTime());
+        //String status = txtStatus.getText();
+        /**DbaseOperation Db = new DbaseOperation();
+        String[] arr = {name,surname,idNumber,employeeNumber,referenceNumber,incidentType,natureOfIncident,shift,
+            hoursOnShift,reportTo,numberOfContiniousDaysWorked,contactNumber,contactEmail,department,site,equipmentUsed,activityBiengDone,
+        yearsOfExperience,agent,timeExposed,equipmentDemaged,estimatedValue,head_Neck,eye,truck,finger,hand,arm,foot,toe,
+        area,status};
+        Db.insertToDb("Incident","Name,Surname,IDNumber,EmployeeNumber,ReferenceNumber,"+
+                "IncidentType,NatureOfIncident,DateOfIncident,DateOfReportingIncident,Shift,HoursOnShift,"+
+                "ReportedTo,NumberOfContinuosDaysWorked,ContactNumber,ContactEmail,Department,Site,"+
+                "EquipmentUsed,Head_Neck,Eye,Trunk,Finger,Head,Arm,Foot,Toe,ActivityBiengCarriedOut,"+
+                "YearsOfExperienceOnTask,EquipmentDemaged,EstimatedValue,Area,Status,Agent,"+
+                "TimeOfExpose" , "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", arr);
+                JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "successfully saved.");**/
+        String sql = "Update Incident Name = '"+name+"',Surname  = '"+surname+"',IDNumber  = '"+idNumber+"',EmployeeNumber = '"+employeeNumber+"',"+
+                "ReferenceNumber  = '"+referenceNumber+"',IncidentType = '"+incidentType+"',NatureOfIncident = '"+natureOfIncident+"',DateOfIncident = '"+dateOfIncident+"',"+
+                "DateOfReportingIncident = '"+dateOfReporting+"',Shift = '"+shift+"',HoursOnShift = '"+hoursOnShift+"',"+
+                "ReportedTo = '"+reportTo+"',NumberOfContinuosDaysWorked = '"+numberOfContiniousDaysWorked+"',ContactNumber = '"+contactNumber+"',ContactEmail = '"+contactEmail+"',"+
+                "Department = '"+department+"',Site = '"+site+"',EquipmentUsed = '"+equipmentUsed+"',Head_Neck = '"+head_Neck+"',Eye = '"+eye+"',"+
+                "Trunk = '"+truck+"',Finger = '"+finger+"',Head = '"+hand+"',Arm = '"+arm+"',Foot = '"+foot+"',Toe = '"+toe+"',ActivityBiengCarriedOut = '"+name+"',"+
+                "YearsOfExperienceOnTask = '"+yearsOfExperience+"',EquipmentDemaged = '"+equipmentDemaged+"',EstimatedValue = '"+estimatedValue+"',Area = '"+area+"',Status = '"+status+"',Agent = '"+agent+"',TimeOfExpose = '"+timeExposed+"'"+
+                "where ReferenceNumber = ?";
+        String sql1 = "Update Incident set Status = ? where ReferenceNumber = ?";
+        try(Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+        PreparedStatement pst = con.prepareStatement(sql1);){
+        pst.setString(1, choice);
+        pst.setString(2, referenceNumber);
+        pst.executeUpdate();
+        JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "status saved.");
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(Incident.this, e);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jDateChooser2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooser2KeyReleased
