@@ -5,7 +5,16 @@
  */
 package conceptium.biz;
 
+import com.alee.laf.table.WebTableUI;
+import java.awt.Color;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -19,6 +28,12 @@ import java.util.regex.Pattern;
 import javax.swing.text.NumberFormatter;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.DefaultFormatterFactory;
+import net.proteanit.sql.DbUtils;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.decorator.PatternPredicate;
+import org.jdesktop.swingx.decorator.ShadingColorHighlighter;
 
 /**
  *
@@ -30,8 +45,37 @@ public class NewJFrame extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     private Locale locale;
-    public NewJFrame() {
+    public NewJFrame() throws SQLException {
         initComponents();
+        SimpleDateFormat format = new SimpleDateFormat("MMM d, yyyy");
+        Date date = new Date();
+        String now = format.format(date);
+        String sql = "select REFERENCENUMBER,DATEOFINCIDENT,DateOfReportingIncident from Incident where DateOfReportingIncident = '"+now+"' ";
+       try(Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+           PreparedStatement pst = con.prepareStatement(sql);) {
+           try(ResultSet rs = pst.executeQuery();){
+           if(rs.next()){
+               Date DateOfIncident = rs.getDate("DateOfReportingIncident");
+           jXTable1.setUI(new WebTableUI());
+           jXTable1.setModel(DbUtils.resultSetToTableModel(rs));
+           
+        String dateOf  = format.format(DateOfIncident);
+        org.jdesktop.swingx.decorator.Highlighter simpleStriping = HighlighterFactory.createSimpleStriping();
+        PatternPredicate patternPredicate = new PatternPredicate(now = dateOf,2,2);
+        ColorHighlighter magenta = new ColorHighlighter(patternPredicate, Color.red, Color.black, Color.LIGHT_GRAY, Color.black);
+        ShadingColorHighlighter shading = new ShadingColorHighlighter(new HighlightPredicate.ColumnHighlightPredicate(2));
+        
+        jXTable1.setHighlighters(simpleStriping,magenta,shading);
+           }
+       }
+       catch (Exception ex) {
+           JOptionPane.showMessageDialog(NewJFrame.this, ex);
+            }
+        } 
+        
+        
+        
+        
     }
 
     /**
@@ -47,6 +91,8 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         txtCorrect = new javax.swing.JTextField();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jXTable1 = new org.jdesktop.swingx.JXTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -166,22 +212,28 @@ public class NewJFrame extends javax.swing.JFrame {
                                     }
                                 });
 
+                                jScrollPane1.setViewportView(jXTable1);
+
                                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                                 getContentPane().setLayout(layout);
                                 layout.setHorizontalGroup(
                                     layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(15, 15, 15)
-                                        .addComponent(jFormattedTextField1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton1)
-                                        .addGap(144, 144, 144))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(140, 140, 140)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtTest, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                                             .addComponent(txtCorrect))
-                                        .addContainerGap(74, Short.MAX_VALUE))
+                                        .addContainerGap(243, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(15, 15, 15)
+                                        .addComponent(jFormattedTextField1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton1)
+                                        .addGap(144, 144, 144))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jScrollPane1)
+                                        .addContainerGap())
                                 );
                                 layout.setVerticalGroup(
                                     layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +246,9 @@ public class NewJFrame extends javax.swing.JFrame {
                                             .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(txtCorrect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(33, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 );
 
                                 pack();
@@ -295,13 +349,19 @@ public class NewJFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new NewJFrame().setVisible(true);
+            try {
+                new NewJFrame().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.swingx.JXTable jXTable1;
     private javax.swing.JTextField txtCorrect;
     private javax.swing.JTextField txtTest;
     // End of variables declaration//GEN-END:variables

@@ -57,9 +57,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
@@ -126,6 +128,8 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
         updateTable();
         updateTraining();
         fillmodules();
+        overDue();
+        //jMenu28.setText("7 Messages");
         //HighlightPredicate predicate = new PatternPredicate(".*R50*.", 2, 2);
         //ColorHighlighter highlighter =  new ColorHighlighter(predicate,null,Color.red,null,null);
         //jXTable1.setHighlighters(highlighter);
@@ -304,6 +308,37 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
     }
 
     
+    
+    public final void overDue(){
+        SimpleDateFormat format = new SimpleDateFormat("MMM d, yyyy");
+        Date date = new Date();
+        String now = format.format(date);
+        //txtNew.setText(format.format(date));
+        String sql = "select COUNT(ReferenceNumber) as count from Incident where DateOfReportingIncident = '"+now+"' ";
+        try{
+            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+            int totals =  rs.getInt("count");
+            if(totals == 0){
+            jMenu28.setText(totals+" "+"Messages");
+            jMenu28.setText("0 Messages");
+            jMenuItem84.setText("0 New Incident Reported");
+            }else{
+            jMenu28.setText(totals+" "+"Messages");
+            jMenuItem84.setText(totals+" "+"New Incident Reported");
+            jMenuItem84.setForeground(Color.red);}
+            //jLabel9.setText("("+totals+")");
+            //jLabel9.setFont(new Font("Arial", Font.BOLD, 14));
+            //jLabel9.setForeground(Color.red);
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(DashBoards.this, e);
+        }
+    }
+
     
     
     private void updateTable() throws SQLException{
@@ -750,6 +785,24 @@ jSeparator54 = new javax.swing.JPopupMenu.Separator();
 jMenuItem28 = new javax.swing.JMenuItem();
 jSeparator55 = new javax.swing.JPopupMenu.Separator();
 jMenu28 = new javax.swing.JMenu();
+jSeparator150 = new javax.swing.JPopupMenu.Separator();
+jMenu30 = new javax.swing.JMenu();
+jSeparator112 = new javax.swing.JPopupMenu.Separator();
+jMenuItem6 = new javax.swing.JMenuItem();
+jSeparator156 = new javax.swing.JPopupMenu.Separator();
+jMenuItem33 = new javax.swing.JMenuItem();
+jSeparator155 = new javax.swing.JPopupMenu.Separator();
+jMenuItem49 = new javax.swing.JMenuItem();
+jSeparator154 = new javax.swing.JPopupMenu.Separator();
+jMenuItem52 = new javax.swing.JMenuItem();
+jSeparator153 = new javax.swing.JPopupMenu.Separator();
+jSeparator151 = new javax.swing.JPopupMenu.Separator();
+jMenu38 = new javax.swing.JMenu();
+jSeparator149 = new javax.swing.JPopupMenu.Separator();
+jMenuItem84 = new javax.swing.JMenuItem();
+jSeparator152 = new javax.swing.JPopupMenu.Separator();
+jMenu39 = new javax.swing.JMenu();
+jSeparator148 = new javax.swing.JPopupMenu.Separator();
 jMenu2 = new javax.swing.JMenu();
 jSeparator99 = new javax.swing.JPopupMenu.Separator();
 jMenuItem16 = new javax.swing.JMenuItem();
@@ -2268,7 +2321,45 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jMenuBar1.add(jMenu8);
 
+    jMenu28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/data112.png"))); // NOI18N
     jMenu28.setText("Messages");
+    jMenu28.add(jSeparator150);
+
+    jMenu30.setText("Risk Assessment");
+    jMenu30.add(jSeparator112);
+
+    jMenuItem6.setText("New Risk Reporting");
+    jMenu30.add(jMenuItem6);
+    jMenu30.add(jSeparator156);
+
+    jMenuItem33.setText("Completed Risk Assessment");
+    jMenu30.add(jMenuItem33);
+    jMenu30.add(jSeparator155);
+
+    jMenuItem49.setText("Risk Assessment");
+    jMenu30.add(jMenuItem49);
+    jMenu30.add(jSeparator154);
+
+    jMenuItem52.setText("High Risk Reported");
+    jMenu30.add(jMenuItem52);
+    jMenu30.add(jSeparator153);
+
+    jMenu28.add(jMenu30);
+    jMenu28.add(jSeparator151);
+
+    jMenu38.setText("Incident Reporting");
+    jMenu38.add(jSeparator149);
+
+    jMenuItem84.setText("New Incident");
+    jMenu38.add(jMenuItem84);
+
+    jMenu28.add(jMenu38);
+    jMenu28.add(jSeparator152);
+
+    jMenu39.setText("Training Management");
+    jMenu28.add(jMenu39);
+    jMenu28.add(jSeparator148);
+
     jMenuBar1.add(jMenu28);
 
     jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/call center.png"))); // NOI18N
@@ -2862,9 +2953,10 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenu jMenu25;
     private javax.swing.JMenu jMenu26;
     private javax.swing.JMenu jMenu27;
-    private javax.swing.JMenu jMenu28;
+    public static javax.swing.JMenu jMenu28;
     private javax.swing.JMenu jMenu29;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu30;
     private javax.swing.JMenu jMenu31;
     private javax.swing.JMenu jMenu32;
     private javax.swing.JMenu jMenu33;
@@ -2872,6 +2964,8 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenu jMenu35;
     private javax.swing.JMenu jMenu36;
     private javax.swing.JMenu jMenu37;
+    private javax.swing.JMenu jMenu38;
+    private javax.swing.JMenu jMenu39;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
@@ -2905,6 +2999,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem30;
     private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem32;
+    private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem34;
     private javax.swing.JMenuItem jMenuItem35;
     private javax.swing.JMenuItem jMenuItem36;
@@ -2921,9 +3016,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem46;
     private javax.swing.JMenuItem jMenuItem47;
     private javax.swing.JMenuItem jMenuItem48;
+    private javax.swing.JMenuItem jMenuItem49;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem50;
     private javax.swing.JMenuItem jMenuItem51;
+    private javax.swing.JMenuItem jMenuItem52;
     private javax.swing.JMenuItem jMenuItem53;
     private javax.swing.JMenuItem jMenuItem54;
     private javax.swing.JMenuItem jMenuItem55;
@@ -2931,6 +3028,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem57;
     private javax.swing.JMenuItem jMenuItem58;
     private javax.swing.JMenuItem jMenuItem59;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem60;
     private javax.swing.JMenuItem jMenuItem61;
     private javax.swing.JMenuItem jMenuItem62;
@@ -2957,6 +3055,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem81;
     private javax.swing.JMenuItem jMenuItem82;
     private javax.swing.JMenuItem jMenuItem83;
+    public static javax.swing.JMenuItem jMenuItem84;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -3004,6 +3103,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator110;
     private javax.swing.JPopupMenu.Separator jSeparator111;
+    private javax.swing.JPopupMenu.Separator jSeparator112;
     private javax.swing.JPopupMenu.Separator jSeparator113;
     private javax.swing.JPopupMenu.Separator jSeparator114;
     private javax.swing.JPopupMenu.Separator jSeparator115;
@@ -3042,7 +3142,16 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPopupMenu.Separator jSeparator145;
     private javax.swing.JPopupMenu.Separator jSeparator146;
     private javax.swing.JPopupMenu.Separator jSeparator147;
+    private javax.swing.JPopupMenu.Separator jSeparator148;
+    private javax.swing.JPopupMenu.Separator jSeparator149;
     private javax.swing.JPopupMenu.Separator jSeparator15;
+    private javax.swing.JPopupMenu.Separator jSeparator150;
+    private javax.swing.JPopupMenu.Separator jSeparator151;
+    private javax.swing.JPopupMenu.Separator jSeparator152;
+    private javax.swing.JPopupMenu.Separator jSeparator153;
+    private javax.swing.JPopupMenu.Separator jSeparator154;
+    private javax.swing.JPopupMenu.Separator jSeparator155;
+    private javax.swing.JPopupMenu.Separator jSeparator156;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator17;
     private javax.swing.JPopupMenu.Separator jSeparator18;

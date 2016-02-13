@@ -1094,6 +1094,9 @@ public class Incident extends javax.swing.JFrame {
         pst.setString(32, status);
         pst.executeUpdate();
         JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "successfully saved.");
+        DashBoards dash = new DashBoards();
+        DashBoards.jMenuItem84.setText("Test completed");
+        dash.overDue();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(Incident.this, e);
