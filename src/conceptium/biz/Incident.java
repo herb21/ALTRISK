@@ -41,7 +41,8 @@ public class Incident extends javax.swing.JFrame {
     /**
      * Creates new form Incident
      */
-    public Incident() {
+    DbConnection connect = new DbConnection();
+    public Incident() throws SQLException {
         setUndecorated(true);
         setResizable(false);
         initComponents();
@@ -76,10 +77,10 @@ public class Incident extends javax.swing.JFrame {
         }catch(SQLException e){
         JOptionPane.showMessageDialog(Incident.this, e + "Unable to set counter");}
     }
-   private void fillId(){
+   private void fillId() throws SQLException{
         String sql ="Select * from Persons";
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                Connection con = connect.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
@@ -87,15 +88,15 @@ public class Incident extends javax.swing.JFrame {
                     cboEmployeeNumber.addItem(ID.trim());
                 }
         }
-        catch(Exception e){
+        catch(ClassNotFoundException | SQLException e){
             JOptionPane.showMessageDialog(this, e);
         }
             
     }
-        private void supervisor(){
+        private void supervisor() throws SQLException{
         String sql ="Select * from Site";
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                Connection con = connect.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
@@ -103,7 +104,7 @@ public class Incident extends javax.swing.JFrame {
                     cboReportedTo.addItem(ID.trim());
                 }
         }
-        catch(Exception e){
+        catch(ClassNotFoundException | SQLException e){
             JOptionPane.showMessageDialog(this, e);
         }
     }
@@ -1429,7 +1430,7 @@ public void fillsupervisor(){
                 "YearsOfExperienceOnTask = '"+yearsOfExperience+"',EquipmentDemaged = '"+equipmentDemaged+"',EstimatedValue = '"+estimatedValue+"',Area = '"+area+"',Status = '"+status+"',Agent = '"+agent+"',TimeOfExpose = '"+timeExposed+"'"+
                 "where ReferenceNumber = ?";
         String sql1 = "Update Incident set Status = ? where ReferenceNumber = ?";
-        try(Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+        try(Connection con = connect.dbConnection();
         PreparedStatement pst = con.prepareStatement(sql1);){
         pst.setString(1, choice);
         pst.setString(2, referenceNumber);
@@ -1604,7 +1605,11 @@ public void fillsupervisor(){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Incident().setVisible(true);
+                try {
+                    new Incident().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Incident.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

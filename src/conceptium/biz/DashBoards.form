@@ -442,13 +442,17 @@
                     <Property name="text" type="java.lang.String" value="Training Report"/>
                   </Properties>
                 </Menu>
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator81">
+                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem86">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Dbase/Resources/add98.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Plan Training"/>
+                    <Property name="text" type="java.lang.String" value="Training Planning"/>
                   </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator80">
                 </MenuItem>
               </SubComponents>
             </Menu>

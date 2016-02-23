@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -225,42 +226,47 @@ private void updateTable(){
     }//GEN-LAST:event_jTable1MouseReleased
 
     private void incidentInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incidentInformationActionPerformed
-        int row = jTable1.getSelectedRow();
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        String selected = model.getValueAt(row, 0).toString();
-        //Incident incident = new Incident();
-        Incident.cboEmployeeNumber.removeAllItems();
-        try{
-        Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-            PreparedStatement pst = con.prepareStatement("Select * from Incident where ReferenceNumber = ?");
-            pst.setString(1, selected);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()){
-                String employeeNumber = rs.getString("EmployeeNumber");
-                Incident.cboEmployeeNumber.addItem(employeeNumber);
-                String name = rs.getString("Name");
-                Incident.txtName.setText(name.trim());
-                String surname = rs.getString("Surname");
-                Incident.txtSurname.setText(surname.trim());
-                String idNumber = rs.getString("IDNumber");
-                Incident.txtIdNumber.setText(idNumber);
-                
-                //String ID = rs.getString("ContactNumber");
-                //Incident.txtContactNumber.setText(ID.trim());
-                //String email = rs.getString("EmailAddress");
-                //Incident.txtEmail.setText(email.trim());
-                //String department = rs.getString("Department");
-                //Incident.txtDepartment.setText(department.trim());
-                //String site = rs.getString("Site");
-                //Incident.txtSite.setText(site.trim());
+        try{                                                    
+            int row = jTable1.getSelectedRow();
+            DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+            String selected = model.getValueAt(row, 0).toString();
+            //Incident incident = new Incident();
+            Incident.cboEmployeeNumber.removeAllItems();
+            try{
+                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                PreparedStatement pst = con.prepareStatement("Select * from Incident where ReferenceNumber = ?");
+                pst.setString(1, selected);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()){
+                    String employeeNumber = rs.getString("EmployeeNumber");
+                    Incident.cboEmployeeNumber.addItem(employeeNumber);
+                    String name = rs.getString("Name");
+                    Incident.txtName.setText(name.trim());
+                    String surname = rs.getString("Surname");
+                    Incident.txtSurname.setText(surname.trim());
+                    String idNumber = rs.getString("IDNumber");
+                    Incident.txtIdNumber.setText(idNumber);
+                    
+                    //String ID = rs.getString("ContactNumber");
+                    //Incident.txtContactNumber.setText(ID.trim());
+                    //String email = rs.getString("EmailAddress");
+                    //Incident.txtEmail.setText(email.trim());
+                    //String department = rs.getString("Department");
+                    //Incident.txtDepartment.setText(department.trim());
+                    //String site = rs.getString("Site");
+                    //Incident.txtSite.setText(site.trim());
+                }
             }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(IncidentRegistry.this, e);
+            }
+            Incident iI = new Incident();
+            iI.setVisible(true);
+            //Incident.getObj().setVisible(true);
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(IncidentRegistry.this, e);
+        catch(SQLException ex){
+            Logger.getLogger(IncidentRegistry.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Incident iI = new Incident();
-        iI.setVisible(true);
-        //Incident.getObj().setVisible(true);
     }//GEN-LAST:event_incidentInformationActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased

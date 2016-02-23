@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -526,7 +528,8 @@ public static InternalAudits getObj(){
         //String status = txtStatus.getText();
         String sql = "Insert into INTERNALAUDITS(AUDITTYPE,REFERENCENUMBER, TODAY,REQUIREMENT,GAP,ACTION"+
                 "RESPONSIBLEPERSON,DUEDATE,SITE,STATUS,DOCS,TODAYSDATE)values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = DriverManager.getConnection("jdbc:derby:MTD", "herbert", "elsie1*#");
+        DbConnection connect = new DbConnection();
+        try (Connection con = connect.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);){
             pst.setString(1, auditType);
             pst.setString(2, reference);
@@ -647,8 +650,14 @@ public static InternalAudits getObj(){
     }//GEN-LAST:event_OpenItemStateChanged
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        AuditCorrective.jButton3.setEnabled(false);
-        this.dispose();
+        try {
+            DashBoards dash = new DashBoards();
+            dash.jMenu28.setText("Test");
+            //AuditCorrective.jButton3.setEnabled(false);
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(InternalAudits.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void txtRequirementKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRequirementKeyPressed

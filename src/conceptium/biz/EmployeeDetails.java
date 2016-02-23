@@ -423,35 +423,40 @@ private void updateTable(){
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void captureIncidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_captureIncidentActionPerformed
-        int row = jXTable1.getSelectedRow();
-        DefaultTableModel model = (DefaultTableModel)jXTable1.getModel();
-        String selected = model.getValueAt(row, 3).toString();
-        Incident iI = new Incident();
-        //Incident.cboEmployeeNumber.removeAllItems();
-        String sql = "Select * from Persons where EmployeeNumber = ?";
-        try{
-        Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-        //Connection con = DriverManager.getConnection("jdbc:sqlite:Incident");
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, selected);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()){
-                employeeNumber = rs.getString("EmployeeNumber");
-                Incident.cboEmployeeNumber.addItem(employeeNumber);
-                name = rs.getString("Name");
-                Incident.txtName.setText(name.trim());
-                surname = rs.getString("Surname");
-                Incident.txtSurname.setText(surname.trim());
-                idNumber = rs.getString("IDNumber");
-                Incident.txtIdNumber.setText(idNumber);
+        try{                                                
+            int row = jXTable1.getSelectedRow();
+            DefaultTableModel model = (DefaultTableModel)jXTable1.getModel();
+            String selected = model.getValueAt(row, 3).toString();
+            Incident iI = new Incident();
+            //Incident.cboEmployeeNumber.removeAllItems();
+            String sql = "Select * from Persons where EmployeeNumber = ?";
+            try{
+                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                //Connection con = DriverManager.getConnection("jdbc:sqlite:Incident");
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, selected);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()){
+                    employeeNumber = rs.getString("EmployeeNumber");
+                    Incident.cboEmployeeNumber.addItem(employeeNumber);
+                    name = rs.getString("Name");
+                    Incident.txtName.setText(name.trim());
+                    surname = rs.getString("Surname");
+                    Incident.txtSurname.setText(surname.trim());
+                    idNumber = rs.getString("IDNumber");
+                    Incident.txtIdNumber.setText(idNumber);
+                }
             }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(EmployeeDetails.this, e);
+            }
+            
+            iI.setVisible(true);
+            //Incident.getObj().setVisible(true);
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(EmployeeDetails.this, e);
+        catch(SQLException ex){
+            Logger.getLogger(EmployeeDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        iI.setVisible(true);
-        //Incident.getObj().setVisible(true);
     }//GEN-LAST:event_captureIncidentActionPerformed
 
     private void editEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEmployeeActionPerformed

@@ -116,7 +116,7 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
      * Creates new form DashBoards
      */
 
-    
+    DbConnection connect = new DbConnection();
     public DashBoards() throws SQLException {
         try {
             UIManager.setLookAndFeel(new InfoNodeLookAndFeel());
@@ -316,7 +316,7 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
         //txtNew.setText(format.format(date));
         String sql = "select COUNT(ReferenceNumber) as count from Incident where DateOfReportingIncident = '"+now+"' ";
         try{
-            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+            Connection con = connect.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
@@ -344,7 +344,7 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
     private void updateTable() throws SQLException{
        String sql = "Select ReferenceNumber,IncidentType,NatureOfIncident, "+
                    "DateOfIncident,Status from Incident inner join IncidentDetail on ReferenceNumber = Reference";
-       try(Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+       try(Connection con = connect.dbConnection();
            PreparedStatement pst = con.prepareStatement(sql);) {
            try(ResultSet rs = pst.executeQuery();){
            if(rs.next()){
@@ -372,6 +372,8 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
        catch (Exception ex) {
            JOptionPane.showMessageDialog(DashBoards.this, ex);
             }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
 
@@ -624,7 +626,9 @@ jMenuItem22 = new javax.swing.JMenuItem();
 jSeparator48 = new javax.swing.JPopupMenu.Separator();
 jSeparator43 = new javax.swing.JPopupMenu.Separator();
 jMenu19 = new javax.swing.JMenu();
+jSeparator81 = new javax.swing.JPopupMenu.Separator();
 jMenuItem86 = new javax.swing.JMenuItem();
+jSeparator80 = new javax.swing.JPopupMenu.Separator();
 jSeparator3 = new javax.swing.JPopupMenu.Separator();
 jMenu6 = new javax.swing.JMenu();
 jSeparator10 = new javax.swing.JPopupMenu.Separator();
@@ -1834,10 +1838,12 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/report1.png"))); // NOI18N
     jMenu19.setText("Training Report");
     jMenu5.add(jMenu19);
+    jMenu5.add(jSeparator81);
 
     jMenuItem86.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add98.png"))); // NOI18N
-    jMenuItem86.setText("Plan Training");
+    jMenuItem86.setText("Training Planning");
     jMenu5.add(jMenuItem86);
+    jMenu5.add(jSeparator80);
 
     jMenu1.add(jMenu5);
     jMenu1.add(jSeparator3);
@@ -2553,8 +2559,9 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         
         
         Calendar expireDate = Calendar.getInstance();
-        expireDate.set(2017, 10, 26);
-        if(Calendar.getInstance().after(expireDate)){
+        expireDate.set(2016, 01, 14);
+        System.out.println(expireDate.getTime());
+        if(Calendar.getInstance().getTime().after(expireDate.getTime())){
             JOptionPane.showMessageDialog(DashBoards.this, "Your trial has expired please contact developer");
             System.exit(0);
         }
@@ -2575,9 +2582,13 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        Incident incident = new Incident();
-        //Incident.getObj().setVisible(true);
-        incident.setVisible(true);
+        try {
+            Incident incident = new Incident();
+            //Incident.getObj().setVisible(true);
+            incident.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -3278,6 +3289,8 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPopupMenu.Separator jSeparator78;
     private javax.swing.JPopupMenu.Separator jSeparator79;
     private javax.swing.JPopupMenu.Separator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator80;
+    private javax.swing.JPopupMenu.Separator jSeparator81;
     private javax.swing.JPopupMenu.Separator jSeparator86;
     private javax.swing.JPopupMenu.Separator jSeparator87;
     private javax.swing.JPopupMenu.Separator jSeparator88;

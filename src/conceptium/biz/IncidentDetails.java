@@ -481,49 +481,54 @@ public static IncidentDetails getObj(){
     }//GEN-LAST:event_cboReferenceItemStateChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        //Incident iI = Incident.getObj();
-        Incident iI = new Incident();
-        Incident.jButton1.setEnabled(false);
-        //Incident.cboEmployeeNumber.setSelectedItem(selected);
-        //Incident.cboIncidentType.removeAll();;;
-        String selected = cboReference.getSelectedItem().toString();
-        try{
-        Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-        //Connection con = DriverManager.getConnection("jdbc:sqlite:Incident");
-            PreparedStatement pst = con.prepareStatement("Select * from Incidents where ReferenceNumber = ?");
-            pst.setString(1, selected);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()){
-                String employeeNumber = rs.getString("EmployeeNumber");
-                Incident.cboEmployeeNumber.setSelectedItem(employeeNumber);
-                String name = rs.getString("Name");
-                Incident.txtName.setText(name.trim());
-                String surname = rs.getString("Surname");
-                Incident.txtSurname.setText(surname.trim());
-                String idNumber = rs.getString("IDNumber");
-                Incident.txtIdNumber.setText(idNumber);
-                String incidentType = rs.getString("IncidentType");
-                Incident.cboIncidentType.setSelectedItem(incidentType);
-                String natureOfIncident = rs.getString("NatureOfIncident");
-                //Incident.cboNature.removeAllItems();
-                Date date = rs.getDate("DateOfIncident");
-                Incident.jDateChooser1.setDate(date);
-                Incident.cboNature.setSelectedItem(natureOfIncident);
-                String equipment = rs.getString("EquipmentUsed");
-                Incident.txtEquipmentUsed.setText(equipment.trim());
-                String activity = rs.getString("ActivityBiengCarriedOut");
-                Incident.txtActivity.setText(activity.trim());
-                String area = rs.getString("Area");
-                Incident.txtArea.setText(area.trim());
-                String experienceOnTask = rs.getString("YearsOfExperienceOnTask");
-                Incident.txtYears.setText(experienceOnTask.trim());
-                Incident.statusOpen.setEnabled(true);
+        try{                                         
+            //Incident iI = Incident.getObj();
+            Incident iI = new Incident();
+            Incident.jButton1.setEnabled(false);
+            //Incident.cboEmployeeNumber.setSelectedItem(selected);
+            //Incident.cboIncidentType.removeAll();;;
+            String selected = cboReference.getSelectedItem().toString();
+            try{
+                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                //Connection con = DriverManager.getConnection("jdbc:sqlite:Incident");
+                PreparedStatement pst = con.prepareStatement("Select * from Incidents where ReferenceNumber = ?");
+                pst.setString(1, selected);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()){
+                    String employeeNumber = rs.getString("EmployeeNumber");
+                    Incident.cboEmployeeNumber.setSelectedItem(employeeNumber);
+                    String name = rs.getString("Name");
+                    Incident.txtName.setText(name.trim());
+                    String surname = rs.getString("Surname");
+                    Incident.txtSurname.setText(surname.trim());
+                    String idNumber = rs.getString("IDNumber");
+                    Incident.txtIdNumber.setText(idNumber);
+                    String incidentType = rs.getString("IncidentType");
+                    Incident.cboIncidentType.setSelectedItem(incidentType);
+                    String natureOfIncident = rs.getString("NatureOfIncident");
+                    //Incident.cboNature.removeAllItems();
+                    Date date = rs.getDate("DateOfIncident");
+                    Incident.jDateChooser1.setDate(date);
+                    Incident.cboNature.setSelectedItem(natureOfIncident);
+                    String equipment = rs.getString("EquipmentUsed");
+                    Incident.txtEquipmentUsed.setText(equipment.trim());
+                    String activity = rs.getString("ActivityBiengCarriedOut");
+                    Incident.txtActivity.setText(activity.trim());
+                    String area = rs.getString("Area");
+                    Incident.txtArea.setText(area.trim());
+                    String experienceOnTask = rs.getString("YearsOfExperienceOnTask");
+                    Incident.txtYears.setText(experienceOnTask.trim());
+                    Incident.statusOpen.setEnabled(true);
+                }
             }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(IncidentDetails.this, e);
+            }
+            iI.setVisible(true);
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(IncidentDetails.this, e);
+        catch(SQLException ex){
+            Logger.getLogger(IncidentDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
-        iI.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
