@@ -5,9 +5,9 @@
  */
 package conceptium.biz;
 
-import com.alee.laf.WebLookAndFeel;
+
 import com.alee.laf.table.WebTableUI;
-import java.awt.HeadlessException;
+import static conceptium.biz.Incident.cboReportedTo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,17 +17,10 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.RowSorter;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -40,11 +33,18 @@ public class EmployeeDetails extends javax.swing.JFrame {
     /**
      * Creates new form PersonDetails
      */
+    DbConnection connect = new DbConnection();
     private EmployeeDetails() {
-        setUndecorated(true);
-        setResizable(false);
-        initComponents();
-        updateTable();
+        try {
+            setUndecorated(true);
+            setResizable(false);
+            initComponents();
+            updateTable();
+            supervisor();
+            fillName();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmployeeDetails.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     
@@ -90,6 +90,59 @@ private void updateTable(){
            JOptionPane.showMessageDialog(null, ex);
        }
 }
+private void fillName() throws SQLException{
+        String sql ="Select * from Persons";
+            try {
+                Connection con = connect.dbConnection();
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                    String employeeName = rs.getString("Name");
+                    cboName.addItem(employeeName.trim());
+                }
+        }
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(this, e);
+        }
+            
+    }
+        private void supervisor() throws SQLException{
+        String sql ="Select * from Persons";
+            try {
+                Connection con = DbConnection.dbConnection();
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                    String ID = rs.getString("Name");
+                    String surname = rs.getString("Surname");
+                    cboReportTo.addItem(ID.trim()+" "+ surname);
+                }
+        }
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
+        public void Names(){
+    String select = cboName.getSelectedItem().toString();
+        try{
+            Connection con = DbConnection.dbConnection();
+            PreparedStatement pst = con.prepareStatement("Select * from Persons where Name = ?");
+            pst.setString(1, select);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()){
+                String employeeNumber = rs.getString("Name");
+                txtEmployeeNumber.setText(employeeNumber.trim());
+                String surname = rs.getString("Surname");
+                txtSurname.setText(surname.trim());
+                String idNumber = rs.getString("IDNumber");
+                txtIdNumber.setText(idNumber);
+            }
+        }
+        catch(Exception e){
+        JOptionPane.showMessageDialog(EmployeeDetails.this, e);
+        }
+}
+
     /**public void setYearsOfService(int YOS){
         intYearsOfService.setText(Integer.parseInt(YOS));
     }
@@ -127,7 +180,9 @@ private void updateTable(){
         cboSite = new javax.swing.JComboBox();
         cboDepartment = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cboReportTo = new javax.swing.JComboBox();
+        dcTodayDate = new com.toedter.calendar.JDateChooser();
+        jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -187,6 +242,11 @@ private void updateTable(){
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -208,6 +268,8 @@ private void updateTable(){
 
         jLabel9.setText("Reports To:");
 
+        jLabel10.setText("Date:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -217,25 +279,31 @@ private void updateTable(){
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cboDepartment, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cboJobTitle, 0, 1, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboSite, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(4, 4, 4)
+                        .addComponent(cboSite, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(4, 4, 4)
+                        .addComponent(cboReportTo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(intYearsOfService, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(intYearsOfService, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(4, 4, 4)
+                        .addComponent(dcTodayDate, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,11 +317,14 @@ private void updateTable(){
                     .addComponent(jLabel7)
                     .addComponent(intYearsOfService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(cboDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(cboDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9)
+                        .addComponent(cboReportTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10))
+                    .addComponent(dcTodayDate, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -267,6 +338,12 @@ private void updateTable(){
 
         jLabel4.setText("Employee Number:");
 
+        cboName.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboNameItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -276,7 +353,7 @@ private void updateTable(){
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtSurname)
                     .addComponent(cboName, 0, 132, Short.MAX_VALUE))
@@ -284,11 +361,11 @@ private void updateTable(){
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtIdNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                     .addComponent(txtEmployeeNumber))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -560,6 +637,16 @@ private void updateTable(){
         }
     }//GEN-LAST:event_jXTable1MouseReleased
 
+    private void cboNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboNameItemStateChanged
+        Names();
+    }//GEN-LAST:event_cboNameItemStateChanged
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        java.util.Date date = new java.util.Date();
+        dcTodayDate.setDate(date);
+        dcTodayDate.setEnabled(false);
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -601,15 +688,17 @@ private void updateTable(){
     private javax.swing.JComboBox cboDepartment;
     private javax.swing.JComboBox cboJobTitle;
     private javax.swing.JComboBox cboName;
+    private javax.swing.JComboBox cboReportTo;
     private javax.swing.JComboBox cboSite;
+    private com.toedter.calendar.JDateChooser dcTodayDate;
     private javax.swing.JMenuItem deleteEmployee;
     private javax.swing.JMenuItem editEmployee;
     private javax.swing.JTextField intYearsOfService;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

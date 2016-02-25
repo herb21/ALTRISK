@@ -294,6 +294,11 @@ public class Incident extends javax.swing.JFrame {
                 cboEmployeeNumberItemStateChanged(evt);
             }
         });
+        cboEmployeeNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboEmployeeNumberActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1007,6 +1012,7 @@ public class Incident extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(!txtActivity.getText().equals("")){
+        //if(jDateChooser1.getDate(null)){}
         String name = txtName.getText();
         String surname = txtSurname.getText();
         String idNumber = txtIdNumber.getText();
@@ -1574,6 +1580,10 @@ public void fillsupervisor(){
     private void cboAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboAgentActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboAgentActionPerformed
+
+    private void cboEmployeeNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEmployeeNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboEmployeeNumberActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1,7 +1,20 @@
 ----------------------------------------------------------------
-Mon Feb 15 15:45:49 SAST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0152-e52e-17ca-000003376630 
+Thu Feb 25 08:00:42 SAST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0153-1703-dae4-0000034c2778 
 on database directory /Users/MathomeTD/NetBeansProjects/Maritius/Incident with class loader sun.misc.Launcher$AppClassLoader@67424e82 
+Loaded from file:/Users/MathomeTD/Downloads/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_45-b14
+user.dir=/Users/MathomeTD/NetBeansProjects/Maritius
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.10.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Thu Feb 25 08:00:43 SAST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 08264012-0153-1703-dae4-0000034c2778 
+on database directory /Users/MathomeTD/NetBeansProjects/Maritius/MTD with class loader sun.misc.Launcher$AppClassLoader@67424e82 
 Loaded from file:/Users/MathomeTD/Downloads/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_45-b14

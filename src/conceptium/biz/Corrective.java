@@ -106,7 +106,7 @@ public class Corrective extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         updateStatus = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        deleteAction = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jPanel1 = new javax.swing.JPanel();
         cboReferenceNumber = new javax.swing.JComboBox();
@@ -131,10 +131,10 @@ public class Corrective extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
 
         jPopupMenu1.add(jSeparator3);
 
+        updateStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/update-windows.png"))); // NOI18N
         updateStatus.setText("Update Status");
         updateStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,8 +144,14 @@ public class Corrective extends javax.swing.JFrame {
         jPopupMenu1.add(updateStatus);
         jPopupMenu1.add(jSeparator2);
 
-        jMenuItem2.setText("jMenuItem2");
-        jPopupMenu1.add(jMenuItem2);
+        deleteAction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/delete.png"))); // NOI18N
+        deleteAction.setText("Remove action");
+        deleteAction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(deleteAction);
         jPopupMenu1.add(jSeparator1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -270,9 +276,7 @@ public class Corrective extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(720, 720, 720)
                         .addComponent(jLabel7)
@@ -330,8 +334,6 @@ public class Corrective extends javax.swing.JFrame {
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/edit.png"))); // NOI18N
 
-        jButton8.setText("Close Incident");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -348,13 +350,13 @@ public class Corrective extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,9 +370,8 @@ public class Corrective extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addComponent(jButton2)
                         .addComponent(jButton3)
-                        .addComponent(jButton4)
-                        .addComponent(jButton5)
-                        .addComponent(jButton8)))
+                        .addComponent(jButton5))
+                    .addComponent(jButton4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -494,8 +495,23 @@ public class Corrective extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         
     }//GEN-LAST:event_formWindowActivated
-
+    public boolean isEmpty(){
+        if (jTable1 != null && jTable1.getModel() != null) {
+            return jTable1.getModel().getRowCount()<=0;
+        }
+        return false;
+    }
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
+        
+        if(isEmpty()){JOptionPane.showMessageDialog(Corrective.this, "Corrective action is empty");
+        }else{
+        for(int i =0; i < model.getRowCount(); i++){
+            String use = model.getValueAt(i, 4).toString();
+            if(use.equals("Open")){
+                JOptionPane.showMessageDialog(Corrective.this, "please ensure all open cases are closed first");
+            System.out.println("Test sustefull");
+                    }else{ 
         String search = cboReferenceNumber.getSelectedItem().toString();
         String sql = "select ReferenceNumber from KeyLearnings  where ReferenceNumber = ? ";
         String sql1 = "select * from checklist where referencenumber = ?";
@@ -509,14 +525,6 @@ public class Corrective extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(Corrective.this, "Please ensure that KeyLearnings have been shared");
                 }
                 else{
-                    DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
-        for(int i =0; i < model.getRowCount(); i++){
-            String use = model.getValueAt(i, 4).toString();
-            if(use.equals("Open")){
-                JOptionPane.showMessageDialog(Corrective.this, "please ensure all open cases are closed first");
-            System.out.println("Test sustefull");
-                    }
-        } 
         Incident iI = new Incident();
         iI.statusClosed.setSelected(true);
         iI.statusOpen.setSelected(false);
@@ -543,23 +551,30 @@ public class Corrective extends javax.swing.JFrame {
         }
         catch(SQLException e){
             JOptionPane.showMessageDialog(Corrective.this, e);
-        }
+        }}}}
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        String ref = cboReferenceNumber.getSelectedItem().toString();
+        if(!txtAction.getText().equals("")  ){
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        java.util.Date date = new java.util.Date();
         String action = txtAction.getText();
         String hierachyOfControl = (String)cboHierachyOfControl.getSelectedItem();
         String responsiblePerson = (String)cboName.getSelectedItem();
         java.sql.Date dueDate;
         dueDate = new java.sql.Date (jDateChooser2.getDate().getTime());
         String status = txtStatus.getText();
-        Object[] row = {action,hierachyOfControl,responsiblePerson,dueDate,status};
-        if(!txtAction.getText().equals("")  ){
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.addRow(row);
-        }
+        Object[] newRow = {action,hierachyOfControl,responsiblePerson,dueDate,status};
+        if(jDateChooser2.getDate().getTime() <= date.getTime()){
+        JOptionPane.showMessageDialog(Corrective.this, "Due date can not be less or equal to today's date");}
         else{
-            JOptionPane.showMessageDialog(Corrective.this, "Please enter action required");
+            //if(!txtAction.getText().equals("")  ){
+            model.addRow(newRow);
+            //}
+        }
+        }else{
+            JOptionPane.showMessageDialog(Corrective.this, "Please enter action required for"+" "+ref);
         }
 
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -592,6 +607,12 @@ public class Corrective extends javax.swing.JFrame {
         txtStatus.setText("Open");
         txtStatus.setBackground(Color.GREEN);
     }//GEN-LAST:event_txtActionKeyTyped
+
+    private void deleteActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionActionPerformed
+        row = jTable1.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
+        model.removeRow(row);
+    }//GEN-LAST:event_deleteActionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -633,6 +654,7 @@ public class Corrective extends javax.swing.JFrame {
     public static javax.swing.JComboBox cboHierachyOfControl;
     public static javax.swing.JComboBox cboName;
     public static javax.swing.JComboBox cboReferenceNumber;
+    private javax.swing.JMenuItem deleteAction;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -640,7 +662,6 @@ public class Corrective extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     public static com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -648,7 +669,6 @@ public class Corrective extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;

@@ -5,11 +5,7 @@
  */
 package conceptium.biz;
 
-import static conceptium.biz.Incident.cboEmployeeNumber;
-import static conceptium.biz.Incident.txtIdNumber;
-import static conceptium.biz.Incident.txtName;
-import static conceptium.biz.Incident.txtSurname;
-import static conceptium.biz.InternalAudits.dcTodayDate;
+import static conceptium.biz.InternalAudits.txtReferenceNumber;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -17,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,6 +25,8 @@ public class AuditScheduling extends javax.swing.JFrame {
     /**
      * Creates new form AuditScheduling
      */
+    private static final AtomicInteger counter = new AtomicInteger(0);
+    private  int staffId;
     private static AuditScheduling obj = null;
     private AuditScheduling() {
         setUndecorated(true);
@@ -35,6 +34,7 @@ public class AuditScheduling extends javax.swing.JFrame {
         initComponents();
         fillId();
         site();
+        setReferenceNumber();
     }
 public static AuditScheduling getObj(){
             if (obj == null){
@@ -42,7 +42,43 @@ public static AuditScheduling getObj(){
             }
             return obj;
         }
-
+private void setReferenceNumber(){
+        String sql = "select AUD_ID from AUTOAUD";
+        String sql1 = "select INS_ID from AUTOINS";
+        if(cboOperations.getSelectedItem().toString().equals("Audit")){
+        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = pst.executeQuery()){
+            rs.afterLast();
+            while(rs.previous()){
+            staffId = rs.getInt("AUD_ID");
+            if(staffId == 0){ staffId = +1;
+            txtReferenceNumber.setText("AUD-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }else{
+            txtReferenceNumber.setText("AUD-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }}
+        }catch(SQLException e){
+        JOptionPane.showMessageDialog(AuditScheduling.this, e + "Unable to set counter");}
+        }else{
+        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = pst.executeQuery()){
+            rs.afterLast();
+            while(rs.previous()){
+            staffId = rs.getInt("INS_ID");
+            if(staffId == 0){ staffId = +1;
+            txtReferenceNumber.setText("INS-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }else{
+            txtReferenceNumber.setText("INS-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }}
+        }catch(SQLException e){
+        JOptionPane.showMessageDialog(AuditScheduling.this, e + "Unable to set counter");}
+        }
+    }
    private void fillId(){
         String sql ="Select * from Persons";
             try {
@@ -375,31 +411,31 @@ public static AuditScheduling getObj(){
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, 0)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, 0)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, 0)
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
@@ -505,15 +541,8 @@ public static AuditScheduling getObj(){
             pst.setString(12, teamMemberSurname2);
             pst.setString(13, teamMember3);
             pst.setString(14, teamMemberSurname3);
-            Long referenceNumberID = null;
-            if(pst.executeUpdate() > 0){
-            ResultSet generatedReference = pst.getGeneratedKeys();
-            if(null != generatedReference && generatedReference.next()){
-            referenceNumberID = generatedReference.getLong(1);
-            txtReferenceNumber.setText("SA"+referenceNumberID.toString());
-            }
-            }
-            JOptionPane.showMessageDialog(AuditScheduling.this, "Audit"+ " "+"successfully booked for"+ auditDate +" "+ "eith Reference number" + referenceNumberID);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(AuditScheduling.this, "Audit"+ " "+"successfully booked for"+ auditDate +" "+ "with Reference number" + referenceNumber);
         }catch(SQLException | HeadlessException e){
         JOptionPane.showMessageDialog(AuditScheduling.this, e);
         }
@@ -529,6 +558,7 @@ public static AuditScheduling getObj(){
         }else{
             cboAuditType.setEnabled(true);
         }
+        setReferenceNumber();
     }//GEN-LAST:event_cboOperationsItemStateChanged
 
     /**

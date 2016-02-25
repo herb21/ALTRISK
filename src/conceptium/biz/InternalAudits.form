@@ -96,11 +96,12 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtRequirement" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="txtReferenceNumber" min="-2" pref="199" max="-2" attributes="0"/>
+                                  <Component id="txtReferenceNumber" min="-2" pref="102" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="dcTodayDate" max="32767" attributes="0"/>
+                                  <Component id="dcTodayDate" min="-2" pref="147" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
                           </Group>
@@ -128,7 +129,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="txtUpload" min="-2" pref="353" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButton1" pref="129" max="32767" attributes="0"/>
+                                  <Component id="jButton1" pref="135" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">

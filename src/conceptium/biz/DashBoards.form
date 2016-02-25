@@ -574,6 +574,9 @@
                     </MenuItem>
                     <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/Dbase/Resources/add139-4.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Capture Additional Incident Information"/>
                       </Properties>
                       <Events>
@@ -640,6 +643,9 @@
                     </MenuItem>
                     <Menu class="javax.swing.JMenu" name="jMenu16">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/Dbase/Resources/management3.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Manage Incidents"/>
                       </Properties>
                       <SubComponents>
@@ -647,6 +653,9 @@
                         </MenuItem>
                         <MenuItem class="javax.swing.JMenuItem" name="jMenuItem10">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/Dbase/Resources/alarm.png"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="High Priority Incident"/>
                           </Properties>
                           <Events>
@@ -693,6 +702,9 @@
                     </MenuItem>
                     <MenuItem class="javax.swing.JMenuItem" name="jMenuItem9">
                       <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/Dbase/Resources/add139-4.png"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Capture Corrective Action"/>
                       </Properties>
                       <Events>
@@ -701,25 +713,21 @@
                     </MenuItem>
                     <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator22">
                     </MenuItem>
-                    <MenuItem class="javax.swing.JMenuItem" name="jMenuItem79">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Update Corrective Status"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem79ActionPerformed"/>
-                      </Events>
-                    </MenuItem>
-                    <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator138">
-                    </MenuItem>
                     <Menu class="javax.swing.JMenu" name="jMenu17">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Analysixe Actions Taken"/>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/Dbase/Resources/graphic49.png"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Analyse Actions Taken"/>
                       </Properties>
                       <SubComponents>
                         <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator20">
                         </MenuItem>
                         <MenuItem class="javax.swing.JMenuItem" name="jMenuItem13">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/Dbase/Resources/wall clock.png"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Overdue Action"/>
                           </Properties>
                           <Events>
@@ -730,6 +738,9 @@
                         </MenuItem>
                         <MenuItem class="javax.swing.JMenuItem" name="jMenuItem14">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/Dbase/Resources/dangerous3.png"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Failed Actions"/>
                           </Properties>
                           <Events>
@@ -740,6 +751,9 @@
                         </MenuItem>
                         <MenuItem class="javax.swing.JMenuItem" name="jMenuItem15">
                           <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/Dbase/Resources/disabled.png"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Actions awating Approval"/>
                           </Properties>
                           <Events>
@@ -959,8 +973,6 @@
                 </MenuItem>
               </SubComponents>
             </Menu>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator9">
-            </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
           </SubComponents>
@@ -1160,25 +1172,15 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator57">
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem25">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Reports"/>
-                  </Properties>
-                </MenuItem>
                 <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator117">
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="SHEQ Document Creation"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
-                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator68">
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem32">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/plus sign1.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Create Person"/>
                   </Properties>
                   <Events>

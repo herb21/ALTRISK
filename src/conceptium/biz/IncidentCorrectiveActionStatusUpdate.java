@@ -162,7 +162,7 @@ public static IncidentCorrectiveActionStatusUpdate getObj(){
 
         jLabel5.setText("Supporting Docs:");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/conceptium/biz/upload58.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/upload58.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

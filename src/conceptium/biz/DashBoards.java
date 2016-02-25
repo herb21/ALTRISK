@@ -681,8 +681,6 @@ jMenu15 = new javax.swing.JMenu();
 jSeparator21 = new javax.swing.JPopupMenu.Separator();
 jMenuItem9 = new javax.swing.JMenuItem();
 jSeparator22 = new javax.swing.JPopupMenu.Separator();
-jMenuItem79 = new javax.swing.JMenuItem();
-jSeparator138 = new javax.swing.JPopupMenu.Separator();
 jMenu17 = new javax.swing.JMenu();
 jSeparator20 = new javax.swing.JPopupMenu.Separator();
 jMenuItem13 = new javax.swing.JMenuItem();
@@ -736,7 +734,6 @@ jMenuItem62 = new javax.swing.JMenuItem();
 jSeparator111 = new javax.swing.JPopupMenu.Separator();
 jSeparator102 = new javax.swing.JPopupMenu.Separator();
 jMenuItem63 = new javax.swing.JMenuItem();
-jSeparator9 = new javax.swing.JPopupMenu.Separator();
 jSeparator2 = new javax.swing.JPopupMenu.Separator();
 jMenu11 = new javax.swing.JMenu();
 jSeparator116 = new javax.swing.JPopupMenu.Separator();
@@ -776,9 +773,7 @@ jMenuItem24 = new javax.swing.JMenuItem();
 jSeparator59 = new javax.swing.JPopupMenu.Separator();
 jMenu24 = new javax.swing.JMenu();
 jSeparator57 = new javax.swing.JPopupMenu.Separator();
-jMenuItem25 = new javax.swing.JMenuItem();
 jSeparator117 = new javax.swing.JPopupMenu.Separator();
-jMenuItem1 = new javax.swing.JMenuItem();
 jSeparator68 = new javax.swing.JPopupMenu.Separator();
 jMenuItem32 = new javax.swing.JMenuItem();
 jSeparator58 = new javax.swing.JPopupMenu.Separator();
@@ -1924,6 +1919,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu12.add(jMenuItem4);
     jMenu12.add(jSeparator27);
 
+    jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
     jMenuItem5.setText("Capture Additional Incident Information");
     jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1968,9 +1964,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu14.add(jMenuItem8);
     jMenu14.add(jSeparator36);
 
+    jMenu16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/management3.png"))); // NOI18N
     jMenu16.setText("Manage Incidents");
     jMenu16.add(jSeparator32);
 
+    jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/alarm.png"))); // NOI18N
     jMenuItem10.setText("High Priority Incident");
     jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2007,6 +2005,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu15.setText("Corrective Action");
     jMenu15.add(jSeparator21);
 
+    jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
     jMenuItem9.setText("Capture Corrective Action");
     jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2016,18 +2015,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu15.add(jMenuItem9);
     jMenu15.add(jSeparator22);
 
-    jMenuItem79.setText("Update Corrective Status");
-    jMenuItem79.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItem79ActionPerformed(evt);
-        }
-    });
-    jMenu15.add(jMenuItem79);
-    jMenu15.add(jSeparator138);
-
-    jMenu17.setText("Analysixe Actions Taken");
+    jMenu17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/graphic49.png"))); // NOI18N
+    jMenu17.setText("Analyse Actions Taken");
     jMenu17.add(jSeparator20);
 
+    jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/wall clock.png"))); // NOI18N
     jMenuItem13.setText("Overdue Action");
     jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2037,6 +2029,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu17.add(jMenuItem13);
     jMenu17.add(jSeparator19);
 
+    jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/dangerous3.png"))); // NOI18N
     jMenuItem14.setText("Failed Actions");
     jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2046,6 +2039,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu17.add(jMenuItem14);
     jMenu17.add(jSeparator18);
 
+    jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/disabled.png"))); // NOI18N
     jMenuItem15.setText("Actions awating Approval");
     jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2165,7 +2159,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu7.add(jMenuItem63);
 
     jMenu1.add(jMenu7);
-    jMenu1.add(jSeparator9);
     jMenu1.add(jSeparator2);
 
     jMenuBar1.add(jMenu1);
@@ -2301,20 +2294,10 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/wireless29.png"))); // NOI18N
     jMenu24.setText("System Paramenter Configuration");
     jMenu24.add(jSeparator57);
-
-    jMenuItem25.setText("Reports");
-    jMenu24.add(jMenuItem25);
     jMenu24.add(jSeparator117);
-
-    jMenuItem1.setText("SHEQ Document Creation");
-    jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItem1ActionPerformed(evt);
-        }
-    });
-    jMenu24.add(jMenuItem1);
     jMenu24.add(jSeparator68);
 
+    jMenuItem32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/plus sign1.png"))); // NOI18N
     jMenuItem32.setText("Create Person");
     jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2559,7 +2542,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         
         
         Calendar expireDate = Calendar.getInstance();
-        expireDate.set(2016, 01, 14);
+        expireDate.set(2016, 02, 14);
         System.out.println(expireDate.getTime());
         if(Calendar.getInstance().getTime().after(expireDate.getTime())){
             JOptionPane.showMessageDialog(DashBoards.this, "Your trial has expired please contact developer");
@@ -2710,35 +2693,40 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jTable1MouseReleased
 
     private void jTree3ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree3ValueChanged
-        String node = evt.getNewLeadSelectionPath().getLastPathComponent().toString();
-        switch (node) {
-            case "Create Incident":
-            //Incident.getObj().setVisible(true);
-            break;
-            case "Additional Information":
-            IncidentDetails.getObj().setVisible(true);
-            break;
-            case "Rate Incident Risk":
-            RiskRating.getObj().setVisible(true);
-            break;
-            case "Incident Analysis":
-            IncidentAnalysis.getObj().setVisible(true);
-            break;
-            case "Capture Corrective Action":
-            Corrective.getObj().setVisible(true);
-            break;
-            case "Root Cause":
-            IncidentRootCause.getObj().setVisible(true);
-            break;
-            case "High Priority":
-            HighPriority.getObj().setVisible(true);
-            break;
-            case "E":
-            
-            break;
-            case "H":
-            
-            break;
+        try {
+            String node = evt.getNewLeadSelectionPath().getLastPathComponent().toString();
+            switch (node) {
+                case "Create Incident":
+                    Incident incident = new Incident();
+                    incident.setVisible(true);
+                    break;
+                case "Additional Information":
+                    IncidentDetails.getObj().setVisible(true);
+                    break;
+                case "Rate Incident Risk":
+                    RiskRating.getObj().setVisible(true);
+                    break;
+                case "Incident Analysis":
+                    IncidentAnalysis.getObj().setVisible(true);
+                    break;
+                case "Capture Corrective Action":
+                    Corrective.getObj().setVisible(true);
+                    break;
+                case "Root Cause":
+                    IncidentRootCause.getObj().setVisible(true);
+                    break;
+                case "High Priority":
+                    HighPriority.getObj().setVisible(true);
+                    break;
+                case "E":
+                    
+                    break;
+                case "H":
+                    
+                    break;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTree3ValueChanged
 
@@ -2854,10 +2842,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         System.exit(0);
     }//GEN-LAST:event_jMenu33MenuSelected
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Docs.getObj().setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton13ActionPerformed
@@ -2885,10 +2869,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private void jMenuItem78ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem78ActionPerformed
         AuditScheduling.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem78ActionPerformed
-
-    private void jMenuItem79ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem79ActionPerformed
-        IncidentCorrectiveActionStatusUpdate.getObj().setVisible(true);
-    }//GEN-LAST:event_jMenuItem79ActionPerformed
 
     private void jTree3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree3MouseReleased
         // TODO add your handling code here:
@@ -3035,7 +3015,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
@@ -3052,7 +3031,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
-    private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
     private javax.swing.JMenuItem jMenuItem28;
@@ -3111,7 +3089,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem76;
     private javax.swing.JMenuItem jMenuItem77;
     private javax.swing.JMenuItem jMenuItem78;
-    private javax.swing.JMenuItem jMenuItem79;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem80;
     private javax.swing.JMenuItem jMenuItem81;
@@ -3195,7 +3172,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPopupMenu.Separator jSeparator135;
     private javax.swing.JPopupMenu.Separator jSeparator136;
     private javax.swing.JPopupMenu.Separator jSeparator137;
-    private javax.swing.JPopupMenu.Separator jSeparator138;
     private javax.swing.JPopupMenu.Separator jSeparator139;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator140;
@@ -3295,7 +3271,6 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPopupMenu.Separator jSeparator87;
     private javax.swing.JPopupMenu.Separator jSeparator88;
     private javax.swing.JPopupMenu.Separator jSeparator89;
-    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JPopupMenu.Separator jSeparator90;
     private javax.swing.JPopupMenu.Separator jSeparator91;
     private javax.swing.JPopupMenu.Separator jSeparator92;
