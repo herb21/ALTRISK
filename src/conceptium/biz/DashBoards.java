@@ -10,7 +10,6 @@ import ch.fhnw.filecopier.CopyJob;
 import ch.fhnw.filecopier.FileCopier;
 import ch.fhnw.filecopier.FileCopierPanel;
 import ch.fhnw.filecopier.Source;
-import com.alee.laf.desktoppane.WebInternalFrameUI;
 import com.alee.laf.table.WebTableUI;
 import com.javadocking.DockingManager;
 import com.javadocking.dock.Position;
@@ -31,61 +30,39 @@ import com.javadocking.model.FloatDockModel;
 import com.javadocking.visualizer.FloatExternalizer;
 import com.javadocking.visualizer.LineMinimizer;
 import com.javadocking.visualizer.SingleMaximizer;
-import com.toedter.calendar.JCalendar;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import static java.awt.Component.BOTTOM_ALIGNMENT;
 import java.awt.ComponentOrientation;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
-import javax.swing.SortOrder;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.LineBorder;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.text.Highlighter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
 import net.infonode.gui.laf.InfoNodeLookAndFeel;
 import net.proteanit.sql.DbUtils;
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.JXTableHeader;
-import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.decorator.BorderHighlighter;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
@@ -125,6 +102,12 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
         }
         //setUndecorated(true);
         initComponents();
+         jTree1.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+         jTree2.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+         jTree3.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+         jTree4.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+         jTree5.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+         jTree6.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         updateTable();
         updateTraining();
         fillmodules();
@@ -512,6 +495,7 @@ jSplitPane5 = new javax.swing.JSplitPane();
 jPanel2 = new javax.swing.JPanel();
 jScrollPane1 = new javax.swing.JScrollPane();
 jTree1 = new javax.swing.JTree();
+jPanel17 = new javax.swing.JPanel();
 jXTaskPaneContainer1 = new org.jdesktop.swingx.JXTaskPaneContainer();
 jXTaskPane1 = new org.jdesktop.swingx.JXTaskPane();
 jScrollPane8 = new javax.swing.JScrollPane();
@@ -1029,7 +1013,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jSplitPane1.setRightComponent(jPanel3);
 
-    jSplitPane5.setDividerLocation(250);
+    jSplitPane5.setDividerLocation(500);
     jSplitPane5.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
     javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Documents");
@@ -1089,6 +1073,17 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }
     jScrollPane1.setViewportView(jTree1);
 
+    javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+    jPanel17.setLayout(jPanel17Layout);
+    jPanel17Layout.setHorizontalGroup(
+        jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 207, Short.MAX_VALUE)
+    );
+    jPanel17Layout.setVerticalGroup(
+        jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 100, Short.MAX_VALUE)
+    );
+
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
@@ -1097,13 +1092,19 @@ addWindowListener(new java.awt.event.WindowAdapter() {
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap())
+        .addGroup(jPanel2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(396, 396, 396))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(290, 290, 290))
     );
 
     jSplitPane5.setLeftComponent(jPanel2);
@@ -2995,7 +2996,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenu jMenu25;
     private javax.swing.JMenu jMenu26;
     private javax.swing.JMenu jMenu27;
-    public static javax.swing.JMenu jMenu28;
+    public javax.swing.JMenu jMenu28;
     private javax.swing.JMenu jMenu29;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu30;
@@ -3106,6 +3107,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3290,7 +3292,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTree jTree1;
+    public static javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
     private javax.swing.JTree jTree3;
     private javax.swing.JTree jTree4;

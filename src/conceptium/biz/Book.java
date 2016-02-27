@@ -7,16 +7,22 @@ package conceptium.biz;
 
 
 import com.toedter.calendar.JDateChooser;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+
 
 
 /**
@@ -28,6 +34,8 @@ public class Book extends javax.swing.JFrame {
     /**
      * Creates new form Book
      */
+    private static final AtomicInteger counter = new AtomicInteger(0);
+    private  int staffId;
     private static Book obj = null;
     private Book() {
         setUndecorated(true);
@@ -35,6 +43,10 @@ public class Book extends javax.swing.JFrame {
         initComponents();
         fillId();
         site();
+        setReferenceNumber();
+        txtBookingID.setBackground(Color.RED);
+        txtBookingID.setEnabled(false);
+        fillmodules();
     }
 
    private void fillId(){
@@ -97,6 +109,66 @@ public class Book extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(Book.this, e);
         }
 }
+    
+    private void setReferenceNumber(){
+        String sql = "select AUD_ID from AUTOAUD";
+        String sql1 = "select INS_ID from AUTOINS";
+        //if(cboOperations.getSelectedItem().toString().equals("Audit")){
+        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = pst.executeQuery()){
+            rs.afterLast();
+            while(rs.previous()){
+            staffId = rs.getInt("AUD_ID");
+            //if(staffId == 0){ 
+            staffId = +1;
+            txtBookingID.setText("TRNMGT-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            //}else{
+            //txtReferenceNumber.setText("AUD-00"+ staffId);
+            //staffId = counter.incrementAndGet();
+            //}
+            }
+        }catch(SQLException e){
+        JOptionPane.showMessageDialog(Book.this, e + "Unable to set counter");}
+        /**}else{
+        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ResultSet rs = pst.executeQuery()){
+            rs.afterLast();
+            while(rs.previous()){
+            staffId = rs.getInt("INS_ID");
+            if(staffId == 0){ staffId = +1;
+            txtReferenceNumber.setText("INS-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }else{
+            txtReferenceNumber.setText("INS-00"+ staffId);
+            staffId = counter.incrementAndGet();
+            }}
+        }catch(SQLException e){
+        JOptionPane.showMessageDialog(AuditScheduling.this, e + "Unable to set counter");}
+        }
+    }**/}
+    private void fillmodules(){
+        
+        DefaultListModel m = new DefaultListModel();
+        //String search = (String)cboTransaction.getSelectedItem();
+        String sql = "Select * from APP.COURSEMODULES ";
+        try(Connection con = DriverManager.getConnection("jdbc:derby:MTD","herbert","elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql);) {
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                    String ModuleName = rs.getString("DESCRIPTION");
+                    m.addElement(ModuleName);
+                }
+            
+                moduleList.setModel(m);
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,7 +184,7 @@ public class Book extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        moduleList = new javax.swing.JList();
         jPanel4 = new javax.swing.JPanel();
         cboSite = new javax.swing.JComboBox();
         dcDateOfBooking = new com.toedter.calendar.JDateChooser();
@@ -142,6 +214,8 @@ public class Book extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtBookingID = new javax.swing.JTextField();
         cboServiceProvider = new javax.swing.JComboBox();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -191,7 +265,12 @@ public class Book extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Select module to book"));
 
-        jScrollPane1.setViewportView(jList1);
+        moduleList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                moduleListMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(moduleList);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -299,8 +378,10 @@ public class Book extends javax.swing.JFrame {
                     .addComponent(txtDays)
                     .addComponent(cboSite, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtJobTitle)
-                    .addComponent(txtBookingID)
-                    .addComponent(cboServiceProvider, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cboServiceProvider, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(txtBookingID, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(3, 3, 3))
         );
         jPanel4Layout.setVerticalGroup(
@@ -391,6 +472,32 @@ public class Book extends javax.swing.JFrame {
                 .addGap(0, 0, 0))
         );
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -399,13 +506,18 @@ public class Book extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -442,7 +554,10 @@ public class Book extends javax.swing.JFrame {
         String serviceProvider = cboServiceProvider.getSelectedItem().toString();
         String venue = txtVenue.getText();
         String costCenter = cboSite.getSelectedItem().toString();
-        
+        java.util.Date date = new java.util.Date();
+        if(dcStartDate.getDate().getTime() <= date.getTime()){
+        JOptionPane.showMessageDialog(Book.this, "Due date can not be less or equal to today's date");}
+        else{
         DbaseOperation dbOp = new DbaseOperation();
         try {
             dbOp.insertInDB(bookingID, eName, surname, employeeNumber, jobTitle, email, (Date) startDate,
@@ -450,8 +565,38 @@ public class Book extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void moduleListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moduleListMouseClicked
+        String tmp = (String)moduleList.getSelectedValue();
+        String sql = "Select * from APP.COURSEMODULES where DESCRIPTION = '"+tmp+"'";
+        try(Connection con = DriverManager.getConnection("jdbc:derby:MTD","herbert","elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql);){
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()){
+                String description = rs.getString("DESCRIPTION");
+                txtCourseBooked.setText(description);
+                String length = rs.getString("LENGTH");
+                txtDays.setText(length);
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy",Locale.ENGLISH);
+                Calendar c = Calendar.getInstance();
+                //c.setTime(new Date());
+                int x = Integer.parseInt(txtDays.getText());
+                c.setTime(dcStartDate.getDate());
+                //if(c.get(Calendar.DAY_OF_WEEK) == 1 || c.get(Calendar.DAY_OF_WEEK) == 7){
+                //x++;
+                c.add(Calendar.DATE, x);
+                dcEndDate.setDate(c.getTime());
+                }
+            //}
+        }
+        catch(SQLException e){
+            
+            JOptionPane.showMessageDialog(null, e);
+           
+        }
+    }//GEN-LAST:event_moduleListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -511,12 +656,14 @@ public class Book extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList moduleList;
     private javax.swing.JTextField txtBookingID;
     private javax.swing.JTextField txtCourseBooked;
     private javax.swing.JTextField txtDays;

@@ -20,6 +20,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -200,6 +201,11 @@ public static Docs getObj(){
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(Docs.getObj(), ex);
         }
+        String name = cboDocType.getSelectedItem().toString();
+        String doc = txtDocTitle.getText();
+        
+        //DefaultMutableTreeNode name = new DefaultMutableTreeNode();
+        //DashBoards.jTree1.setSelectionPath(cboDocType.getSelectedItem().toString());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

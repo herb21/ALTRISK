@@ -207,9 +207,12 @@ public class Incident extends javax.swing.JFrame {
         txtEquipmentDemaged = new javax.swing.JTextField();
         dcTodayDate = new com.toedter.calendar.JDateChooser();
         jLabel29 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
+        setBackground(new java.awt.Color(255, 255, 255));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -725,6 +728,7 @@ public class Incident extends javax.swing.JFrame {
         jLabel24.setText("Agent:");
 
         dcClosingDate.setDateFormatString("dd/MM/yyyy");
+        dcClosingDate.setDate(null);
         dcClosingDate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 dcClosingDateMousePressed(evt);
@@ -945,8 +949,8 @@ public class Incident extends javax.swing.JFrame {
                         .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(1, 1, 1)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(0, 0, 0)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(0, 0, 0)
@@ -989,6 +993,32 @@ public class Incident extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE))
             );
 
+            jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+
+            javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+            jPanel10.setLayout(jPanel10Layout);
+            jPanel10Layout.setHorizontalGroup(
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 0, Short.MAX_VALUE)
+            );
+            jPanel10Layout.setVerticalGroup(
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 41, Short.MAX_VALUE)
+            );
+
+            jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+
+            javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+            jPanel11.setLayout(jPanel11Layout);
+            jPanel11Layout.setHorizontalGroup(
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 0, Short.MAX_VALUE)
+            );
+            jPanel11Layout.setVerticalGroup(
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 26, Short.MAX_VALUE)
+            );
+
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
             layout.setHorizontalGroup(
@@ -997,13 +1027,18 @@ public class Incident extends javax.swing.JFrame {
                     .addContainerGap()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
             layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE))
             );
 
             pack();
@@ -1061,8 +1096,8 @@ public class Incident extends javax.swing.JFrame {
                 "IncidentType,NatureOfIncident,DateOfIncident,DateOfReportingIncident,Shift,HoursOnShift,"+
                 "ReportedTo,NumberOfContinuosDaysWorked,ContactNumber,ContactEmail,Department,Site,"+
                 "EquipmentUsed,Head_Neck,Eye,Trunk,Finger,Head,Arm,Foot,Toe,ActivityBiengCarriedOut,"+
-                "YearsOfExperienceOnTask,EquipmentDemaged,EstimatedValue,Area,Status,Agent,TimeOfExpose"+
-                ")values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "YearsOfExperienceOnTask,EquipmentDemaged,EstimatedValue,Area,Status,Agent,TimeOfExpose,"+
+                "TodayDate,ClosingDate)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try(Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
         PreparedStatement pst = con.prepareStatement(sql);){
         pst.setString(1, name);
@@ -1093,16 +1128,19 @@ public class Incident extends javax.swing.JFrame {
         pst.setString(26,toe);
         pst.setString(27, activityBiengDone);
         pst.setString(28, yearsOfExperience);
-        pst.setString(33, agent);
-        pst.setString(34, timeExposed);
         pst.setString(29, equipmentDemaged);
         pst.setString(30, estimatedValue);
         pst.setString(31, area);
         pst.setString(32, status);
+        pst.setString(33, agent);
+        pst.setString(34, timeExposed);
+        pst.setDate(35, new java.sql.Date(dcTodayDate.getDate().getTime()));
+        pst.setDate(36, null);
         pst.executeUpdate();
         JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "successfully saved.");
         DashBoards dash = new DashBoards();
         DashBoards.jMenuItem84.setText("Test completed");
+            DashBoards.jMenuItem84.revalidate();
         dash.overDue();
         }
         catch(Exception e){
@@ -1213,6 +1251,7 @@ public void fillsupervisor(){
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         dcTodayDate.setEnabled(false);
         dcClosingDate.setEnabled(false);
+        
 
 //staffId = counter.incrementAndGet();
         //setReferenceNumber();
@@ -1412,8 +1451,8 @@ public void fillsupervisor(){
         String foot = choice;
         String toe = choice;
         String area = txtArea.getText();
-        java.sql.Date dateOfIncident = new java.sql.Date(jDateChooser1.getDate().getTime());
-        java.sql.Date dateOfReporting = new java.sql.Date(jDateChooser2.getDate().getTime());
+        //java.sql.Date dateOfIncident = new java.sql.Date(jDateChooser1.getDate().getTime());
+        //java.sql.Date dateOfReporting = new java.sql.Date(jDateChooser2.getDate().getTime());
         //String status = txtStatus.getText();
         /**DbaseOperation Db = new DbaseOperation();
         String[] arr = {name,surname,idNumber,employeeNumber,referenceNumber,incidentType,natureOfIncident,shift,
@@ -1427,19 +1466,51 @@ public void fillsupervisor(){
                 "YearsOfExperienceOnTask,EquipmentDemaged,EstimatedValue,Area,Status,Agent,"+
                 "TimeOfExpose" , "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", arr);
                 JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "successfully saved.");**/
-        String sql = "Update Incident Name = '"+name+"',Surname  = '"+surname+"',IDNumber  = '"+idNumber+"',EmployeeNumber = '"+employeeNumber+"',"+
-                "ReferenceNumber  = '"+referenceNumber+"',IncidentType = '"+incidentType+"',NatureOfIncident = '"+natureOfIncident+"',DateOfIncident = '"+dateOfIncident+"',"+
-                "DateOfReportingIncident = '"+dateOfReporting+"',Shift = '"+shift+"',HoursOnShift = '"+hoursOnShift+"',"+
-                "ReportedTo = '"+reportTo+"',NumberOfContinuosDaysWorked = '"+numberOfContiniousDaysWorked+"',ContactNumber = '"+contactNumber+"',ContactEmail = '"+contactEmail+"',"+
-                "Department = '"+department+"',Site = '"+site+"',EquipmentUsed = '"+equipmentUsed+"',Head_Neck = '"+head_Neck+"',Eye = '"+eye+"',"+
-                "Trunk = '"+truck+"',Finger = '"+finger+"',Head = '"+hand+"',Arm = '"+arm+"',Foot = '"+foot+"',Toe = '"+toe+"',ActivityBiengCarriedOut = '"+name+"',"+
-                "YearsOfExperienceOnTask = '"+yearsOfExperience+"',EquipmentDemaged = '"+equipmentDemaged+"',EstimatedValue = '"+estimatedValue+"',Area = '"+area+"',Status = '"+status+"',Agent = '"+agent+"',TimeOfExpose = '"+timeExposed+"'"+
-                "where ReferenceNumber = ?";
-        String sql1 = "Update Incident set Status = ? where ReferenceNumber = ?";
-        try(Connection con = connect.dbConnection();
-        PreparedStatement pst = con.prepareStatement(sql1);){
-        pst.setString(1, choice);
-        pst.setString(2, referenceNumber);
+        String sql = "update Incident set Name=?,Surname=?,IDNumber=?,EmployeeNumber=?,"+
+                "ReferenceNumber=?,IncidentType=?,NatureOfIncident=?,DateOfIncident=?,"+
+                "DateOfReportingIncident=?,Shift=?,HoursOnShift=?,ReportedTo=?,"+
+                "NumberOfContinuosDaysWorked=?,ContactNumber=?,ContactEmail=?,Department=?,"+
+                "Site=?,EquipmentUsed=?,Head_Neck=?,Eye=?,Trunk=?,Finger=?,Head=?,Arm=?,Foot=?,"+
+                "Toe=?,ActivityBiengCarriedOut=?,YearsOfExperienceOnTask=?,EquipmentDemaged=?,"+
+                "EstimatedValue=?,Area=?,Status=?,Agent=?,TimeOfExpose=?,TodayDate=?,ClosingDate=?";
+        try(Connection con = DbConnection.dbConnection();
+        PreparedStatement pst = con.prepareStatement(sql);){
+        pst.setString(1, name);
+        pst.setString(2, surname);
+        pst.setString(3, idNumber);
+        pst.setString(4, employeeNumber);
+        pst.setString(5, referenceNumber);
+        pst.setString(6, incidentType);
+        pst.setString(7, natureOfIncident);
+        pst.setDate(8, new java.sql.Date(jDateChooser1.getDate().getTime()));
+        pst.setDate(9, new java.sql.Date(jDateChooser2.getDate().getTime()));
+        pst.setString(10, shift);
+        pst.setString(11, hoursOnShift);
+        pst.setString(12, reportTo);
+        pst.setString(13, numberOfContiniousDaysWorked);
+        pst.setString(14, contactNumber);
+        pst.setString(15, contactEmail);
+        pst.setString(16, department);
+        pst.setString(17, site);
+        pst.setString(18, equipmentUsed);
+        pst.setString(19,head_Neck);
+        pst.setString(20,eye);
+        pst.setString(21,truck);
+        pst.setString(22,finger);
+        pst.setString(23,hand);
+        pst.setString(24,arm);
+        pst.setString(25,foot);
+        pst.setString(26,toe);
+        pst.setString(27, activityBiengDone);
+        pst.setString(28, yearsOfExperience);
+        pst.setString(33, agent);
+        pst.setString(34, timeExposed);
+        pst.setString(29, equipmentDemaged);
+        pst.setString(30, estimatedValue);
+        pst.setString(31, area);
+        pst.setString(32, status);
+        pst.setDate(35, new java.sql.Date(dcTodayDate.getDate().getTime()));
+        pst.setDate(36, new java.sql.Date(dcClosingDate.getDate().getTime()));
         pst.executeUpdate();
         JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "status saved.");
         }
@@ -1671,6 +1742,8 @@ public void fillsupervisor(){
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

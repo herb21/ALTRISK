@@ -18,14 +18,19 @@ import javax.swing.JOptionPane;
  */
 public class DbConnection {
 
-    public static Connection dbConnection() throws ClassNotFoundException {
-        Connection conn = null;
+    /**
+     *
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public static Connection dbConnection() throws ClassNotFoundException,SQLException {
+        Connection conn;
         try{
         Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         conn = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-        //JOptionPane.showMessageDialog(null, "Connection done");
         return conn;
-        }catch(SQLException | HeadlessException e){
+        }catch(SQLException | HeadlessException | ClassNotFoundException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
             return null;
         }

@@ -100,6 +100,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jXTable1 = new org.jdesktop.swingx.JXTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -248,6 +249,13 @@ public class NewJFrame extends javax.swing.JFrame {
                                 //jTable1.getColumn("Title 4").setCellEditor(new DefaultCellEditor(jButton1));
                                 jScrollPane2.setViewportView(jTable1);
 
+                                jButton3.setText("jButton3");
+                                jButton3.addActionListener(new java.awt.event.ActionListener() {
+                                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                        jButton3ActionPerformed(evt);
+                                    }
+                                });
+
                                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                                 getContentPane().setLayout(layout);
                                 layout.setHorizontalGroup(
@@ -263,7 +271,9 @@ public class NewJFrame extends javax.swing.JFrame {
                                         .addComponent(jScrollPane1)
                                         .addContainerGap())
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(140, 140, 140)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(jButton3)
+                                        .addGap(42, 42, 42)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtTest, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                                             .addComponent(txtCorrect))
@@ -276,8 +286,13 @@ public class NewJFrame extends javax.swing.JFrame {
                                 layout.setVerticalGroup(
                                     layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(30, 30, 30)
-                                        .addComponent(txtTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(30, 30, 30)
+                                                .addComponent(txtTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jButton3)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(jButton1)
@@ -364,6 +379,13 @@ public class NewJFrame extends javax.swing.JFrame {
        
     }//GEN-LAST:event_formWindowActivated
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        NewJFrame1 frame = NewJFrame1.getObj();
+        frame.jLabel1.setText("New Test");
+        frame.revalidate();
+        frame.repaint();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -400,6 +422,7 @@ public class NewJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
