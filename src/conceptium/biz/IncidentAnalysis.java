@@ -493,7 +493,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 59, Short.MAX_VALUE)
+            .addGap(0, 53, Short.MAX_VALUE)
         );
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -533,7 +533,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -688,7 +688,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
     private javax.swing.JComboBox cboAbsent1;
     private javax.swing.JComboBox cboEnvironment;
     private javax.swing.JComboBox cboFactors;
-    private javax.swing.JComboBox cboRef;
+    public static javax.swing.JComboBox cboRef;
     private javax.swing.JComboBox cboTask;
     private javax.swing.JComboBox cboTeam;
     private javax.swing.JButton jButton1;

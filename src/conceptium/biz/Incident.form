@@ -45,7 +45,7 @@
               <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
               <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
@@ -160,9 +160,7 @@
                       <Component id="jLabel27" min="-2" pref="90" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="statusOpen" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="statusPending" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                       <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="statusClosed" min="-2" max="-2" attributes="0"/>
@@ -176,7 +174,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="statusOpen" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="statusPending" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="statusClosed" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -198,17 +195,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statusOpenActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="statusPending">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Pending"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statusPendingActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -705,6 +691,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboNOCDWActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel16">
               <Properties>
@@ -742,6 +731,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel17">
               <Properties>
@@ -757,6 +749,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel21">
               <Properties>
@@ -1035,6 +1030,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JFormattedTextField" name="txtEstimatedValue">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel30">
               <Properties>
@@ -1118,8 +1116,8 @@
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtActivityKeyTyped"/>
                   </Events>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="txtActivity.getDocument().addDocumentListener(new DocumentListener() {&#xa;        &#xa;        &#xa;            @Override&#xa;            public void insertUpdate(DocumentEvent e) {&#xa;                if(cboNature.getSelectedItem().toString().equals(&quot;Above R50 000&quot;)||cboNature.getSelectedItem().toString().equals(&quot;Fatality&quot;)){&#xa;                txtReferenceNumber.setBackground(Color.RED);&#xa;            }else{&#xa;            txtReferenceNumber.setBackground(Color.GREEN);}&#xa;    }&#xa;&#xa;            @Override&#xa;            public void removeUpdate(DocumentEvent e) {&#xa;                if(cboNature.getSelectedItem().toString().equals(&quot;Above R50 000&quot;)||cboNature.getSelectedItem().toString().equals(&quot;Fatality&quot;)){&#xa;                txtReferenceNumber.setBackground(Color.RED);&#xa;            }else{&#xa;            txtReferenceNumber.setBackground(Color.GREEN);}&#xa;                  &#xa;&#xa;           }&#xa;&#xa;            @Override&#xa;            public void changedUpdate(DocumentEvent e) {&#xa;                //format.format(Integer.parseInt(txtTest.getText();&#xa;                //System.out.println(format.format(Integer.parseInt(txtTest.getText())));&#xa;                    //jFormattedTextField1.setValue(Double.parseDouble(txtTest.getText()));&#xa;            }&#xa;        });"/>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="12"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="txtActivity.getDocument().addDocumentListener(new DocumentListener() {&#xa;        &#xa;        &#xa;            @Override&#xa;            public void insertUpdate(DocumentEvent e) {&#xa;            //if(cboNature.getSelectedItem().toString().equals(&quot;Above R50 000&quot;)||cboNature.getSelectedItem().toString().equals(&quot;Fatality&quot;)){&#xa;                //txtReferenceNumber.setBackground(Color.RED);&#xa;            //}else{&#xa;            //txtReferenceNumber.setBackground(Color.GREEN);}&#xa;    }&#xa;&#xa;            @Override&#xa;            public void removeUpdate(DocumentEvent e) {&#xa;                //if(cboNature.getSelectedItem().toString().equals(&quot;Above R50 000&quot;)||cboNature.getSelectedItem().toString().equals(&quot;Fatality&quot;)){&#xa;                //txtReferenceNumber.setBackground(Color.RED);&#xa;            //}else{&#xa;            //txtReferenceNumber.setBackground(Color.GREEN);}&#xa;                  &#xa;&#xa;           }&#xa;&#xa;            @Override&#xa;            public void changedUpdate(DocumentEvent e) {&#xa;                //format.format(Integer.parseInt(txtTest.getText();&#xa;                //System.out.println(format.format(Integer.parseInt(txtTest.getText())));&#xa;                    //jFormattedTextField1.setValue(Double.parseDouble(txtTest.getText()));&#xa;            }&#xa;        });"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
@@ -1222,7 +1220,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEquipmentDemagedActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -1231,6 +1229,9 @@
           <Properties>
             <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel29">
           <Properties>
@@ -1274,7 +1275,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="26" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="32" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

@@ -5,8 +5,6 @@
  */
 package conceptium.biz;
 
-import com.alee.laf.WebLookAndFeel;
-import com.alee.laf.table.WebTableUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -14,23 +12,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
-import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -130,7 +122,6 @@ public class Incident extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         statusOpen = new javax.swing.JCheckBox();
-        statusPending = new javax.swing.JCheckBox();
         statusClosed = new javax.swing.JCheckBox();
         jLabel13 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -232,13 +223,6 @@ public class Incident extends javax.swing.JFrame {
             }
         });
 
-        statusPending.setText("Pending");
-        statusPending.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statusPendingActionPerformed(evt);
-            }
-        });
-
         statusClosed.setText("Closed");
         statusClosed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,9 +239,7 @@ public class Incident extends javax.swing.JFrame {
                 .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(statusOpen)
-                .addGap(18, 18, 18)
-                .addComponent(statusPending)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(95, 95, 95)
                 .addComponent(jLabel13)
                 .addGap(18, 18, 18)
                 .addComponent(statusClosed)
@@ -269,7 +251,6 @@ public class Incident extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statusOpen)
-                    .addComponent(statusPending)
                     .addComponent(statusClosed)
                     .addComponent(jLabel27)
                     .addComponent(jLabel13))
@@ -813,18 +794,18 @@ public class Incident extends javax.swing.JFrame {
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                if(cboNature.getSelectedItem().toString().equals("Above R50 000")||cboNature.getSelectedItem().toString().equals("Fatality")){
-                    txtReferenceNumber.setBackground(Color.RED);
-                }else{
-                    txtReferenceNumber.setBackground(Color.GREEN);}
+                //if(cboNature.getSelectedItem().toString().equals("Above R50 000")||cboNature.getSelectedItem().toString().equals("Fatality")){
+                    //txtReferenceNumber.setBackground(Color.RED);
+                    //}else{
+                    //txtReferenceNumber.setBackground(Color.GREEN);}
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                if(cboNature.getSelectedItem().toString().equals("Above R50 000")||cboNature.getSelectedItem().toString().equals("Fatality")){
-                    txtReferenceNumber.setBackground(Color.RED);
-                }else{
-                    txtReferenceNumber.setBackground(Color.GREEN);}
+                //if(cboNature.getSelectedItem().toString().equals("Above R50 000")||cboNature.getSelectedItem().toString().equals("Fatality")){
+                    //txtReferenceNumber.setBackground(Color.RED);
+                    //}else{
+                    //txtReferenceNumber.setBackground(Color.GREEN);}
 
             }
 
@@ -1016,7 +997,7 @@ public class Incident extends javax.swing.JFrame {
             );
             jPanel11Layout.setVerticalGroup(
                 jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 26, Short.MAX_VALUE)
+                .addGap(0, 32, Short.MAX_VALUE)
             );
 
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1036,7 +1017,7 @@ public class Incident extends javax.swing.JFrame {
                     .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
+                    .addGap(4, 4, 4)
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE))
             );
@@ -1079,6 +1060,11 @@ public class Incident extends javax.swing.JFrame {
         String foot = choice;
         String toe = choice;
         String area = txtArea.getText();
+        if(statusOpen.isSelected()){
+        status = "Open";
+        }else{
+        status = "Closed";}
+        //String open = status;
         //String status = txtStatus.getText();
         /**DbaseOperation Db = new DbaseOperation();
         String[] arr = {name,surname,idNumber,employeeNumber,referenceNumber,incidentType,natureOfIncident,shift,
@@ -1138,10 +1124,9 @@ public class Incident extends javax.swing.JFrame {
         pst.setDate(36, null);
         pst.executeUpdate();
         JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "successfully saved.");
-        DashBoards dash = new DashBoards();
-        DashBoards.jMenuItem84.setText("Test completed");
-            DashBoards.jMenuItem84.revalidate();
-        dash.overDue();
+            System.out.println(status);
+        
+        DashBoards.overDue();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(Incident.this, e);
@@ -1451,6 +1436,10 @@ public void fillsupervisor(){
         String foot = choice;
         String toe = choice;
         String area = txtArea.getText();
+        if(statusOpen.isSelected()){
+        status = "Open";
+        }else{
+        status = "Closed";}
         //java.sql.Date dateOfIncident = new java.sql.Date(jDateChooser1.getDate().getTime());
         //java.sql.Date dateOfReporting = new java.sql.Date(jDateChooser2.getDate().getTime());
         //String status = txtStatus.getText();
@@ -1466,13 +1455,14 @@ public void fillsupervisor(){
                 "YearsOfExperienceOnTask,EquipmentDemaged,EstimatedValue,Area,Status,Agent,"+
                 "TimeOfExpose" , "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", arr);
                 JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "successfully saved.");**/
-        String sql = "update Incident set Name=?,Surname=?,IDNumber=?,EmployeeNumber=?,"+
-                "ReferenceNumber=?,IncidentType=?,NatureOfIncident=?,DateOfIncident=?,"+
+        String sql = "update Incident set Name=?,Surname=?,IDNumber=?,EmployeeNumber=?,ReferenceNumber=?,"+
+                "IncidentType=?,NatureOfIncident=?,DateOfIncident=?,"+
                 "DateOfReportingIncident=?,Shift=?,HoursOnShift=?,ReportedTo=?,"+
                 "NumberOfContinuosDaysWorked=?,ContactNumber=?,ContactEmail=?,Department=?,"+
                 "Site=?,EquipmentUsed=?,Head_Neck=?,Eye=?,Trunk=?,Finger=?,Head=?,Arm=?,Foot=?,"+
                 "Toe=?,ActivityBiengCarriedOut=?,YearsOfExperienceOnTask=?,EquipmentDemaged=?,"+
-                "EstimatedValue=?,Area=?,Status=?,Agent=?,TimeOfExpose=?,TodayDate=?,ClosingDate=?";
+                "EstimatedValue=?,Area=?,Status=?,Agent=?,TimeOfExpose=?,TodayDate=?,ClosingDate=?"+
+                "where ReferenceNumber='"+referenceNumber+"'";
         try(Connection con = DbConnection.dbConnection();
         PreparedStatement pst = con.prepareStatement(sql);){
         pst.setString(1, name);
@@ -1554,36 +1544,24 @@ public void fillsupervisor(){
     private void statusOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusOpenActionPerformed
         status = "Open";
         if(statusOpen.isSelected()){
-            statusPending.setEnabled(false);
+            //statusPending.setEnabled(false);
             statusClosed.setEnabled(false);
         }
         else{
-            statusPending.setEnabled(true);
+            //statusPending.setEnabled(true);
             statusClosed.setEnabled(true);
         }
     }//GEN-LAST:event_statusOpenActionPerformed
-
-    private void statusPendingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusPendingActionPerformed
-        status = "Pending";
-        if(statusPending.isSelected()){
-            statusOpen.setEnabled(false);
-            statusClosed.setEnabled(false);
-        }
-        else{
-            statusOpen.setEnabled(true);
-            statusClosed.setEnabled(true);
-        }
-    }//GEN-LAST:event_statusPendingActionPerformed
 
     private void statusClosedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusClosedActionPerformed
         status = "Closed";
         if(statusClosed.isSelected()){
             statusOpen.setEnabled(false);
-            statusPending.setEnabled(false);
+            //statusPending.setEnabled(false);
         }
         else{
             statusOpen.setEnabled(true);
-            statusPending.setEnabled(true);
+            //statusPending.setEnabled(true);
         }
     }//GEN-LAST:event_statusClosedActionPerformed
 
@@ -1605,7 +1583,7 @@ public void fillsupervisor(){
 
     private void txtActivityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtActivityKeyTyped
         statusOpen.setSelected(true);
-        statusPending.setEnabled(false);
+        //statusPending.setEnabled(false);
         statusClosed.setEnabled(false);
         if(cboNature.getSelectedItem().toString().equals("Fatality")||cboNature.getSelectedItem().toString().equals("Above R50 000")){
         txtReferenceNumber.setBackground(Color.red);
@@ -1698,14 +1676,14 @@ public void fillsupervisor(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JComboBox cboAgent;
     public static javax.swing.JComboBox cboEmployeeNumber;
-    private javax.swing.JComboBox cboHrs;
+    public static javax.swing.JComboBox cboHrs;
     public static javax.swing.JComboBox cboIncidentType;
-    private javax.swing.JComboBox cboNOCDW;
+    public static javax.swing.JComboBox cboNOCDW;
     public static javax.swing.JComboBox cboNature;
     public static javax.swing.JComboBox cboReportedTo;
-    private javax.swing.JComboBox cboShift;
+    public static javax.swing.JComboBox cboShift;
     public static com.toedter.calendar.JDateChooser dcClosingDate;
-    private com.toedter.calendar.JDateChooser dcTodayDate;
+    public static com.toedter.calendar.JDateChooser dcTodayDate;
     public static javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
@@ -1763,15 +1741,14 @@ public void fillsupervisor(){
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JCheckBox statusClosed;
     public static javax.swing.JCheckBox statusOpen;
-    public static javax.swing.JCheckBox statusPending;
-    protected static javax.swing.JTextArea txtActivity;
+    public static javax.swing.JTextArea txtActivity;
     public static javax.swing.JTextField txtArea;
     public static javax.swing.JTextField txtContactNumber;
     public static javax.swing.JTextField txtDepartment;
     public static javax.swing.JTextField txtEmail;
-    private static javax.swing.JTextField txtEquipmentDemaged;
+    public static javax.swing.JTextField txtEquipmentDemaged;
     public static javax.swing.JTextField txtEquipmentUsed;
-    private javax.swing.JFormattedTextField txtEstimatedValue;
+    public static javax.swing.JFormattedTextField txtEstimatedValue;
     public static javax.swing.JTextField txtIdNumber;
     public static javax.swing.JTextField txtName;
     public static javax.swing.JTextField txtReferenceNumber;

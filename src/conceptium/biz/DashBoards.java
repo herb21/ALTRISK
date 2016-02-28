@@ -292,14 +292,14 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
 
     
     
-    public final void overDue(){
+    public final static void overDue(){
         SimpleDateFormat format = new SimpleDateFormat("MMM d, yyyy");
         Date date = new Date();
         String now = format.format(date);
         //txtNew.setText(format.format(date));
         String sql = "select COUNT(ReferenceNumber) as count from Incident where DateOfReportingIncident = '"+now+"' ";
         try{
-            Connection con = connect.dbConnection();
+            Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
@@ -317,8 +317,8 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
             //jLabel9.setForeground(Color.red);
             }
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(DashBoards.this, e);
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -2996,7 +2996,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenu jMenu25;
     private javax.swing.JMenu jMenu26;
     private javax.swing.JMenu jMenu27;
-    public javax.swing.JMenu jMenu28;
+    public static javax.swing.JMenu jMenu28;
     private javax.swing.JMenu jMenu29;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu30;

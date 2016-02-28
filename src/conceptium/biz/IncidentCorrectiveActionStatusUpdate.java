@@ -214,13 +214,12 @@ public static IncidentCorrectiveActionStatusUpdate getObj(){
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtReason4, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
-                    .addComponent(txtReason3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtReason2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtReason1))
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtReason1)
+                    .addComponent(txtReason2)
+                    .addComponent(txtReason3)
+                    .addComponent(txtReason4))
+                .addGap(2, 2, 2))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

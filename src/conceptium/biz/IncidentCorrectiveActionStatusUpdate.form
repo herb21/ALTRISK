@@ -316,14 +316,13 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="txtReason4" pref="479" max="32767" attributes="0"/>
-                          <Component id="txtReason3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtReason2" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="txtReason1" max="32767" attributes="0"/>
+                          <Component id="txtReason2" alignment="1" max="32767" attributes="0"/>
+                          <Component id="txtReason3" max="32767" attributes="0"/>
+                          <Component id="txtReason4" alignment="1" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

@@ -6,14 +6,17 @@
 package conceptium.biz;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
@@ -89,15 +92,29 @@ public static CreatedIncident getObj(){
         jXTable1 = new org.jdesktop.swingx.JXTable(){public boolean isCellEditable(int row, int column){
             return false;}};
     jButton1 = new javax.swing.JButton();
+    jPanel2 = new javax.swing.JPanel();
+    jPanel3 = new javax.swing.JPanel();
 
     jPopupMenu1.add(jSeparator4);
 
+    rateRisk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/symbol147.png"))); // NOI18N
     rateRisk.setText("Rate Risk");
+    rateRisk.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            rateRiskActionPerformed(evt);
+        }
+    });
     jPopupMenu1.add(rateRisk);
     jPopupMenu1.add(jSeparator3);
 
+    analysizeIncident.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/graphic49.png"))); // NOI18N
     analysizeIncident.setText("Analysize Risk");
     analysizeIncident.setActionCommand("analysizeRisk");
+    analysizeIncident.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            analysizeIncidentActionPerformed(evt);
+        }
+    });
     jPopupMenu1.add(analysizeIncident);
     jPopupMenu1.add(jSeparator2);
 
@@ -110,6 +127,11 @@ public static CreatedIncident getObj(){
     refreshIncidents.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/load9.png"))); // NOI18N
     refreshIncidents.setText("Refresh");
     refreshIncidents.setActionCommand("refreshIncidents");
+    refreshIncidents.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            refreshIncidentsActionPerformed(evt);
+        }
+    });
     jPopupMenu1.add(refreshIncidents);
     jPopupMenu1.add(jSeparator5);
 
@@ -137,10 +159,7 @@ public static CreatedIncident getObj(){
     jPanel1.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel1Layout.createSequentialGroup()
-            .addGap(0, 0, 0)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
-            .addGap(0, 0, 0))
+        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
     );
     jPanel1Layout.setVerticalGroup(
@@ -148,8 +167,33 @@ public static CreatedIncident getObj(){
         .addGroup(jPanel1Layout.createSequentialGroup()
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jButton1)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jButton1))
+    );
+
+    jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+    jPanel2.setLayout(jPanel2Layout);
+    jPanel2Layout.setHorizontalGroup(
+        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 0, Short.MAX_VALUE)
+    );
+    jPanel2Layout.setVerticalGroup(
+        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 55, Short.MAX_VALUE)
+    );
+
+    jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+    javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+    jPanel3.setLayout(jPanel3Layout);
+    jPanel3Layout.setHorizontalGroup(
+        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 0, Short.MAX_VALUE)
+    );
+    jPanel3Layout.setVerticalGroup(
+        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGap(0, 38, Short.MAX_VALUE)
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -160,13 +204,19 @@ public static CreatedIncident getObj(){
             .addContainerGap()
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addContainerGap())
+        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
+            .addGap(0, 0, 0)
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addContainerGap())
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 0, 0))
     );
 
     pack();
@@ -184,6 +234,43 @@ public static CreatedIncident getObj(){
             jPopupMenu1.show(this, evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_jXTable1MouseReleased
+    public int row;
+    private void rateRiskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rateRiskActionPerformed
+        row = jXTable1.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel)jXTable1.getModel();
+        String delete = model.getValueAt(row, 0).toString();
+        RiskRating risk = RiskRating.getObj();
+        risk.cboReference.setSelectedItem(delete);
+        System.out.println(row);
+        risk.setVisible(true);
+    }//GEN-LAST:event_rateRiskActionPerformed
+
+    private void analysizeIncidentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analysizeIncidentActionPerformed
+        row = jXTable1.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel)jXTable1.getModel();
+        String search = model.getValueAt(row, 0).toString();
+        String sql = "select * from RiskRatings where ReferenceNumber = ?";
+        try{
+        Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+            PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            pst.setString(1, search);
+                ResultSet rs = pst.executeQuery();
+                if(!rs.last()){
+                    JOptionPane.showMessageDialog(CreatedIncident.this, "Please ensure that Incident has been rated first");
+                }
+                else{
+                IncidentAnalysis analysis = IncidentAnalysis.getObj();
+                analysis.cboRef.setSelectedItem(search);
+                analysis.setVisible(true);
+                }
+        }catch(SQLException | HeadlessException e){
+        JOptionPane.showMessageDialog(CreatedIncident.this, e);
+        }
+    }//GEN-LAST:event_analysizeIncidentActionPerformed
+
+    private void refreshIncidentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshIncidentsActionPerformed
+        updateTable();
+    }//GEN-LAST:event_refreshIncidentsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,9 +312,11 @@ public static CreatedIncident getObj(){
     private javax.swing.JMenuItem deleteIncident;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
