@@ -1,39 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Container class="javax.swing.JPopupMenu" name="jPopupMenu1">
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-        <Property name="useNullLayout" type="boolean" value="true"/>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator4">
-        </Component>
-        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jMenuItem1"/>
-          </Properties>
-        </MenuItem>
-        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
-        </Component>
-        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jMenuItem2"/>
-          </Properties>
-        </MenuItem>
-        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
-        </Component>
-        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jMenuItem3"/>
-          </Properties>
-        </MenuItem>
-        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
-        </Component>
-      </SubComponents>
-    </Container>
-  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="alwaysOnTop" type="boolean" value="true"/>
@@ -57,25 +24,35 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
-          <Group type="102" attributes="0">
+          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel3" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jPanel1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jXSearchField1" min="-2" pref="323" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jXButton1" pref="369" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jPanel3" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jXSearchField1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXButton1" min="-2" pref="24" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -93,30 +70,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="jXSearchField1" min="-2" pref="452" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                          <Component id="jButton2" pref="466" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="375" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jXSearchField1" max="32767" attributes="0"/>
-                      <Component id="jButton2" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -129,27 +88,9 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
             <Component class="org.jdesktop.swingx.JXTable" name="jXTable1">
-              <Events>
-                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jXTable1MouseReleased"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.jdesktop.swingx.JXTable(){public boolean isCellEditable(int row, int column){&#xa;    return false;}}"/>
-              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="org.jdesktop.swingx.JXSearchField" name="jXSearchField1">
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Dbase/Resources/close.png"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
-          </Events>
-        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">
@@ -167,7 +108,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="54" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -187,10 +128,22 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="31" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="28" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
     </Container>
+    <Component class="org.jdesktop.swingx.JXSearchField" name="jXSearchField1">
+    </Component>
+    <Component class="org.jdesktop.swingx.JXButton" name="jXButton1">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Dbase/Resources/close.png"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXButton1ActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

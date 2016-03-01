@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
@@ -259,13 +261,15 @@ public static CreatedIncident getObj(){
                     JOptionPane.showMessageDialog(CreatedIncident.this, "Please ensure that Incident has been rated first");
                 }
                 else{
-                IncidentAnalysis analysis = IncidentAnalysis.getObj();
+                IncidentAnalysis analysis = new IncidentAnalysis();
+                analysis.setVisible(true);
+                //=-IncidentAnalysis analysis = IncidentAnalysis.getObj();
                 analysis.cboRef.setSelectedItem(search);
                 analysis.setVisible(true);
                 }
-        }catch(SQLException | HeadlessException e){
+        }catch(SQLException | HeadlessException | ClassNotFoundException e){
         JOptionPane.showMessageDialog(CreatedIncident.this, e);
-        }
+        } 
     }//GEN-LAST:event_analysizeIncidentActionPerformed
 
     private void refreshIncidentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshIncidentsActionPerformed

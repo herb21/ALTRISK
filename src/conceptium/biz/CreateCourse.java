@@ -204,6 +204,7 @@ public static CreateCourse getObj(){
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new CreateCourse().setVisible(true);
             }

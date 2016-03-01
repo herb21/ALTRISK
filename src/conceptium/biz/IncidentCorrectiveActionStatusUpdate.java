@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -454,46 +455,52 @@ public static IncidentCorrectiveActionStatusUpdate getObj(){
             JOptionPane.showMessageDialog(StatusUpdate.this, e);
         }**/
         if(statusCompleted.isSelected()){
-            Corrective corrective = Corrective.getObj();
-            String reference = cboReference.getSelectedItem().toString();
-            String hierachy = cboHierachy.getSelectedItem().toString();
-            String responsiblePerson = txtName.getText();
-            Date dueDate = new java.sql.Date(jDateChooser1.getDate().getTime());
-            String allocatedTask = txtAllocatedTask.getText();
-            /**String sql = "select * from CorrectiveAction where ReferenceNumber = ? and Hierachy = ?";
-            try{
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-                PreparedStatement pst = con.prepareStatement(sql);
-                pst.setString(1, reference);
-                pst.setString(2, hierachy);
-                ResultSet rs = pst.executeQuery();
-                if(rs.next()){
-                String action = rs.getString("Action");
-                String resonsiblePerson = rs.getString("ResponsiblePerson");
-                Date dueDate = rs.getDate("DueDate");
-                corrective.txtAction.setText(action);
-                corrective.cboChoice.setSelectedItem(hierachy);
-                corrective.cboName.setSelectedItem(resonsiblePerson);
-                corrective.jDateChooser2.setDate(dueDate);
+            try {
+                Corrective corrective = Corrective.getObj();
+                String reference = cboReference.getSelectedItem().toString();
+                String hierachy = cboHierachy.getSelectedItem().toString();
+                String responsiblePerson = txtName.getText();
+                Date dueDate = new java.sql.Date(jDateChooser1.getDate().getTime());
+                String allocatedTask = txtAllocatedTask.getText();
+                /**String sql = "select * from CorrectiveAction where ReferenceNumber = ? and Hierachy = ?";
+                 * try{
+                 * Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                 * PreparedStatement pst = con.prepareStatement(sql);
+                 * pst.setString(1, reference);
+                 * pst.setString(2, hierachy);
+                 * ResultSet rs = pst.executeQuery();
+                 * if(rs.next()){
+                 * String action = rs.getString("Action");
+                 * String resonsiblePerson = rs.getString("ResponsiblePerson");
+                 * Date dueDate = rs.getDate("DueDate");
+                 * corrective.txtAction.setText(action);
+                 * corrective.cboChoice.setSelectedItem(hierachy);
+                 * corrective.cboName.setSelectedItem(resonsiblePerson);
+                 * corrective.jDateChooser2.setDate(dueDate);
+                 * 
+                 * }
+                 * 
+                 * }
+                 * catch(Exception e){
+                 * JOptionPane.showMessageDialog(StatusUpdate.this, e);
+                 * }**/
                 
-                }
                 
+                SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String formatter = myFormat.format(jDateChooser1.getDate());
+                DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
+                model.setValueAt(txtAllocatedTask.getText(), Corrective.jTable1.getSelectedRow(),0);
+                model.setValueAt(cboHierachy.getSelectedItem().toString(), Corrective.jTable1.getSelectedRow(),1);
+                model.setValueAt(txtName.getText(), Corrective.jTable1.getSelectedRow(),2);
+                model.setValueAt(formatter, Corrective.jTable1.getSelectedRow(),3);
+                model.setValueAt(choice, Corrective.jTable1.getSelectedRow(),4);
+                
+                this.dispose();
+            } catch (SQLException ex) {
+                Logger.getLogger(IncidentCorrectiveActionStatusUpdate.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(IncidentCorrectiveActionStatusUpdate.class.getName()).log(Level.SEVERE, null, ex);
             }
-            catch(Exception e){
-            JOptionPane.showMessageDialog(StatusUpdate.this, e);
-            }**/
-
-
-            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String formatter = myFormat.format(jDateChooser1.getDate());
-            DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
-            model.setValueAt(txtAllocatedTask.getText(), Corrective.jTable1.getSelectedRow(),0);
-            model.setValueAt(cboHierachy.getSelectedItem().toString(), Corrective.jTable1.getSelectedRow(),1);
-            model.setValueAt(txtName.getText(), Corrective.jTable1.getSelectedRow(),2);
-            model.setValueAt(formatter, Corrective.jTable1.getSelectedRow(),3);
-            model.setValueAt(choice, Corrective.jTable1.getSelectedRow(),4);
-            
-            this.dispose();
         }
         
         else{

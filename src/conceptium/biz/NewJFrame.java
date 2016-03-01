@@ -380,10 +380,14 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        NewJFrame1 frame = NewJFrame1.getObj();
-        frame.jLabel1.setText("New Test");
-        frame.revalidate();
-        frame.repaint();
+        try {
+            NewJFrame1 frame = NewJFrame1.getObj();
+            frame.jLabel1.setText("New Test");
+            frame.revalidate();
+            frame.repaint();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

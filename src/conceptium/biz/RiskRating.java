@@ -498,132 +498,139 @@ public class RiskRating extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String sql = "insert into RiskRatings(ReferenceNumber, Severity, Description, value1,"+
-                "Frequency, FrequencyDescription,Value2,Probability,probabilityDescription,Value3,"+
-                "RiskAssessmentTotal,Category,Range,Results,WitnessStatement,SupportingDocument1,"+
-                "SupportingDocument2,SupportingDocument3,SupportingDocument4)"+
-                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        String reference = cboReference.getSelectedItem().toString();
-        String severity = cboSeverity.getSelectedItem().toString();
-        String description = txtDescription.getText();
-        String value1 = txtValue1.getText();
-        String frequency = cboFrequency.getSelectedItem().toString();
-        String freqDesc = txtFrequency.getText();
-        String value2 = txtValue2.getText();
-        String probability = cboProbaility.getSelectedItem().toString();
-        String probDesc = txtProbability.getText();
-        String value3 = txtValue3.getText();
-        String riskAssessment = txtTotal.getText();
-        String category = txtCat.getText();
-        String range = txtRange.getText();
-        String results = txtResult.getText();
-        String witnessStatement = txtWitnessStatement.getText();
-        try{
-            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, reference);
-            pst.setString(2, severity);
-            pst.setString(3, description);
-            pst.setString(4, value1);
-            pst.setString(5, frequency);
-            pst.setString(6, freqDesc);
-            pst.setString(7, value2);
-            pst.setString(8, probability);
-            pst.setString(9, probDesc);
-            pst.setString(10, value3);
-            pst.setString(11, riskAssessment);
-            pst.setString(12, category);
-            pst.setString(13, range);
-            pst.setString(14, results);
-            pst.setString(15, witnessStatement);
-            String path = filename;
-            String newpath = path.replace('\\', '/');
-            File supportDoc1 = new File(newpath);
-            FileInputStream evidence1 = new FileInputStream(supportDoc1);
-            pst.setBinaryStream(16, evidence1);
-            String path2 = filename1;
-            String newpath2 = path2.replace('\\', '/');
-            File supportDoc2 = new File(newpath2);
-            FileInputStream evidence2 = new FileInputStream(supportDoc2);
-            pst.setBinaryStream(17, evidence2);
-            String path3 = filename2;
-            String newpath3 = path3.replace('\\', '/');
-            File supportDoc3 = new File(newpath3);
-            FileInputStream evidence3 = new FileInputStream(supportDoc3);
-            pst.setBinaryStream(18, evidence3);
-            String path4 = filename3;
-            String newpath4 = path4.replace('\\', '/');
-            File supportDoc4 = new File(newpath4);
-            FileInputStream evidence4 = new FileInputStream(supportDoc4);
-            pst.setBinaryStream(19, evidence4);
-            pst.executeUpdate();
-            //JOptionPane.showMessageDialog(RiskRating.this, "Risk rating for"+" "+reference+" "+"successfully saved");
-        }
-        catch(SQLException | FileNotFoundException e){
-            JOptionPane.showMessageDialog(RiskRating.this, e);
-        }
-        Properties props = new Properties();
-        //props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.host", "mail.conceptium.biz");
-        //props.put("mail.smtp.socketFactory.port", "465");
-        //props.put("mail.smtp.SocketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.auth", "true");
-        //props.put("mail.smtp.port", "465");
-        
-        Session session = Session.getDefaultInstance(props,
-        new javax.mail.Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication(){
-             return new PasswordAuthentication("herbert@conceptium.biz", "Kaylad1*#");
-                    }
-              });
-        String search = "select Emails from Teams where RiskCategory = ?";
-        try{
-            List list = new List();
-            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, search);
-            ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                String email = rs.getString("EmailAddress");
-                list.add(email);
+        try{                                         
+            String sql = "insert into RiskRatings(ReferenceNumber, Severity, Description, value1,"+
+                    "Frequency, FrequencyDescription,Value2,Probability,probabilityDescription,Value3,"+
+                    "RiskAssessmentTotal,Category,Range,Results,WitnessStatement,SupportingDocument1,"+
+                    "SupportingDocument2,SupportingDocument3,SupportingDocument4)"+
+                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String reference = cboReference.getSelectedItem().toString();
+            String severity = cboSeverity.getSelectedItem().toString();
+            String description = txtDescription.getText();
+            String value1 = txtValue1.getText();
+            String frequency = cboFrequency.getSelectedItem().toString();
+            String freqDesc = txtFrequency.getText();
+            String value2 = txtValue2.getText();
+            String probability = cboProbaility.getSelectedItem().toString();
+            String probDesc = txtProbability.getText();
+            String value3 = txtValue3.getText();
+            String riskAssessment = txtTotal.getText();
+            String category = txtCat.getText();
+            String range = txtRange.getText();
+            String results = txtResult.getText();
+            String witnessStatement = txtWitnessStatement.getText();
+            try{
+                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, reference);
+                pst.setString(2, severity);
+                pst.setString(3, description);
+                pst.setString(4, value1);
+                pst.setString(5, frequency);
+                pst.setString(6, freqDesc);
+                pst.setString(7, value2);
+                pst.setString(8, probability);
+                pst.setString(9, probDesc);
+                pst.setString(10, value3);
+                pst.setString(11, riskAssessment);
+                pst.setString(12, category);
+                pst.setString(13, range);
+                pst.setString(14, results);
+                pst.setString(15, witnessStatement);
+                String path = filename;
+                String newpath = path.replace('\\', '/');
+                File supportDoc1 = new File(newpath);
+                FileInputStream evidence1 = new FileInputStream(supportDoc1);
+                pst.setBinaryStream(16, evidence1);
+                String path2 = filename1;
+                String newpath2 = path2.replace('\\', '/');
+                File supportDoc2 = new File(newpath2);
+                FileInputStream evidence2 = new FileInputStream(supportDoc2);
+                pst.setBinaryStream(17, evidence2);
+                String path3 = filename2;
+                String newpath3 = path3.replace('\\', '/');
+                File supportDoc3 = new File(newpath3);
+                FileInputStream evidence3 = new FileInputStream(supportDoc3);
+                pst.setBinaryStream(18, evidence3);
+                String path4 = filename3;
+                String newpath4 = path4.replace('\\', '/');
+                File supportDoc4 = new File(newpath4);
+                FileInputStream evidence4 = new FileInputStream(supportDoc4);
+                pst.setBinaryStream(19, evidence4);
+                pst.executeUpdate();
+                //JOptionPane.showMessageDialog(RiskRating.this, "Risk rating for"+" "+reference+" "+"successfully saved");
             }
-        }catch(HeadlessException | SQLException e){
-            JOptionPane.showMessageDialog(RiskRating.this, e);
-        }
-        String GroupA = "herbert@conceptium.biz";
-        //Address[] cc = new Address[] {InternetAddress.parse("abc@abc.com"),
-                               //InternetAddress.parse("abc@def.com"), 
-                               //InternetAddress.parse("ghi@abc.com")};
-        //message.addRecipients(Message.RecipientType.CC, cc);
-        //String site = txtSite.getText();
-        //String supervisor = txtSupervisor.getText();
-        //String department = txtDepartment.getText();
-        //String employee = txtName.getText();
-        //String description = txtDescription.getText();
-        try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("herbert@conceptium.biz"));
-            //msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(GroupA));
-            msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse("herbertd@mathometd.com,molokgobi@yahoo.com,herbert@conceptium.biz"));
-            msg.setSubject("Learnings from Incident" + reference);
-            msg.setText("Dear  Employee . Please note there was an+ incident that occured with the following details."+
-                 "An incident"+" "+reference + "with risk assessment score "+ " "+riskAssessment+" "+"and a category"+" "+category+"."+
-                    "The recommended action is "+" "+results+" "+"under the supervision of"+" "+category+" "+ "incurred"+" "+description+
-                    " and the following learnings were learnt"+" "+"\n"+
-                    "Key Learnings"+"\n"+category+
-                    " "+ "  " + "\n"+"\n"+"Regards");
-            Transport.send(msg);
+            catch(SQLException | FileNotFoundException e){
+                JOptionPane.showMessageDialog(RiskRating.this, e);
+            }
+            Properties props = new Properties();
+            //props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.host", "mail.conceptium.biz");
+            //props.put("mail.smtp.socketFactory.port", "465");
+            //props.put("mail.smtp.SocketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.auth", "true");
+            //props.put("mail.smtp.port", "465");
             
-            JOptionPane.showMessageDialog(RiskRating.this, "Record successfully saved and investigation team notified  " + GroupA + "." );
+            Session session = Session.getDefaultInstance(props,
+                    new javax.mail.Authenticator() {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication(){
+                            return new PasswordAuthentication("herbert@conceptium.biz", "Kaylad1*#");
+                        }
+                    });
+            String search = "select Emails from Teams where RiskCategory = ?";
+            try{
+                List list = new List();
+                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, search);
+                ResultSet rs = pst.executeQuery();
+                if(rs.next()){
+                    String email = rs.getString("EmailAddress");
+                    list.add(email);
+                }
+            }catch(HeadlessException | SQLException e){
+                JOptionPane.showMessageDialog(RiskRating.this, e);
+            }
+            String GroupA = "herbert@conceptium.biz";
+            //Address[] cc = new Address[] {InternetAddress.parse("abc@abc.com"),
+            //InternetAddress.parse("abc@def.com"),
+            //InternetAddress.parse("ghi@abc.com")};
+            //message.addRecipients(Message.RecipientType.CC, cc);
+            //String site = txtSite.getText();
+            //String supervisor = txtSupervisor.getText();
+            //String department = txtDepartment.getText();
+            //String employee = txtName.getText();
+            //String description = txtDescription.getText();
+            try {
+                Message msg = new MimeMessage(session);
+                msg.setFrom(new InternetAddress("herbert@conceptium.biz"));
+                //msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(GroupA));
+                msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse("herbertd@mathometd.com,molokgobi@yahoo.com,herbert@conceptium.biz"));
+                msg.setSubject("Learnings from Incident" + reference);
+                msg.setText("Dear  Employee . Please note there was an+ incident that occured with the following details."+
+                        "An incident"+" "+reference + "with risk assessment score "+ " "+riskAssessment+" "+"and a category"+" "+category+"."+
+                        "The recommended action is "+" "+results+" "+"under the supervision of"+" "+category+" "+ "incurred"+" "+description+
+                        " and the following learnings were learnt"+" "+"\n"+
+                        "Key Learnings"+"\n"+category+
+                        " "+ "  " + "\n"+"\n"+"Regards");
+                Transport.send(msg);
+                
+                JOptionPane.showMessageDialog(RiskRating.this, "Record successfully saved and investigation team notified  " + GroupA + "." );
+            }
+            catch(MessagingException | HeadlessException e){
+                JOptionPane.showMessageDialog(RiskRating.this, e);
+            }
+            this.dispose();
+            IncidentAnalysis analysis = new IncidentAnalysis();
+            analysis.setVisible(true);
+            //IncidentAnalysis.getObj().setVisible(true);
         }
-        catch(MessagingException | HeadlessException e){
-            JOptionPane.showMessageDialog(RiskRating.this, e);
+        catch(ClassNotFoundException ex){
+            Logger.getLogger(RiskRating.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.dispose();
-        IncidentAnalysis.getObj().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

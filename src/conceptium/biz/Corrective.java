@@ -9,7 +9,6 @@ import static conceptium.biz.IncidentCorrectiveActionStatusUpdate.cboHierachy;
 import static conceptium.biz.IncidentCorrectiveActionStatusUpdate.cboReference;
 import static conceptium.biz.IncidentCorrectiveActionStatusUpdate.jDateChooser1;
 import static conceptium.biz.IncidentCorrectiveActionStatusUpdate.txtName;
-import static conceptium.biz.Incident.cboEmployeeNumber;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.sql.Connection;
@@ -31,6 +30,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -42,16 +43,16 @@ public class Corrective extends javax.swing.JFrame {
      * Creates new form Controls
      */
     private static Corrective obj = null;
-    private Corrective() {
+    private Corrective() throws SQLException, ClassNotFoundException {
         setUndecorated(true);
         setResizable(false);
         initComponents();
         names();
         reference();
         txtStatus.setEditable(false);
-        
+        updateTable();
     }
-    public static Corrective getObj(){
+    public static Corrective getObj() throws SQLException, ClassNotFoundException{
             if (obj == null){
                 obj = new Corrective();
             }
@@ -74,6 +75,23 @@ public class Corrective extends javax.swing.JFrame {
         }
     }
      
+ 
+ private void updateTable() throws SQLException,ClassNotFoundException{
+       String sql = "Select Action,Hierachy"+
+                ",ResponsiblePerson,DuteDate,Status from CorrectiveAction where ReferenceNumber = ?";
+       String search = cboReferenceNumber.getSelectedItem().toString();
+       try {
+           Connection con = DbConnection.dbConnection();
+           PreparedStatement pst = con.prepareStatement(sql);
+           pst.setString(1, search);
+           ResultSet rs = pst.executeQuery();
+           jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+       }
+       catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, ex);
+       }
+}
+ 
             private void reference(){
         String sql ="Select * from Incident";
             try {
@@ -425,7 +443,7 @@ private void incident() throws SQLException, ClassNotFoundException{
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 51, Short.MAX_VALUE)
+        .addGap(0, 45, Short.MAX_VALUE)
     );
 
     jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -438,7 +456,7 @@ private void incident() throws SQLException, ClassNotFoundException{
     );
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 31, Short.MAX_VALUE)
+        .addGap(0, 25, Short.MAX_VALUE)
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -471,7 +489,7 @@ private void incident() throws SQLException, ClassNotFoundException{
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 0, 0)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -482,9 +500,8 @@ private void incident() throws SQLException, ClassNotFoundException{
                     .addComponent(jButton3)
                     .addComponent(jButton5))
                 .addComponent(jButton4))
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 0, 0))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     pack();
@@ -533,33 +550,49 @@ private void incident() throws SQLException, ClassNotFoundException{
     private void cboReferenceNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboReferenceNumberActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboReferenceNumberActionPerformed
-
+    private String email;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String sql = "insert into CorrectiveAction(ReferenceNumber,Action,"+
-                "Hierachy,ResponsiblePerson,"+
-                "DuteDate,Status"+
-                ")values(?,?,?,?,?,?)";
+        String sql = "insert into CorrectiveAction(ReferenceNumber,Action,Hierachy"+
+                ",ResponsiblePerson,DuteDate,Status)values(?,?,?,?,?,?)";
         String reference = cboReferenceNumber.getSelectedItem().toString();
+        TableModel tm = jTable1.getModel();
+        try {
+            Connection con = DbConnection.dbConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
+            for(int row = 0; row < tm.getRowCount(); row++){
+                for(int col = 0; col < tm.getColumnCount(); col++){
+                    Object val = tm.getValueAt(row, col);
+                    pst.setObject(col+1, val);
+                    pst.setString(6, reference);
+                }
+                pst.addBatch();
+            }
+            pst.executeBatch();
+            
+            pst.executeBatch();
+            JOptionPane.showMessageDialog(this, "Record successfully saved..!");
+        }
+        catch (SQLException | HeadlessException e){
+            JOptionPane.showMessageDialog(this, e);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String action = txtAction.getText();
-        String Hierachy = cboHierachyOfControl.getSelectedItem().toString();;
         String responsibleName = cboName.getSelectedItem().toString();
         Date dueDate = new java.sql.Date(jDateChooser2.getDate().getTime());
-        String status = txtStatus.getText();
-        try{
-        Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, reference);
-            pst.setString(2, action);
-            pst.setString(3, Hierachy);
-            pst.setString(4, responsibleName);
-            pst.setDate(5, dueDate);
-            pst.setString(6, status);
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(Corrective.this, "Corrective action for"+" "+ reference+" "+"has been successjully saved.");
-        }
-        catch(SQLException | HeadlessException e){
-                JOptionPane.showMessageDialog(Corrective.this, e);
-        }
+        String sqlEmail = "select ContactEmail from Incident where ReferenceNumber = ?";
+        try {
+           Connection con = DbConnection.dbConnection();
+           PreparedStatement pst = con.prepareStatement(sqlEmail);
+           pst.setString(1, reference);
+           ResultSet rs = pst.executeQuery();
+           if(rs.next()){
+           email = rs.getString("ContactEmail");
+                   }
+       }
+       catch (ClassNotFoundException | SQLException ex) {
+           JOptionPane.showMessageDialog(null, ex);
+       }
         Properties props = new Properties();
         //props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.host", "mail.conceptium.biz");
@@ -576,7 +609,7 @@ private void incident() throws SQLException, ClassNotFoundException{
              return new PasswordAuthentication("herbert@conceptium.biz", "Kaylad1*#");
                     }
               });
-        String GroupA = "herbert@conceptium.biz";
+        String GroupA = email;
         String referenceNumber = cboReferenceNumber.getSelectedItem().toString();
        
         //Address[] cc = new Address[] {InternetAddress.parse("abc@abc.com"),
@@ -747,8 +780,15 @@ private void incident() throws SQLException, ClassNotFoundException{
     }//GEN-LAST:event_deleteActionActionPerformed
 
     private void cboReferenceNumberItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboReferenceNumberItemStateChanged
-       DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
-       model.setRowCount(0);
+        try {
+            DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
+            model.setRowCount(0);
+            updateTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_cboReferenceNumberItemStateChanged
 
     /**
@@ -782,7 +822,11 @@ private void incident() throws SQLException, ClassNotFoundException{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Corrective().setVisible(true);
+                try {
+                    new Corrective().setVisible(true);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

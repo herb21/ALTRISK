@@ -98,7 +98,7 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
         try {
             UIManager.setLookAndFeel(new InfoNodeLookAndFeel());
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(DashBoard.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
         }
         //setUndecorated(true);
         initComponents();
@@ -111,7 +111,8 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
         updateTable();
         updateTraining();
         fillmodules();
-        overDue();
+        newIncident();
+        OverDueIncidents();
         //jMenu28.setText("7 Messages");
         //HighlightPredicate predicate = new PatternPredicate(".*R50*.", 2, 2);
         //ColorHighlighter highlighter =  new ColorHighlighter(predicate,null,Color.red,null,null);
@@ -291,8 +292,8 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
     }
 
     
-    
-    public final static void overDue(){
+   private static int totals;
+    public final static void newIncident(){
         SimpleDateFormat format = new SimpleDateFormat("MMM d, yyyy");
         Date date = new Date();
         String now = format.format(date);
@@ -303,7 +304,7 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-            int totals =  rs.getInt("count");
+            totals =  rs.getInt("count");
             if(totals == 0){
             jMenu28.setText(totals+" "+"Messages");
             jMenu28.setText("0 Messages");
@@ -320,9 +321,36 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
         catch(ClassNotFoundException | SQLException e){
             JOptionPane.showMessageDialog(null, e);
         }
+        
     }
 
-    
+    public static void OverDueIncidents(){
+       java.util.Date date = new java.util.Date();
+       String sql = "Select COUNT(ReferenceNumber) as count from Incident inner join IncidentDetail "+
+               "on ReferenceNumber = Reference where DueDate < ? and status = ?";
+       String search = "Open";
+       try {
+           Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+           PreparedStatement pst = con.prepareStatement(sql);
+           pst.setDate(1, new java.sql.Date(date.getTime()));
+           pst.setString(2, search);
+           ResultSet rs = pst.executeQuery();
+           if(rs.next()){
+               int totalz = rs.getInt("count");
+               if(totalz == 0){
+            jMenuItem25.setText(totalz+" "+"Over Due Incidents");
+            }else{
+            jMenuItem25.setText(totalz+" "+"Over Due Incidents");
+            totals = totalz+totals;
+            jMenu28.setText(totals+" "+"Messages");
+            jMenuItem25.setForeground(Color.red);
+                }
+           }
+       }
+       catch (Exception ex) {
+           JOptionPane.showMessageDialog(null, ex);
+       }
+}
     
     private void updateTable() throws SQLException{
        String sql = "Select ReferenceNumber,IncidentType,NatureOfIncident, "+
@@ -640,6 +668,8 @@ jSeparator28 = new javax.swing.JPopupMenu.Separator();
 jMenuItem4 = new javax.swing.JMenuItem();
 jSeparator27 = new javax.swing.JPopupMenu.Separator();
 jMenuItem5 = new javax.swing.JMenuItem();
+jSeparator82 = new javax.swing.JPopupMenu.Separator();
+jMenuItem1 = new javax.swing.JMenuItem();
 jSeparator26 = new javax.swing.JPopupMenu.Separator();
 jSeparator14 = new javax.swing.JPopupMenu.Separator();
 jMenu13 = new javax.swing.JMenu();
@@ -784,6 +814,8 @@ jSeparator151 = new javax.swing.JPopupMenu.Separator();
 jMenu38 = new javax.swing.JMenu();
 jSeparator149 = new javax.swing.JPopupMenu.Separator();
 jMenuItem84 = new javax.swing.JMenuItem();
+jSeparator159 = new javax.swing.JPopupMenu.Separator();
+jMenuItem25 = new javax.swing.JMenuItem();
 jSeparator158 = new javax.swing.JPopupMenu.Separator();
 jMenuItem85 = new javax.swing.JMenuItem();
 jSeparator157 = new javax.swing.JPopupMenu.Separator();
@@ -1928,6 +1960,16 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         }
     });
     jMenu12.add(jMenuItem5);
+    jMenu12.add(jSeparator82);
+
+    jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/alarm.png"))); // NOI18N
+    jMenuItem1.setText("Incidents Created");
+    jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem1ActionPerformed(evt);
+        }
+    });
+    jMenu12.add(jMenuItem1);
     jMenu12.add(jSeparator26);
 
     jMenu10.add(jMenu12);
@@ -2368,6 +2410,15 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         }
     });
     jMenu38.add(jMenuItem84);
+    jMenu38.add(jSeparator159);
+
+    jMenuItem25.setText("Over Due Incident");
+    jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem25ActionPerformed(evt);
+        }
+    });
+    jMenu38.add(jMenuItem25);
     jMenu38.add(jSeparator158);
 
     jMenuItem85.setText("Incidents Closed");
@@ -2585,11 +2636,17 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        IncidentAnalysis.getObj().setVisible(true);
+        try {
+            //IncidentAnalysis.getObj().setVisible(true);
+            IncidentAnalysis analysis = new IncidentAnalysis();
+            analysis.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        // TODO add your handling code here:
+        HighPriority.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
@@ -2601,7 +2658,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        Corrective.getObj().setVisible(true);
+        try {
+            Corrective.getObj().setVisible(true);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
@@ -2708,7 +2769,9 @@ addWindowListener(new java.awt.event.WindowAdapter() {
                     RiskRating.getObj().setVisible(true);
                     break;
                 case "Incident Analysis":
-                    IncidentAnalysis.getObj().setVisible(true);
+                    IncidentAnalysis analysis = new IncidentAnalysis();
+                    analysis.setVisible(true);
+                    //IncidentAnalysis.getObj().setVisible(true);
                     break;
                 case "Capture Corrective Action":
                     Corrective.getObj().setVisible(true);
@@ -2727,6 +2790,8 @@ addWindowListener(new java.awt.event.WindowAdapter() {
                     break;
             }
         } catch (SQLException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTree3ValueChanged
@@ -2764,11 +2829,24 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem49ActionPerformed
 
     private void jMenuItem53ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem53ActionPerformed
-        CreateRisk.getObj().setVisible(true);
+        try {
+            //CreateRisk.getObj().setVisible(true)
+            CreateRisk risk = new CreateRisk();
+            risk.setVisible(true);;
+        } catch (SQLException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jMenuItem53ActionPerformed
 
     private void jMenuItem56ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem56ActionPerformed
-        RiskRevaluation.getObj().setVisible(true);
+        try {
+            //RiskRevaluation.getObj().setVisible(true);
+            RiskRevaluation revaluation = new RiskRevaluation();
+            revaluation.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem56ActionPerformed
 
     private void jMenuItem55ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem55ActionPerformed
@@ -2776,7 +2854,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem55ActionPerformed
 
     private void jMenuItem54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem54ActionPerformed
-        // TODO add your handling code here:
+        ListRisk.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem54ActionPerformed
 
     private void jTable3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseReleased
@@ -2812,11 +2890,24 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem70ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        CreateRisk.getObj().setVisible(true);
+        try {
+            //CreateRisk.getObj().setVisible(true);
+            CreateRisk risk = new CreateRisk();
+            risk.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        RiskRevaluation.getObj().setVisible(true);
+        //RiskRevaluation.getObj().setVisible(true);
+        try {
+            //RiskRevaluation.getObj().setVisible(true);
+            RiskRevaluation revaluation = new RiskRevaluation();
+            revaluation.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jMenuItem71ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem71ActionPerformed
@@ -2919,6 +3010,18 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         ClosedIncidents.getObj().setVisible(true);
     }//GEN-LAST:event_jMenuItem85ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            IncidentRegistry.getObj().setVisible(true);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem25ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3016,6 +3119,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
@@ -3032,6 +3136,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
+    public static javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
     private javax.swing.JMenuItem jMenuItem28;
@@ -3196,6 +3301,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPopupMenu.Separator jSeparator156;
     private javax.swing.JPopupMenu.Separator jSeparator157;
     private javax.swing.JPopupMenu.Separator jSeparator158;
+    private javax.swing.JPopupMenu.Separator jSeparator159;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator17;
     private javax.swing.JPopupMenu.Separator jSeparator18;
@@ -3269,6 +3375,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator80;
     private javax.swing.JPopupMenu.Separator jSeparator81;
+    private javax.swing.JPopupMenu.Separator jSeparator82;
     private javax.swing.JPopupMenu.Separator jSeparator86;
     private javax.swing.JPopupMenu.Separator jSeparator87;
     private javax.swing.JPopupMenu.Separator jSeparator88;

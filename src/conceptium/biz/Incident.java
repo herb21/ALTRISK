@@ -1126,7 +1126,8 @@ public class Incident extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "successfully saved.");
             System.out.println(status);
         
-        DashBoards.overDue();
+        DashBoards.newIncident();
+        DashBoards.OverDueIncidents();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(Incident.this, e);

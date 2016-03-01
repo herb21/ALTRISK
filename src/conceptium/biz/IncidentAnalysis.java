@@ -5,15 +5,8 @@
  */
 package conceptium.biz;
 
-import com.alee.laf.WebLookAndFeel;
-import static conceptium.biz.AuditCorrective.cboHierachy;
-import static conceptium.biz.AuditCorrective.cboName;
-import static conceptium.biz.AuditCorrective.jDateChooser1;
-import static conceptium.biz.AuditCorrective.txtAction;
-import static conceptium.biz.AuditCorrective.txtStatus;
 import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,32 +14,128 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author MathomeTD
  */
-public class IncidentAnalysis extends javax.swing.JFrame {
+public final class IncidentAnalysis extends javax.swing.JFrame {
 
     /**
      * Creates new form IncidentAnalysis
+     * @throws java.lang.ClassNotFoundException
      */
-    private static IncidentAnalysis obj = null;
-    private IncidentAnalysis() {
+    //private static IncidentAnalysis obj = null;
+    public IncidentAnalysis() throws ClassNotFoundException {
         setUndecorated(true);
         setResizable(false);
         initComponents();
         reference();
+        fillAbsent();
+        fillIndividualActions();
     }
-    public static IncidentAnalysis getObj(){
-            if (obj == null){
-                obj = new IncidentAnalysis();
-            }
-            return obj;
+    //public static IncidentAnalysis getObj(){
+            //if (obj == null){
+                //obj = new IncidentAnalysis();
+            //}
+            //return obj;
+        //}
+    
+
+    
+    public void fillAbsent() throws ClassNotFoundException{
+        String reference = cboRef.getSelectedItem().toString();
+        String search = "DFO";
+        String sql = "select * from IncidentAnalysis where ReferenceNumber = ? and Absent1 like '%"+search+"%'";
+    try{
+        Connection con = DbConnection.dbConnection();
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, reference);
+        ResultSet rs = pst.executeQuery();
+        //To remove previously added rows
+        while(jTable1.getRowCount() > 0) 
+        {
+            ((DefaultTableModel) jTable1.getModel()).removeRow(0);
         }
+        int columns = rs.getMetaData().getColumnCount();
+        while(rs.next())
+        {  
+            Object[] row = new Object[columns];
+            for (int i = 1; i <= columns; i++)
+            {  
+                row[i - 1] = rs.getObject(i);
+            }
+            ((DefaultTableModel) jTable1.getModel()).insertRow(rs.getRow()-1,row);
+        }
+    }
+    catch(SQLException | ClassNotFoundException e){
+        Logger.getLogger(IncidentAnalysis.class.getName()).log(Level.SEVERE, null, e);
+    }
+}
+    
+
+public void fillIndividualActions() throws ClassNotFoundException{
+    String reference = cboRef.getSelectedItem().toString();
+    String search = "ITO";
+    String sql = "select * from IncidentAnalysis where ReferenceNumber = ? and Factors like '%"+search+"%'";
+    try{
+        Connection con = DbConnection.dbConnection();
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, reference);
+        ResultSet rs = pst.executeQuery();
+        //To remove previously added rows
+        while(jTable2.getRowCount() > 0) 
+        {
+            ((DefaultTableModel) jTable2.getModel()).removeRow(0);
+        }
+        int columns = rs.getMetaData().getColumnCount();
+        while(rs.next())
+        {  
+            Object[] row = new Object[columns];
+            for (int i = 1; i <= columns; i++)
+            {  
+                row[i - 1] = rs.getObject(i);
+            }
+            ((DefaultTableModel) jTable1.getModel()).insertRow(rs.getRow()-1,row);
+        }
+    }
+    catch(SQLException | ClassNotFoundException e){
+        Logger.getLogger(IncidentAnalysis.class.getName()).log(Level.SEVERE, null, e);
+    }
+}
+    
+public void fillOrganisationalFactors() throws ClassNotFoundException{
+    String reference = cboRef.getSelectedItem().toString();
+    String search = "OSO";
+    String sql = "select * from IncidentAnalysis where ReferenceNumber = ? and FactorsDesc like '%"+search+"%'";
+    try{
+        Connection con = DbConnection.dbConnection();
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, reference);
+        ResultSet rs = pst.executeQuery();
+        //To remove previously added rows
+        while(jTable3.getRowCount() > 0) 
+        {
+            ((DefaultTableModel) jTable3.getModel()).removeRow(0);
+        }
+        int columns = rs.getMetaData().getColumnCount();
+        while(rs.next())
+        {  
+            Object[] row = new Object[columns];
+            for (int i = 1; i <= columns; i++)
+            {  
+                row[i - 1] = rs.getObject(i);
+            }
+            ((DefaultTableModel) jTable1.getModel()).insertRow(rs.getRow()-1,row);
+        }
+    }
+    catch(SQLException | ClassNotFoundException e){
+        Logger.getLogger(IncidentAnalysis.class.getName()).log(Level.SEVERE, null, e);
+    }
+}
+
    private void reference(){
         String sql ="Select * from Incident";
         
@@ -148,7 +237,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton4.setText("jButton4");
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -169,13 +258,12 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                             .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, 0)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtDesc1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)))))
+                                .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
@@ -185,12 +273,13 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(1, 1, 1)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -223,7 +312,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        jButton5.setText("jButton5");
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -244,12 +333,13 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(0, 0, 0)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, 0)
+                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(0, 0, 0))
         );
         jPanel3Layout.setVerticalGroup(
@@ -261,13 +351,14 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel9)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboTeam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboTeam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(1, 1, 1)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -330,7 +421,7 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable3);
 
-        jButton6.setText("jButton6");
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -356,8 +447,8 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(txtFactors1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton6)))))
+                                .addGap(0, 0, 0)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(0, 0, 0))
         );
         jPanel5Layout.setVerticalGroup(
@@ -371,9 +462,9 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboFactors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFactors1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1, 1, 1)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -445,19 +536,19 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cboRef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -521,9 +612,9 @@ public class IncidentAnalysis extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, 0)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, 0)
                         .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -580,7 +671,23 @@ public class IncidentAnalysis extends javax.swing.JFrame {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, reference);
             pst.setString(2, absent1);
+            TableModel tm = jTable1.getModel();
+            for(int row = 0; row < tm.getRowCount(); row++){
+                for(int col = 0; col < tm.getColumnCount(); col++){
+                    Object val = tm.getValueAt(row, col);
+                    pst.setObject(col+1, val);
+                }
+                pst.addBatch();
+            }
             pst.setString(5, team);
+            TableModel tm1 = jTable2.getModel();
+            for(int row = 0; row < tm.getRowCount(); row++){
+                for(int col = 0; col < tm.getColumnCount(); col++){
+                    Object val = tm1.getValueAt(row, col);
+                    pst.setObject(col+1, val);
+                }
+                pst.addBatch();
+            }
             pst.setString(9, task);
             pst.setString(10, environment);
             pst.setString(11, factors);
@@ -591,7 +698,16 @@ public class IncidentAnalysis extends javax.swing.JFrame {
             pst.setString(21, taskDesc);
             pst.setString(22, environmentDesc);
             pst.setString(23, factorsDesc);
-            pst.executeUpdate();
+            TableModel tm2 = jTable3.getModel();
+            for(int row = 0; row < tm.getRowCount(); row++){
+                for(int col = 0; col < tm2.getColumnCount(); col++){
+                    Object val = tm.getValueAt(row, col);
+                    pst.setObject(col+1, val);
+                    
+                }
+                pst.addBatch();
+            }
+            pst.executeBatch();
             JOptionPane.showMessageDialog(IncidentAnalysis.this, "Analysis successfully save.");
         }
         catch(SQLException | HeadlessException e){
@@ -679,7 +795,11 @@ public class IncidentAnalysis extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new IncidentAnalysis().setVisible(true);
+                try {
+                    new IncidentAnalysis().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(IncidentAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

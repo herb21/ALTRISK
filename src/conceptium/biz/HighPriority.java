@@ -43,8 +43,8 @@ public class HighPriority extends javax.swing.JFrame {
         jXTable1.setHighlighters(simpleStriping,magenta,shading);
     }
 private void updateTraining(){
-    String sql = "Select ReferenceNumber,IncidentType,NatureOfIncident, "+
-                   "DateOfIncident,Status, DueDate from Incident inner join "+
+    String sql = "Select ReferenceNumber,Name,Surname,IncidentType,NatureOfIncident, "+
+                   "DateOfIncident,YearsOfExperienceOnTask as Experience,Status, Site, DueDate from Incident inner join "+
             "IncidentDetail on ReferenceNumber = Reference where NatureOfIncident = ? or NatureOfIncident = ? and Status = ?";
             //"inner join CorrectiveAction on ReferenceNumber = ReferenceNumber";
     String search = "Above R50 000";
@@ -109,7 +109,6 @@ private void updateTraining(){
         jXTable1 = new org.jdesktop.swingx.JXTable(){public boolean isCellEditable(int row, int column){
             return false;}};
     jXSearchField1 = new org.jdesktop.swingx.JXSearchField();
-    jButton1 = new javax.swing.JButton();
     jButton2 = new javax.swing.JButton();
     jPanel2 = new javax.swing.JPanel();
     jPanel3 = new javax.swing.JPanel();
@@ -140,8 +139,6 @@ private void updateTraining(){
     });
     jScrollPane1.setViewportView(jXTable1);
 
-    jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
-
     jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/close.png"))); // NOI18N
     jButton2.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,24 +152,22 @@ private void updateTraining(){
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                    .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(2, 2, 2)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE))
                 .addComponent(jScrollPane1))
             .addGap(0, 0, 0))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addComponent(jScrollPane1)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton1)
-                .addComponent(jButton2))
-            .addGap(0, 0, 0))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+            .addGap(2, 2, 2)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jXSearchField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addGap(2, 2, 2))
     );
 
     jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -276,7 +271,6 @@ private void updateTraining(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
