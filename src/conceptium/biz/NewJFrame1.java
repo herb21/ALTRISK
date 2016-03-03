@@ -7,10 +7,14 @@ package conceptium.biz;
 
 import java.awt.HeadlessException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -41,12 +45,13 @@ public static NewJFrame1 getObj() throws SQLException, ClassNotFoundException{
         }
 
 private void updateTable() throws SQLException,ClassNotFoundException{
-       String sql = "Select Description,Test,Test1 from Test where Ref = ?";
-       String search = "kayla";
+       String sql = "Select * from CorrectiveAction ";
+       String search = "Elsie Daniel";
        try {
-           Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
+           //Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
+           Connection con = DbConnection.dbConnection();
            PreparedStatement pst = con.prepareStatement(sql);
-           pst.setString(1, search);
+           //pst.setString(1, search);
            ResultSet rs = pst.executeQuery();
            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
            txtRef.setText(search);
@@ -78,7 +83,13 @@ private void updateTable() throws SQLException,ClassNotFoundException{
         jButton4 = new javax.swing.JButton();
         txtTest = new javax.swing.JTextField();
         txtRef = new javax.swing.JTextField();
-        txtTest1 = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -127,7 +138,7 @@ private void updateTable() throws SQLException,ClassNotFoundException{
             new Object [][] {
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "Title 1", "Title 2", "Title 3","Title 4","Title 5", "Title 6", "Title 7","Title 8"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -143,6 +154,13 @@ private void updateTable() throws SQLException,ClassNotFoundException{
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("jButton5");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -164,21 +182,34 @@ private void updateTable() throws SQLException,ClassNotFoundException{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addGap(0, 114, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtRef, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField6)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtTest1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDesc, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                            .addComponent(txtTest, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(txtTest, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                            .addComponent(txtDesc, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField3)
+                            .addComponent(jTextField4)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtRef)
+                            .addComponent(jTextField5))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton5))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,15 +233,27 @@ private void updateTable() throws SQLException,ClassNotFoundException{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTest1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtRef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtRef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
@@ -241,36 +284,90 @@ private void updateTable() throws SQLException,ClassNotFoundException{
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String description = txtDesc.getText();
         String test = txtTest.getText();
-        String test1 = txtTest1.getText();
-        Object[] row = {description,test,test1};
+        String test2 = jTextField2.getText();
+        String test3 = jTextField4.getText();
+        String test4 = jTextField3.getText();
+        String test5 = jTextField5.getText();
+        String test6 = jTextField6.getText();
+        java.sql.Timestamp test1 = new java.sql.Timestamp(jDateChooser1.getDate().getTime());
+        Object[] row = {description,test,test2,test3,test4,test5,test6,test1};
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.addRow(row);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String sql = "Insert into Test (Description,Test,Test1,Ref)values(?,?,?,?)";
+        String sql = "Insert into Test (Description,Test,Test1,Test2,Test3,Test4,Test5,DueDate,Ref)values(?,?,?,?,?,?,?,?,?)";
         String ref = txtRef.getText();
         TableModel tm = jTable1.getModel();
         try {
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
             PreparedStatement pst = con.prepareStatement(sql);
             for(int row = 0; row < tm.getRowCount(); row++){
-                for(int col = 0; col < tm.getColumnCount(); col++){
-                    Object val = tm.getValueAt(row, col);
-                    pst.setObject(col+1, val);
-                    pst.setString(4, ref);
-                }
+                //for(int col = 0; col < tm.getColumnCount(); col++){
+                    String Description = tm.getValueAt(row, 0).toString();
+                    String Test = tm.getValueAt(row, 1).toString();
+                    String Test1 = tm.getValueAt(row, 2).toString();
+                    String Test2 = tm.getValueAt(row, 3).toString();
+                    String Test3 = tm.getValueAt(row, 4).toString();
+                    String Test4 = tm.getValueAt(row, 5).toString();
+                    String Test5 = tm.getValueAt(row, 6).toString();
+                    String dueDate = tm.getValueAt(row, 7).toString();
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-d");
+                    java.util.Date newDate = (java.util.Date)df.parse(dueDate);
+                    pst.setString(1, Description);
+                    pst.setString(2, Test);
+                    pst.setString(3, Test1);
+                    pst.setString(4, Test2);
+                    pst.setString(5, Test3);
+                    pst.setString(6, Test4);
+                    pst.setString(7, Test5);
+                    pst.setDate(8, new java.sql.Date(newDate.getTime()));
+                    pst.setString(9, ref);
+                //}
+                
                 pst.addBatch();
             }
-            pst.executeBatch();
-            
-            pst.executeBatch();
+                /**pst.setString(1, Description1);
+                pst.setString(2, Testme);
+                pst.setString(3, Testme1);
+                pst.setString(4, Testme2);
+                pst.setString(5, Testme3);
+                pst.setString(6, Testme4);
+                pst.setString(7, Testme5);
+                pst.setString(8, dueDate1);
+                pst.setString(9, ref);
+                pst.addBatch();**/
+                
+                pst.executeBatch();
             JOptionPane.showMessageDialog(this, "Record successfully saved..!");
         }
         catch (SQLException | HeadlessException e){
-            JOptionPane.showMessageDialog(this, e);
+            JOptionPane.showMessageDialog(this, e.getCause());
+        } catch (ParseException ex) {
+            Logger.getLogger(NewJFrame1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        TableModel tm = jTable1.getModel();
+        String Description = tm.getValueAt(0, 0).toString();
+        String Test = tm.getValueAt(0, 1).toString();
+        String Test1 = tm.getValueAt(0, 2).toString();
+        String Test2 = tm.getValueAt(0, 3).toString();
+        String Test3 = tm.getValueAt(0, 4).toString();
+        String Test4 = tm.getValueAt(0, 5).toString();
+        String Test5 = tm.getValueAt(0, 6).toString();
+        String dueDate = tm.getValueAt(0, 7).toString();
+        String Description1 = tm.getValueAt(1, 0).toString();
+        String Testme = tm.getValueAt(1, 1).toString();
+        String Testme1 = tm.getValueAt(1, 2).toString();
+        String Testme2 = tm.getValueAt(1, 3).toString();
+        String Testme3 = tm.getValueAt(1, 4).toString();
+        String Testme4 = tm.getValueAt(1, 5).toString();
+        String Testme5 = tm.getValueAt(1, 6).toString();
+        String dueDate1 = tm.getValueAt(1, 7).toString();
+        System.out.println(Test+Test1+Test2+Test3+Test4);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,15 +413,21 @@ private void updateTable() throws SQLException,ClassNotFoundException{
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     public javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField txtDesc;
     private javax.swing.JTextField txtRef;
     private javax.swing.JTextField txtTest;
-    private javax.swing.JTextField txtTest1;
     // End of variables declaration//GEN-END:variables
 }

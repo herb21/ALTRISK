@@ -5,18 +5,13 @@
  */
 package conceptium.biz;
 
-import com.alee.laf.WebLookAndFeel;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -184,14 +179,14 @@ private void reference(){
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Save Root Cause");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Close");
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/close.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

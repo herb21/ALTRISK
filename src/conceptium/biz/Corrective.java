@@ -17,6 +17,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -30,6 +33,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -78,14 +84,37 @@ public class Corrective extends javax.swing.JFrame {
  
  private void updateTable() throws SQLException,ClassNotFoundException{
        String sql = "Select Action,Hierachy"+
-                ",ResponsiblePerson,DuteDate,Status from CorrectiveAction where ReferenceNumber = ?";
-       String search = cboReferenceNumber.getSelectedItem().toString();
+                ",ResponsiblePerson,Status,DueDate from CorrectiveAction where ReferenceNumber = ?";
+       String search = cboReferenceNumber.getSelectedItem().toString().trim();
        try {
            Connection con = DbConnection.dbConnection();
            PreparedStatement pst = con.prepareStatement(sql);
            pst.setString(1, search);
            ResultSet rs = pst.executeQuery();
+           if(rs.next()){
+           txtAction.setEnabled(false);
+           cboHierachyOfControl.setEnabled(false);
+           cboName.setEnabled(false);
+           dcDueDate.setEnabled(false);
+           jButton7.setEnabled(false);
+           txtStatus.setEnabled(false);
            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+           JTableHeader th = (JTableHeader) jTable1.getTableHeader();
+           TableColumnModel tcm = th.getColumnModel();
+           tcm.getColumn(0).setHeaderValue("Action");
+           tcm.getColumn(1).setHeaderValue("Hierachy");
+           tcm.getColumn(2).setHeaderValue("Responsible Person");
+           tcm.getColumn(4).setHeaderValue("Due Date");
+           tcm.getColumn(3).setHeaderValue("Status");
+           jTable1.repaint();
+           }else{
+           txtAction.setEnabled(true);
+           cboHierachyOfControl.setEnabled(true);
+           cboName.setEnabled(true);
+           dcDueDate.setEnabled(true);
+           jButton7.setEnabled(true);
+           txtStatus.setEnabled(true);
+           }
        }
        catch (SQLException ex) {
            JOptionPane.showMessageDialog(null, ex);
@@ -213,10 +242,10 @@ private void incident() throws SQLException, ClassNotFoundException{
         jLabel6 = new javax.swing.JLabel();
         txtStatus = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        dcDueDate = new com.toedter.calendar.JDateChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable(){public boolean isCellEditable(int row, int column){
             return false;}};
-    jDateChooser2 = new com.toedter.calendar.JDateChooser();
     jButton1 = new javax.swing.JButton();
     jButton2 = new javax.swing.JButton();
     jButton3 = new javax.swing.JButton();
@@ -297,11 +326,17 @@ private void incident() throws SQLException, ClassNotFoundException{
         }
     });
 
+    dcDueDate.setDateFormatString("yyyy MMM, d");
+
     jTable1.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
+            {null, null, null, null},
+            {null, null, null, null},
+            {null, null, null, null},
+            {null, null, null, null}
         },
         new String [] {
-            "Action", "Hierachy of Control", "Responsible Person", "Due Date","Status"
+            "Action", "Hierachy of Control Type", "Responsible Person", "Due Date","Status"
         }
     ));
     jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -309,16 +344,16 @@ private void incident() throws SQLException, ClassNotFoundException{
             jTable1MouseReleased(evt);
         }
     });
-    jScrollPane2.setViewportView(jTable1);
+    jScrollPane1.setViewportView(jTable1);
 
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        .addGroup(jPanel2Layout.createSequentialGroup()
             .addGap(0, 0, 0)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(jScrollPane2)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel1)
@@ -331,7 +366,7 @@ private void incident() throws SQLException, ClassNotFoundException{
                         .addComponent(cboName, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dcDueDate, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(11, 11, 11)
                             .addComponent(jLabel5)))
@@ -341,7 +376,8 @@ private void incident() throws SQLException, ClassNotFoundException{
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(21, 21, 21))))
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,11 +397,11 @@ private void incident() throws SQLException, ClassNotFoundException{
                         .addComponent(cboName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cboHierachyOfControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtAction, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(dcDueDate, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(txtStatus))
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(1, 1, 1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(0, 0, Short.MAX_VALUE))
     );
 
@@ -386,7 +422,7 @@ private void incident() throws SQLException, ClassNotFoundException{
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addContainerGap()
+            .addGap(1, 1, 1)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(cboReferenceNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel7))
@@ -432,6 +468,11 @@ private void incident() throws SQLException, ClassNotFoundException{
     });
 
     jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/edit.png"))); // NOI18N
+    jButton6.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton6ActionPerformed(evt);
+        }
+    });
 
     jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -456,7 +497,7 @@ private void incident() throws SQLException, ClassNotFoundException{
     );
     jPanel4Layout.setVerticalGroup(
         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 25, Short.MAX_VALUE)
+        .addGap(0, 0, Short.MAX_VALUE)
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -552,47 +593,61 @@ private void incident() throws SQLException, ClassNotFoundException{
     }//GEN-LAST:event_cboReferenceNumberActionPerformed
     private String email;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String sql = "insert into CorrectiveAction(ReferenceNumber,Action,Hierachy"+
-                ",ResponsiblePerson,DuteDate,Status)values(?,?,?,?,?,?)";
+        String sql = "insert into CorrectiveAction(Action,Hierachy"+
+                ",ResponsiblePerson,Status,DueDate,ReferenceNumber)values(?,?,?,?,?,?)";
         String reference = cboReferenceNumber.getSelectedItem().toString();
         TableModel tm = jTable1.getModel();
         try {
             Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);
-            for(int row = 0; row < tm.getRowCount(); row++){
-                for(int col = 0; col < tm.getColumnCount(); col++){
-                    Object val = tm.getValueAt(row, col);
-                    pst.setObject(col+1, val);
+            for(int tableRow = 0; tableRow < tm.getRowCount(); tableRow++){
+                    String action = tm.getValueAt(row, 0).toString();
+                    String hierachy = tm.getValueAt(row, 1).toString();
+                    String responsiblePerson = tm.getValueAt(row, 2).toString();
+                    String status = tm.getValueAt(row, 4).toString();
+                    String dueDate = tm.getValueAt(row, 3).toString();
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-d");
+                    java.util.Date newDate = (java.util.Date)df.parse(dueDate);
+                    pst.setString(1, action);
+                    pst.setString(2, hierachy);
+                    pst.setString(3, responsiblePerson);
+                    pst.setString(4, status);
+                    pst.setDate(5, new java.sql.Date(newDate.getTime()));
                     pst.setString(6, reference);
-                }
-                pst.addBatch();
+                    pst.addBatch();
             }
             pst.executeBatch();
-            
-            pst.executeBatch();
             JOptionPane.showMessageDialog(this, "Record successfully saved..!");
+            
         }
-        catch (SQLException | HeadlessException e){
-            JOptionPane.showMessageDialog(this, e);
-        } catch (ClassNotFoundException ex) {
+        catch (SQLException | HeadlessException | ClassNotFoundException e){
+            JOptionPane.showMessageDialog(this,e.getCause());
+            //Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, e);
+        } catch (ParseException ex) {
             Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
+        for(int tableRow = 0; tableRow < tm.getRowCount(); tableRow++){
+                    Object val = tm.getValueAt(tableRow, 2);
         String action = txtAction.getText();
-        String responsibleName = cboName.getSelectedItem().toString();
-        Date dueDate = new java.sql.Date(jDateChooser2.getDate().getTime());
-        String sqlEmail = "select ContactEmail from Incident where ReferenceNumber = ?";
+        String responsibleName = val.toString();
+        String [] args = responsibleName.split(" ");
+        Date dueDate = new java.sql.Date(dcDueDate.getDate().getTime());
+        String sqlEmail = "select * from Person where  name = ? and surname =?";
         try {
            Connection con = DbConnection.dbConnection();
            PreparedStatement pst = con.prepareStatement(sqlEmail);
-           pst.setString(1, reference);
+           pst.setString(1, args[0]);
+           pst.setString(2, args[1]);
            ResultSet rs = pst.executeQuery();
            if(rs.next()){
-           email = rs.getString("ContactEmail");
+           email = rs.getString("EmailAddress");
                    }
        }
        catch (ClassNotFoundException | SQLException ex) {
            JOptionPane.showMessageDialog(null, ex);
        }
+        
+
         Properties props = new Properties();
         //props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.host", "mail.conceptium.biz");
@@ -633,7 +688,8 @@ private void incident() throws SQLException, ClassNotFoundException{
             JOptionPane.showMessageDialog(Corrective.this, "Record successfully saved and Learnings distributed to  " + GroupA + "." );
         }
         catch(MessagingException | HeadlessException e){
-            JOptionPane.showMessageDialog(Corrective.this, e);
+            JOptionPane.showMessageDialog(Corrective.this, e.getMessage() +". "+ "Please check your internet connection");
+              }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -671,19 +727,19 @@ private void incident() throws SQLException, ClassNotFoundException{
                 }
                 else{
         Incident iI = new Incident();
-        iI.statusClosed.setSelected(true);
-        iI.statusOpen.setSelected(false);
-        iI.statusOpen.setEnabled(false);
+        Incident.statusClosed.setSelected(true);
+        Incident.statusOpen.setSelected(false);
+        Incident.statusOpen.setEnabled(false);
         //iI.statusPending.setEnabled(false);
-        iI.statusClosed.setEnabled(false);
-        iI.jButton1.setEnabled(false);
-        iI.txtReferenceNumber.setText(cboReferenceNumber.getSelectedItem().toString());
+        Incident.statusClosed.setEnabled(false);
+        Incident.jButton1.setEnabled(false);
+        Incident.txtReferenceNumber.setText(cboReferenceNumber.getSelectedItem().toString());
         java.util.Date date = new java.util.Date();
-        iI.dcClosingDate.setDate(date);
+        Incident.dcClosingDate.setDate(date);
                 try {
                     incident();
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(Corrective.this,ex.getCause());
                 }
         try{
             con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
@@ -695,12 +751,12 @@ private void incident() throws SQLException, ClassNotFoundException{
                     JOptionPane.showMessageDialog(Corrective.this, "Please ensure that the CheckList has been completed","Warning",JOptionPane.ERROR_MESSAGE);
                 }else{iI.setVisible(true);}
         }catch(SQLException | HeadlessException e){
-                JOptionPane.showMessageDialog(Corrective.this, e);}
+                JOptionPane.showMessageDialog(Corrective.this, e.getMessage());}
         
                 }
         }
         catch(SQLException e){
-            JOptionPane.showMessageDialog(Corrective.this, e);
+            JOptionPane.showMessageDialog(Corrective.this, e.getErrorCode());
         }}}}
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -713,14 +769,16 @@ private void incident() throws SQLException, ClassNotFoundException{
         String hierachyOfControl = (String)cboHierachyOfControl.getSelectedItem();
         String responsiblePerson = (String)cboName.getSelectedItem();
         java.sql.Date dueDate;
-        dueDate = new java.sql.Date (jDateChooser2.getDate().getTime());
+            dueDate = new java.sql.Date(dcDueDate.getDate().getTime());
         String status = txtStatus.getText();
         Object[] newRow = {action,hierachyOfControl,responsiblePerson,dueDate,status};
-        if(jDateChooser2.getDate().getTime() <= date.getTime()){
+        if(dcDueDate.getDate().getTime() <= date.getTime()){
         JOptionPane.showMessageDialog(Corrective.this, "Due date can not be less or equal to today's date");}
         else{
             //if(!txtAction.getText().equals("")  ){
             model.addRow(newRow);
+            txtAction.setText("");
+            System.out.println(dueDate);
             //}
         }
         }else{
@@ -728,29 +786,30 @@ private void incident() throws SQLException, ClassNotFoundException{
         }
 
     }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
-        jTable1.setComponentPopupMenu(jPopupMenu1);
-        if (evt.isPopupTrigger())
-        {
-            jPopupMenu1.show(this, evt.getX(), evt.getY());
-        }
-    }//GEN-LAST:event_jTable1MouseReleased
     public int row; 
     private void updateStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStatusActionPerformed
-        row = jTable1.getSelectedRow();
-        IncidentCorrectiveActionStatusUpdate sU = IncidentCorrectiveActionStatusUpdate.getObj();
-        DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
-        IncidentCorrectiveActionStatusUpdate.txtAllocatedTask.setText(model.getValueAt(row, 0).toString().trim());
-        IncidentCorrectiveActionStatusUpdate.cboHierachy.setSelectedItem(model.getValueAt(row, 1).toString().trim());
-        IncidentCorrectiveActionStatusUpdate.txtName.setText(model.getValueAt(row, 2).toString().trim());
-        IncidentCorrectiveActionStatusUpdate.jDateChooser1.setDate((java.util.Date) model.getValueAt(row, 3));
-        IncidentCorrectiveActionStatusUpdate.txtAllocatedTask.setEnabled(false);
-        jDateChooser1.setEnabled(false);
-        txtName.setEnabled(false);
-        cboReference.setEnabled(false);
-        cboHierachy.setEnabled(false);
-        IncidentCorrectiveActionStatusUpdate.getObj().setVisible(true);
+        try {
+            row = jTable1.getSelectedRow();
+            IncidentCorrectiveActionStatusUpdate sU = new IncidentCorrectiveActionStatusUpdate();
+            DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
+            IncidentCorrectiveActionStatusUpdate.txtAllocatedTask.setText(model.getValueAt(row, 0).toString().trim());
+            IncidentCorrectiveActionStatusUpdate.cboHierachy.setSelectedItem(model.getValueAt(row, 1).toString().trim());
+            IncidentCorrectiveActionStatusUpdate.txtName.setText(model.getValueAt(row, 2).toString().trim());
+            String date = model.getValueAt(row, 4).toString();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-d");
+            java.util.Date newDate = (java.util.Date) df.parse(date);
+            IncidentCorrectiveActionStatusUpdate.jDateChooser1.setDate(newDate);
+            IncidentCorrectiveActionStatusUpdate.txtAllocatedTask.setEnabled(false);
+            jDateChooser1.setEnabled(false);
+            txtName.setEnabled(false);
+            cboReference.setEnabled(false);
+            cboHierachy.setEnabled(false);
+            //IncidentCorrectiveActionStatusUpdate status = new IncidentCorrectiveActionStatusUpdate();
+            sU.setVisible(true);
+            //IncidentCorrectiveActionStatusUpdate.getObj().setVisible(true);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_updateStatusActionPerformed
 
     private void txtActionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtActionKeyTyped
@@ -764,12 +823,12 @@ private void incident() throws SQLException, ClassNotFoundException{
         if(c.get(Calendar.DAY_OF_WEEK) == 1 || c.get(Calendar.DAY_OF_WEEK) == 7){
         x++;
         c.add(Calendar.DATE, x);
-        jDateChooser2.setDate(c.getTime());
-        jDateChooser2.setEnabled(false);
+        dcDueDate.setDate(c.getTime());
+        dcDueDate.setEnabled(false);
         }else{
         c.add(Calendar.DATE, x);
-        jDateChooser2.setDate(c.getTime());
-        jDateChooser2.setEnabled(false);
+        dcDueDate.setDate(c.getTime());
+        dcDueDate.setEnabled(false);
         }
     }//GEN-LAST:event_txtActionKeyTyped
 
@@ -784,12 +843,45 @@ private void incident() throws SQLException, ClassNotFoundException{
             DefaultTableModel model = (DefaultTableModel) Corrective.jTable1.getModel();
             model.setRowCount(0);
             updateTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_cboReferenceNumberItemStateChanged
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String reference = cboReferenceNumber.getSelectedItem().toString();
+        String sql = "update CorrectiveAction set Action=?,Hierachy=?"+
+                ",ResponsiblePerson=?,Status=?,DueDate=?,ReferenceNumber=?"+
+                "where ReferenceNumber='"+reference+"'";
+        TableModel tm = jTable1.getModel();
+        try {
+            Connection con = DbConnection.dbConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
+            for(int tableRow = 0; tableRow < tm.getRowCount(); tableRow++){
+                for(int col = 0; col < tm.getColumnCount(); col++){
+                    Object val = tm.getValueAt(tableRow, col);
+                    pst.setObject(col+1, val);
+                    pst.setString(6, reference);
+                }
+                pst.addBatch();
+            }
+            pst.executeBatch();
+            JOptionPane.showMessageDialog(this, "Record successfully updated..!");
+            
+        }
+        catch (SQLException | HeadlessException | ClassNotFoundException e){
+            JOptionPane.showMessageDialog(this,e.getCause());
+            //Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, e);
+        } 
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+        jTable1.setComponentPopupMenu(jPopupMenu1);
+        if (evt.isPopupTrigger())
+        {
+            jPopupMenu1.show(this, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jTable1MouseReleased
 
     /**
      * @param args the command line arguments
@@ -825,7 +917,7 @@ private void incident() throws SQLException, ClassNotFoundException{
                 try {
                     new Corrective().setVisible(true);
                 } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(Corrective.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, ex.getCause());
                 }
             }
         });
@@ -835,6 +927,7 @@ private void incident() throws SQLException, ClassNotFoundException{
     public static javax.swing.JComboBox cboHierachyOfControl;
     public static javax.swing.JComboBox cboName;
     public static javax.swing.JComboBox cboReferenceNumber;
+    public static com.toedter.calendar.JDateChooser dcDueDate;
     private javax.swing.JMenuItem deleteAction;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -843,7 +936,6 @@ private void incident() throws SQLException, ClassNotFoundException{
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    public static com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -855,7 +947,7 @@ private void incident() throws SQLException, ClassNotFoundException{
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;

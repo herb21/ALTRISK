@@ -5,8 +5,6 @@
  */
 package conceptium.biz;
 
-import com.alee.laf.WebLookAndFeel;
-import java.sql.*;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -15,10 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,8 +25,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -468,7 +461,8 @@ public static IncidentDetails getObj(){
             JOptionPane.showMessageDialog(IncidentDetails.this, "Record successfully saved and message sucessfuly sent to  " + GroupA + "." );
         }
         catch(MessagingException | HeadlessException e){
-            JOptionPane.showMessageDialog(IncidentDetails.this, e);}
+            JOptionPane.showMessageDialog(IncidentDetails.this, e.getMessage() +". "+ "Please check your internet connection");
+        }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

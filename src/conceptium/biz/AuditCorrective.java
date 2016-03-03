@@ -9,7 +9,7 @@ import com.alee.laf.WebLookAndFeel;
 import static com.alee.managers.hotkey.Hotkey.J;
 import static conceptium.biz.Corrective.cboHierachyOfControl;
 import static conceptium.biz.Corrective.cboName;
-import static conceptium.biz.Corrective.jDateChooser2;
+import static conceptium.biz.Corrective.dcDueDate;
 import static conceptium.biz.Corrective.txtAction;
 import static conceptium.biz.Incident.jDateChooser2;
 import java.awt.Color;

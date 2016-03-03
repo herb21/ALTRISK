@@ -470,6 +470,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem53">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/electrocution-risk-sign.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Identify Risk"/>
                   </Properties>
                   <Events>
@@ -480,6 +483,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem56">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/electroshock-risk.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Revaluate Risk"/>
                   </Properties>
                   <Events>
@@ -490,6 +496,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem54">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/list40.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="List Risk"/>
                   </Properties>
                   <Events>
@@ -500,6 +509,9 @@
                 </MenuItem>
                 <Menu class="javax.swing.JMenu" name="jMenu34">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Dbase/Resources/graphic49.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Statistics"/>
                   </Properties>
                   <SubComponents>

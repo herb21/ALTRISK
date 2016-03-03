@@ -35,6 +35,7 @@ public final class IncidentAnalysis extends javax.swing.JFrame {
         reference();
         fillAbsent();
         fillIndividualActions();
+        fillTheRest();
     }
     //public static IncidentAnalysis getObj(){
             //if (obj == null){
@@ -136,11 +137,33 @@ public void fillOrganisationalFactors() throws ClassNotFoundException{
     }
 }
 
-   private void reference(){
-        String sql ="Select * from Incident";
-        
-        String sql2= "select count as u from  login";
+private void fillTheRest(){
+        String sql = "select * from IncidentAnalysis where ReferenceNumber = ?";
+        String reference = cboRef.getSelectedItem().toString(); 
             try (Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                PreparedStatement pst = con.prepareStatement(sql);){
+                pst.setString(1, reference);
+                ResultSet rs = pst.executeQuery();
+                if(rs.next()){
+                    String task = rs.getString("Task");
+                    cboTask.setSelectedItem(task.trim());
+                    String taskDesc = rs.getString("TaskDesc");
+                    txtTaskDesc.setText(taskDesc);
+                    String environment = rs.getString("Environment");
+                    cboEnvironment.setSelectedItem(environment.trim());
+                    String environmentDesc = rs.getString("EnviromentDesc");
+                    txtEnvironmentDesc.setText(environmentDesc);
+                }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
+
+
+private void reference(){
+        String sql ="Select * from Incident";
+            try (Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);){
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
@@ -553,21 +576,21 @@ public void fillOrganisationalFactors() throws ClassNotFoundException{
                 .addGap(0, 0, 0))
         );
 
-        jButton1.setText("Add the incident Analysis");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Add Root Cause");
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/question-mark-key.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Close");
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/close.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -667,52 +690,43 @@ public void fillOrganisationalFactors() throws ClassNotFoundException{
         String environmentDesc = txtEnvironmentDesc.getText();
         String factorsDesc = txtFactors1.getText();
         try{
-            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+            Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, reference);
-            pst.setString(2, absent1);
             TableModel tm = jTable1.getModel();
             for(int row = 0; row < tm.getRowCount(); row++){
-                for(int col = 0; col < tm.getColumnCount(); col++){
-                    Object val = tm.getValueAt(row, col);
-                    pst.setObject(col+1, val);
-                }
+                    String absentDefenses = tm.getValueAt(row, 0).toString();
+                    String description = tm.getValueAt(row, 1).toString();
+                    pst.setString(2, absentDefenses);
+                    pst.setString(3, description);
+             pst.addBatch();
+             pst.setString(4, team);
+             TableModel tm1 = jTable2.getModel();
+             for(int row1 = 0; row1 < tm.getRowCount(); row1++){
+                    String individualAction = tm1.getValueAt(row, 0).toString();
+                    String individualDescription = tm1.getValueAt(row, 1).toString();
+                    pst.setString(5, individualAction);
+                    pst.setString(6, individualDescription);
+                pst.addBatch();
+                pst.setString(7, task);
+                pst.setString(8, environment);
+                TableModel tm2 = jTable3.getModel();
+                for(int row2 = 0; row2 < tm.getRowCount(); row2++){
+                    String organisationalFactors = tm2.getValueAt(row, 0).toString();
+                    String organisationalDescription = tm2.getValueAt(row, 1).toString();
+                    pst.setString(9, organisationalFactors);
+                    pst.setString(10, organisationalDescription);
                 pst.addBatch();
             }
-            pst.setString(5, team);
-            TableModel tm1 = jTable2.getModel();
-            for(int row = 0; row < tm.getRowCount(); row++){
-                for(int col = 0; col < tm.getColumnCount(); col++){
-                    Object val = tm1.getValueAt(row, col);
-                    pst.setObject(col+1, val);
                 }
-                pst.addBatch();
             }
-            pst.setString(9, task);
-            pst.setString(10, environment);
-            pst.setString(11, factors);
-            pst.setString(12, factors1);
-            pst.setString(13, factors2);
-            pst.setString(14, desc);
-            pst.setString(20, teamDisc3);
-            pst.setString(21, taskDesc);
-            pst.setString(22, environmentDesc);
-            pst.setString(23, factorsDesc);
-            TableModel tm2 = jTable3.getModel();
-            for(int row = 0; row < tm.getRowCount(); row++){
-                for(int col = 0; col < tm2.getColumnCount(); col++){
-                    Object val = tm.getValueAt(row, col);
-                    pst.setObject(col+1, val);
-                    
-                }
-                pst.addBatch();
-            }
+            pst.addBatch();
             pst.executeBatch();
             JOptionPane.showMessageDialog(IncidentAnalysis.this, "Analysis successfully save.");
         }
-        catch(SQLException | HeadlessException e){
-        JOptionPane.showMessageDialog(IncidentAnalysis.this, e);
-        }
+        catch(SQLException | HeadlessException | ClassNotFoundException e){
+        JOptionPane.showMessageDialog(IncidentAnalysis.this, e.getMessage());
+        } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cboFactorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFactorsActionPerformed

@@ -624,7 +624,9 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Add the incident Analysis"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Dbase/Resources/save.png"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
@@ -632,7 +634,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Add Root Cause"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Dbase/Resources/question-mark-key.png"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
@@ -640,7 +644,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Close"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Dbase/Resources/close.png"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>

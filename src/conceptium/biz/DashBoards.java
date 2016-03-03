@@ -1880,6 +1880,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu6.setText("Risk Assessment");
     jMenu6.add(jSeparator10);
 
+    jMenuItem53.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/electrocution-risk-sign.png"))); // NOI18N
     jMenuItem53.setText("Identify Risk");
     jMenuItem53.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1889,6 +1890,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu6.add(jMenuItem53);
     jMenu6.add(jSeparator74);
 
+    jMenuItem56.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/electroshock-risk.png"))); // NOI18N
     jMenuItem56.setText("Revaluate Risk");
     jMenuItem56.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1898,6 +1900,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu6.add(jMenuItem56);
     jMenu6.add(jSeparator77);
 
+    jMenuItem54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/list40.png"))); // NOI18N
     jMenuItem54.setText("List Risk");
     jMenuItem54.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1907,6 +1910,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     jMenu6.add(jMenuItem54);
     jMenu6.add(jSeparator122);
 
+    jMenu34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/graphic49.png"))); // NOI18N
     jMenu34.setText("Statistics");
     jMenu34.add(jSeparator125);
 
@@ -2660,13 +2664,19 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         try {
             Corrective.getObj().setVisible(true);
+            //Corrective corrective =  new Corrective();
+            //corrective.setVisible(true);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        // TODO add your handling code here:
+        try {
+            OpenCorrectiveAction.getObj().setVisible(true);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
@@ -2774,7 +2784,10 @@ addWindowListener(new java.awt.event.WindowAdapter() {
                     //IncidentAnalysis.getObj().setVisible(true);
                     break;
                 case "Capture Corrective Action":
+                    
                     Corrective.getObj().setVisible(true);
+                    //Corrective corrective =  new Corrective();
+                    //corrective.setVisible(true);
                     break;
                 case "Root Cause":
                     IncidentRootCause.getObj().setVisible(true);

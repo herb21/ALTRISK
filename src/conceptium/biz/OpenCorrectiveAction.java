@@ -5,67 +5,77 @@
  */
 package conceptium.biz;
 
-import java.awt.Color;
+import static conceptium.biz.Corrective.cboHierachyOfControl;
+import static conceptium.biz.Corrective.cboName;
+import static conceptium.biz.Corrective.cboReferenceNumber;
+import static conceptium.biz.Corrective.dcDueDate;
+import static conceptium.biz.Corrective.jTable1;
+import static conceptium.biz.Corrective.txtAction;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import net.proteanit.sql.DbUtils;
-import org.jdesktop.swingx.decorator.ColorHighlighter;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.HighlighterFactory;
-import org.jdesktop.swingx.decorator.PatternPredicate;
-import org.jdesktop.swingx.decorator.ShadingColorHighlighter;
 
 /**
  *
  * @author MathomeTD
  */
-public class ClosedIncidents extends javax.swing.JFrame {
+public class OpenCorrectiveAction extends javax.swing.JFrame {
 
     /**
-     * Creates new form ClosedIncidents
+     * Creates new form OpenCorrectiveAction
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
-    private static ClosedIncidents obj = null;
-    private ClosedIncidents() {
+    private static OpenCorrectiveAction obj = null;
+    private OpenCorrectiveAction() throws SQLException, ClassNotFoundException {
         setUndecorated(true);
         setResizable(false);
         initComponents();
         updateTable();
-        jXTable1.setSortable(false);
-        jXTable1.setToolTipText("hit cmd + f on mac to search data or Ctl + f on windows");
-        org.jdesktop.swingx.decorator.Highlighter simpleStriping = HighlighterFactory.createSimpleStriping();
-        PatternPredicate patternPredicate = new PatternPredicate("Above R50 000",4,4);
-        //PatternPredicate patternPredicate1 = new PatternPredicate("Fatality",4,4);
-        ColorHighlighter magenta = new ColorHighlighter(patternPredicate, Color.red, Color.black, Color.LIGHT_GRAY, Color.black);
-        //ColorHighlighter magenta1 = new ColorHighlighter(patternPredicate1, Color.red, Color.black, Color.LIGHT_GRAY, Color.black);
-        ShadingColorHighlighter shading = new ShadingColorHighlighter(new HighlightPredicate.ColumnHighlightPredicate(4));
-        
-        jXTable1.setHighlighters(simpleStriping,magenta,shading);
-        //jXTable1.setHighlighters(simpleStriping,magenta1,shading);
     }
-private void updateTable(){
-       String status = "Closed";
-       String sql = "Select Name,Surname,ReferenceNumber,IncidentType,NatureOfIncident,DateOfIncident,"+
-               "DateOfReportingIncident,ReportedTo,Department,Site,ClosingDate from Incident where status = ? ";
-       try {
-           Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-           PreparedStatement pst = con.prepareStatement(sql);
-           pst.setString(1, status);
-           ResultSet rs = pst.executeQuery();
-           jXTable1.setModel(DbUtils.resultSetToTableModel(rs)); 
-       }
-       catch (Exception ex) {
-           JOptionPane.showMessageDialog(null, ex);
-       }
-}
-public static ClosedIncidents getObj(){
+public static OpenCorrectiveAction getObj() throws SQLException, ClassNotFoundException{
             if (obj == null){
-                obj = new ClosedIncidents();
+                obj = new OpenCorrectiveAction();
             }
             return obj;
         }
+private void updateTable() throws SQLException,ClassNotFoundException{
+    java.util.Date dueDate = new java.util.Date();   
+    String sql = "Select ReferenceNumber,Action,Hierachy,ResponsiblePerson,"+
+            "Status,DueDate from CorrectiveAction where DueDate < ? and Status = ?";
+    String search = "Open";
+       try {
+           Connection con = DbConnection.dbConnection();
+           PreparedStatement pst = con.prepareStatement(sql);
+           pst.setDate(1, new java.sql.Date(dueDate.getTime()));
+           pst.setString(2, search);
+           ResultSet rs = pst.executeQuery();
+           if(!rs.next()){
+           JOptionPane.showMessageDialog(this, "There are no incident corrective action overdue");
+           this.dispose();
+           }else{
+           jXTable1.setModel(DbUtils.resultSetToTableModel(rs));
+           JTableHeader th = (JTableHeader) jXTable1.getTableHeader();
+           TableColumnModel tcm = th.getColumnModel();
+           tcm.getColumn(0).setHeaderValue("Reference Number");
+           tcm.getColumn(1).setHeaderValue("Action");
+           tcm.getColumn(2).setHeaderValue("Hierachy");
+           tcm.getColumn(3).setHeaderValue("Responsible Person");
+           tcm.getColumn(4).setHeaderValue("Status");
+           tcm.getColumn(5).setHeaderValue("Due Date");
+           jXTable1.repaint();
+           }}
+       catch(SQLException | ClassNotFoundException e){
+           JOptionPane.showMessageDialog(this, e.getMessage());
+       }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,58 +85,30 @@ public static ClosedIncidents getObj(){
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        printReport = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        refreshData = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jXTable1 = new org.jdesktop.swingx.JXTable(){public boolean isCellEditable(int row, int column){
             return false;}};
     jPanel2 = new javax.swing.JPanel();
     jPanel3 = new javax.swing.JPanel();
     jButton1 = new javax.swing.JButton();
 
-    jPopupMenu1.add(jSeparator3);
-
-    printReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/print.png"))); // NOI18N
-    printReport.setText("Print Report");
-    jPopupMenu1.add(printReport);
-    jPopupMenu1.add(jSeparator1);
-
-    refreshData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/load9.png"))); // NOI18N
-    refreshData.setText("Refresh Data");
-    refreshData.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            refreshDataActionPerformed(evt);
-        }
-    });
-    jPopupMenu1.add(refreshData);
-    jPopupMenu1.add(jSeparator2);
-
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setAlwaysOnTop(true);
 
     jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-    jXTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            jXTable1MouseReleased(evt);
-        }
-    });
-    jScrollPane2.setViewportView(jXTable1);
+    jScrollPane1.setViewportView(jXTable1);
 
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
     jPanel1.setLayout(jPanel1Layout);
     jPanel1Layout.setHorizontalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane2)
+        .addComponent(jScrollPane1)
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
     );
 
     jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -139,7 +121,7 @@ public static ClosedIncidents getObj(){
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 53, Short.MAX_VALUE)
+        .addGap(0, 56, Short.MAX_VALUE)
     );
 
     jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -152,7 +134,7 @@ public static ClosedIncidents getObj(){
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 26, Short.MAX_VALUE)
+        .addGap(0, 36, Short.MAX_VALUE)
     );
 
     jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/close.png"))); // NOI18N
@@ -171,22 +153,20 @@ public static ClosedIncidents getObj(){
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE))
             .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGap(0, 0, 0)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGap(3, 3, 3)
             .addComponent(jButton1)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 0, 0))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
     );
 
     pack();
@@ -196,18 +176,6 @@ public static ClosedIncidents getObj(){
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jXTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXTable1MouseReleased
-         jXTable1.setComponentPopupMenu(jPopupMenu1);
-        if (evt.isPopupTrigger())
-        {
-            jPopupMenu1.show(this, evt.getX(), evt.getY());
-        }
-    }//GEN-LAST:event_jXTable1MouseReleased
-
-    private void refreshDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshDataActionPerformed
-        updateTable();
-    }//GEN-LAST:event_refreshDataActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,21 +194,24 @@ public static ClosedIncidents getObj(){
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClosedIncidents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OpenCorrectiveAction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClosedIncidents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OpenCorrectiveAction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClosedIncidents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OpenCorrectiveAction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClosedIncidents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OpenCorrectiveAction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
             public void run() {
-                new ClosedIncidents().setVisible(true);
+                try {
+                    new OpenCorrectiveAction().setVisible(true);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(OpenCorrectiveAction.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -250,13 +221,7 @@ public static ClosedIncidents getObj(){
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTable jXTable1;
-    private javax.swing.JMenuItem printReport;
-    private javax.swing.JMenuItem refreshData;
     // End of variables declaration//GEN-END:variables
 }

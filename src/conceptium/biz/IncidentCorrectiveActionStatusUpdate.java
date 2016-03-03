@@ -5,9 +5,6 @@
  */
 package conceptium.biz;
 
-import com.alee.laf.WebLookAndFeel;
-import static conceptium.biz.IncidentDetails.cboReference;
-import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -15,20 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,20 +24,20 @@ public class IncidentCorrectiveActionStatusUpdate extends javax.swing.JFrame {
     /**
      * Creates new form IncidentCorrectiveActionStatusUpdate
      */
-    private static IncidentCorrectiveActionStatusUpdate obj = null;
-    private IncidentCorrectiveActionStatusUpdate() {;
+    //private static IncidentCorrectiveActionStatusUpdate obj = null;
+    public IncidentCorrectiveActionStatusUpdate() {;
         setResizable(false);
         setUndecorated(true);
         initComponents();
         reference();
         
     }
-public static IncidentCorrectiveActionStatusUpdate getObj(){
+/**public static IncidentCorrectiveActionStatusUpdate getObj(){
             if (obj == null){
                 obj = new IncidentCorrectiveActionStatusUpdate();
             }
             return obj;
-        }
+        }**/
 
    private void reference(){
         String sql ="Select * from Incident";
@@ -457,6 +441,7 @@ public static IncidentCorrectiveActionStatusUpdate getObj(){
         if(statusCompleted.isSelected()){
             try {
                 Corrective corrective = Corrective.getObj();
+                //Corrective corrective = new Corrective();
                 String reference = cboReference.getSelectedItem().toString();
                 String hierachy = cboHierachy.getSelectedItem().toString();
                 String responsiblePerson = txtName.getText();
@@ -492,14 +477,11 @@ public static IncidentCorrectiveActionStatusUpdate getObj(){
                 model.setValueAt(txtAllocatedTask.getText(), Corrective.jTable1.getSelectedRow(),0);
                 model.setValueAt(cboHierachy.getSelectedItem().toString(), Corrective.jTable1.getSelectedRow(),1);
                 model.setValueAt(txtName.getText(), Corrective.jTable1.getSelectedRow(),2);
-                model.setValueAt(formatter, Corrective.jTable1.getSelectedRow(),3);
-                model.setValueAt(choice, Corrective.jTable1.getSelectedRow(),4);
-                
+                model.setValueAt(formatter, Corrective.jTable1.getSelectedRow(),4);
+                model.setValueAt(choice, Corrective.jTable1.getSelectedRow(),3);
                 this.dispose();
-            } catch (SQLException ex) {
-                Logger.getLogger(IncidentCorrectiveActionStatusUpdate.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(IncidentCorrectiveActionStatusUpdate.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException | ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
             }
         }
         

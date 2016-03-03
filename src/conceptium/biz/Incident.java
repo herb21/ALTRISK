@@ -1134,7 +1134,7 @@ public class Incident extends javax.swing.JFrame {
         }
         this.dispose();
         IncidentDetails iD = IncidentDetails.getObj();
-        iD.cboReference.removeAllItems();
+        IncidentDetails.cboReference.removeAllItems();
         String sql1 = "select * from Incident where ReferenceNumber = ?";
         String ref = txtReferenceNumber.getText();
         try{
