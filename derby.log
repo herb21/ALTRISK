@@ -1,24 +1,11 @@
 ----------------------------------------------------------------
-Thu Mar 03 20:02:54 SAST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0153-3da5-92ae-0000034751d8 
-on database directory /Users/MathomeTD/NetBeansProjects/Maritius/Incident with class loader sun.misc.Launcher$AppClassLoader@67424e82 
+Fri Mar 04 13:40:58 SAST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0153-416e-4208-00000321b978 
+on database directory /Users/MathomeTD/NetBeansProjects/ALTRISK/Incident with class loader sun.misc.Launcher$AppClassLoader@67424e82 
 Loaded from file:/Users/MathomeTD/Downloads/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_45-b14
-user.dir=/Users/MathomeTD/NetBeansProjects/Maritius
-os.name=Mac OS X
-os.arch=x86_64
-os.version=10.10.1
-derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Thu Mar 03 20:02:55 SAST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 08264012-0153-3da5-92ae-0000034751d8 
-on database directory /Users/MathomeTD/NetBeansProjects/Maritius/MTD with class loader sun.misc.Launcher$AppClassLoader@67424e82 
-Loaded from file:/Users/MathomeTD/Downloads/derby.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_45-b14
-user.dir=/Users/MathomeTD/NetBeansProjects/Maritius
+user.dir=/Users/MathomeTD/NetBeansProjects/ALTRISK
 os.name=Mac OS X
 os.arch=x86_64
 os.version=10.10.1

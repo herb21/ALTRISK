@@ -116,8 +116,8 @@ public class Corrective extends javax.swing.JFrame {
            txtStatus.setEnabled(true);
            }
        }
-       catch (SQLException ex) {
-           JOptionPane.showMessageDialog(null, ex);
+       catch (SQLException  ex) {
+           JOptionPane.showMessageDialog(this, ex.getNextException());
        }
 }
  
@@ -672,6 +672,7 @@ private void incident() throws SQLException, ClassNotFoundException{
                                //InternetAddress.parse("ghi@abc.com")};
         //message.addRecipients(Message.RecipientType.CC, cc);
         try {
+            String action1 = txtAction.getText();
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress("herbert@conceptium.biz"));
             //msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(GroupA));
@@ -680,9 +681,11 @@ private void incident() throws SQLException, ClassNotFoundException{
             msg.setText("Dear"+" "+responsibleName+ "\n"+
                     "Incident"+" "+reference+"\n"+
                     "Requires that you"+"\n"+
-                    "1."+action+"\n"+
+                    "1."+action1+"\n"+
                     "Due date "+ "  " +dueDate+
-                    "\n"+"\n"+"Regards");
+                    "\n"+"\n"+"Regards"+
+                    "\n"+
+                    "ALTRISK");
             Transport.send(msg);
             
             JOptionPane.showMessageDialog(Corrective.this, "Record successfully saved and Learnings distributed to  " + GroupA + "." );
@@ -849,11 +852,14 @@ private void incident() throws SQLException, ClassNotFoundException{
     }//GEN-LAST:event_cboReferenceNumberItemStateChanged
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        row = jTable1.getSelectedRow();
+        TableModel tm = jTable1.getModel();
+        String hierachy = tm.getValueAt(row, 1).toString();
+        String responsiblePerson = tm.getValueAt(row, 2).toString();
         String reference = cboReferenceNumber.getSelectedItem().toString();
         String sql = "update CorrectiveAction set Action=?,Hierachy=?"+
                 ",ResponsiblePerson=?,Status=?,DueDate=?,ReferenceNumber=?"+
                 "where ReferenceNumber='"+reference+"'";
-        TableModel tm = jTable1.getModel();
         try {
             Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);

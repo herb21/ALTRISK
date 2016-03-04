@@ -35,7 +35,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.decorator.PatternPredicate;
+import org.jdesktop.swingx.decorator.ShadingColorHighlighter;
 
 /**
  *
@@ -103,8 +109,6 @@ public class RiskRating extends javax.swing.JFrame {
         txtCat = new javax.swing.JTextField();
         txtRange = new javax.swing.JTextField();
         txtResult = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtWitnessStatement = new javax.swing.JTextArea();
@@ -123,6 +127,8 @@ public class RiskRating extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jXTable1 = new org.jdesktop.swingx.JXTable();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
 
@@ -204,19 +210,6 @@ public class RiskRating extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Name", "Employee Number", "Role", "Designation","Email Address"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
         jLabel8.setText("Investigation Team:");
 
         txtWitnessStatement.setColumns(20);
@@ -263,7 +256,7 @@ public class RiskRating extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cboReference, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,6 +303,8 @@ public class RiskRating extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setViewportView(jXTable1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -329,10 +324,8 @@ public class RiskRating extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)
                             .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(2, 2, 2)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jScrollPane2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cboFrequency, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -359,7 +352,7 @@ public class RiskRating extends javax.swing.JFrame {
                                             .addComponent(txtProbability))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtValue2)
+                                            .addComponent(txtValue2, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                                             .addComponent(txtValue3)
                                             .addComponent(txtValue1)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -367,19 +360,23 @@ public class RiskRating extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtResult)
                                             .addComponent(txtCat)))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtUpload3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtUpload2, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtUpload1, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtUpload))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtUpload1)
+                                    .addComponent(txtUpload2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtUpload3))
+                                .addGap(0, 0, 0)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(4, 4, 4))
         );
         jPanel1Layout.setVerticalGroup(
@@ -415,32 +412,37 @@ public class RiskRating extends javax.swing.JFrame {
                     .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
-                .addGap(3, 3, 3)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(2, 2, 2)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(txtUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(txtUpload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUpload1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUpload2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtUpload3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUpload1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUpload2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUpload3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4))
         );
@@ -498,12 +500,8 @@ public class RiskRating extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
         try{                                         
-            String sql = "insert into RiskRatings(ReferenceNumber, Severity, Description, value1,"+
-                    "Frequency, FrequencyDescription,Value2,Probability,probabilityDescription,Value3,"+
-                    "RiskAssessmentTotal,Category,Range,Results,WitnessStatement,SupportingDocument1,"+
-                    "SupportingDocument2,SupportingDocument3,SupportingDocument4)"+
-                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             String reference = cboReference.getSelectedItem().toString();
             String severity = cboSeverity.getSelectedItem().toString();
             String description = txtDescription.getText();
@@ -519,49 +517,64 @@ public class RiskRating extends javax.swing.JFrame {
             String range = txtRange.getText();
             String results = txtResult.getText();
             String witnessStatement = txtWitnessStatement.getText();
+            String sql = "insert into RiskRatings(EmployeeNumber,Name,Surname,Role,"+
+                    "Email,Severity,Description, value1,Frequency, FrequencyDescription,"+
+                    "Value2,Probability,probabilityDescription,Value3,RiskAssessmentTotal"+
+                    ",Category,Range,Results,WitnessStatement,SupportingDocument1,"+
+                    "SupportingDocument2,SupportingDocument3,SupportingDocument4,"+
+                    "ReferenceNumber)"+
+                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             try{
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);
-                pst.setString(1, reference);
-                pst.setString(2, severity);
-                pst.setString(3, description);
-                pst.setString(4, value1);
-                pst.setString(5, frequency);
-                pst.setString(6, freqDesc);
-                pst.setString(7, value2);
-                pst.setString(8, probability);
-                pst.setString(9, probDesc);
-                pst.setString(10, value3);
-                pst.setString(11, riskAssessment);
-                pst.setString(12, category);
-                pst.setString(13, range);
-                pst.setString(14, results);
-                pst.setString(15, witnessStatement);
-                String path = filename;
-                String newpath = path.replace('\\', '/');
-                File supportDoc1 = new File(newpath);
-                FileInputStream evidence1 = new FileInputStream(supportDoc1);
-                pst.setBinaryStream(16, evidence1);
-                String path2 = filename1;
-                String newpath2 = path2.replace('\\', '/');
-                File supportDoc2 = new File(newpath2);
-                FileInputStream evidence2 = new FileInputStream(supportDoc2);
-                pst.setBinaryStream(17, evidence2);
-                String path3 = filename2;
-                String newpath3 = path3.replace('\\', '/');
-                File supportDoc3 = new File(newpath3);
-                FileInputStream evidence3 = new FileInputStream(supportDoc3);
-                pst.setBinaryStream(18, evidence3);
-                String path4 = filename3;
-                String newpath4 = path4.replace('\\', '/');
-                File supportDoc4 = new File(newpath4);
-                FileInputStream evidence4 = new FileInputStream(supportDoc4);
-                pst.setBinaryStream(19, evidence4);
-                pst.executeUpdate();
+                TableModel tm = jXTable1.getModel();
+                for(int row = 0; row < tm.getRowCount(); row++){
+                    for(int col = 0; col < tm.getColumnCount(); col++){
+                        Object val = tm.getValueAt(row, col);
+                        pst.setObject(col+1, val);
+                        pst.setString(6, severity);
+                        pst.setString(7, description);
+                        pst.setString(8, value1);
+                        pst.setString(9, frequency);
+                        pst.setString(10, freqDesc);
+                        pst.setString(11, value2);
+                        pst.setString(12, probability);
+                        pst.setString(13, probDesc);
+                        pst.setString(14, value3);
+                        pst.setString(15, riskAssessment);
+                        pst.setString(16, category);
+                        pst.setString(17, range);
+                        pst.setString(18, results);
+                        pst.setString(19, witnessStatement);
+                        String path = filename;
+                        String newpath = path.replace('\\', '/');
+                        File supportDoc1 = new File(newpath);
+                        FileInputStream evidence1 = new FileInputStream(supportDoc1);
+                        pst.setBinaryStream(20, evidence1);
+                        String path2 = filename1;
+                        String newpath2 = path2.replace('\\', '/');
+                        File supportDoc2 = new File(newpath2);
+                        FileInputStream evidence2 = new FileInputStream(supportDoc2);
+                        pst.setBinaryStream(21, evidence2);
+                        String path3 = filename2;
+                        String newpath3 = path3.replace('\\', '/');
+                        File supportDoc3 = new File(newpath3);
+                        FileInputStream evidence3 = new FileInputStream(supportDoc3);
+                        pst.setBinaryStream(22, evidence3);
+                        String path4 = filename3;
+                        String newpath4 = path4.replace('\\', '/');
+                        File supportDoc4 = new File(newpath4);
+                        FileInputStream evidence4 = new FileInputStream(supportDoc4);
+                        pst.setBinaryStream(23, evidence4);
+                        pst.setString(24, reference);
+                }
+                pst.addBatch();
+            }
+            pst.executeBatch();
                 //JOptionPane.showMessageDialog(RiskRating.this, "Risk rating for"+" "+reference+" "+"successfully saved");
             }
             catch(SQLException | FileNotFoundException e){
-                JOptionPane.showMessageDialog(RiskRating.this, e);
+                JOptionPane.showMessageDialog(RiskRating.this, e.getMessage());
             }
             Properties props = new Properties();
             //props.put("mail.smtp.host", "smtp.gmail.com");
@@ -621,7 +634,7 @@ public class RiskRating extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(RiskRating.this, "Record successfully saved and investigation team notified  " + GroupA + "." );
             }
             catch(MessagingException | HeadlessException e){
-                JOptionPane.showMessageDialog(RiskRating.this, e);
+                JOptionPane.showMessageDialog(RiskRating.this, e.getMessage());
             }
             this.dispose();
             IncidentAnalysis analysis = new IncidentAnalysis();
@@ -629,7 +642,7 @@ public class RiskRating extends javax.swing.JFrame {
             //IncidentAnalysis.getObj().setVisible(true);
         }
         catch(ClassNotFoundException ex){
-            Logger.getLogger(RiskRating.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getException());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -741,13 +754,20 @@ public class RiskRating extends javax.swing.JFrame {
                 pst.setString(1, category);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
-                jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+                jXTable1.setModel(DbUtils.resultSetToTableModel(rs));
                 }
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(RiskRating.this, e);
         }
+        jXTable1.setSortable(false);
+        jXTable1.setToolTipText("hit cmd + f on mac to search data or Ctl + f on windows");
+        org.jdesktop.swingx.decorator.Highlighter simpleStriping = HighlighterFactory.createSimpleStriping();
+        PatternPredicate patternPredicate = new PatternPredicate("Chairperson",3,3);
+        ColorHighlighter magenta = new ColorHighlighter(patternPredicate, Color.green, Color.black, Color.LIGHT_GRAY, Color.black);
+        ShadingColorHighlighter shading = new ShadingColorHighlighter(new HighlightPredicate.ColumnHighlightPredicate(2));
         
+        jXTable1.setHighlighters(simpleStriping,magenta,shading);
         //Create group for High Priority Incidents
     }//GEN-LAST:event_cboProbailityItemStateChanged
 
@@ -873,7 +893,7 @@ public class RiskRating extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private org.jdesktop.swingx.JXTable jXTable1;
     private javax.swing.JTextField txtCat;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtFrequency;

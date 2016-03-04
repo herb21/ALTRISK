@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -33,9 +35,9 @@ public final class IncidentAnalysis extends javax.swing.JFrame {
         setResizable(false);
         initComponents();
         reference();
-        fillAbsent();
-        fillIndividualActions();
-        fillTheRest();
+        txtAbsense.setEditable(false);
+        txtAbsent1.setEditable(false);
+        //fillTheRest();
     }
     //public static IncidentAnalysis getObj(){
             //if (obj == null){
@@ -46,71 +48,12 @@ public final class IncidentAnalysis extends javax.swing.JFrame {
     
 
     
-    public void fillAbsent() throws ClassNotFoundException{
-        String reference = cboRef.getSelectedItem().toString();
-        String search = "DFO";
-        String sql = "select * from IncidentAnalysis where ReferenceNumber = ? and Absent1 like '%"+search+"%'";
-    try{
-        Connection con = DbConnection.dbConnection();
-        PreparedStatement pst = con.prepareStatement(sql);
-        pst.setString(1, reference);
-        ResultSet rs = pst.executeQuery();
-        //To remove previously added rows
-        while(jTable1.getRowCount() > 0) 
-        {
-            ((DefaultTableModel) jTable1.getModel()).removeRow(0);
-        }
-        int columns = rs.getMetaData().getColumnCount();
-        while(rs.next())
-        {  
-            Object[] row = new Object[columns];
-            for (int i = 1; i <= columns; i++)
-            {  
-                row[i - 1] = rs.getObject(i);
-            }
-            ((DefaultTableModel) jTable1.getModel()).insertRow(rs.getRow()-1,row);
-        }
-    }
-    catch(SQLException | ClassNotFoundException e){
-        Logger.getLogger(IncidentAnalysis.class.getName()).log(Level.SEVERE, null, e);
-    }
-}
     
-
-public void fillIndividualActions() throws ClassNotFoundException{
-    String reference = cboRef.getSelectedItem().toString();
-    String search = "ITO";
-    String sql = "select * from IncidentAnalysis where ReferenceNumber = ? and Factors like '%"+search+"%'";
-    try{
-        Connection con = DbConnection.dbConnection();
-        PreparedStatement pst = con.prepareStatement(sql);
-        pst.setString(1, reference);
-        ResultSet rs = pst.executeQuery();
-        //To remove previously added rows
-        while(jTable2.getRowCount() > 0) 
-        {
-            ((DefaultTableModel) jTable2.getModel()).removeRow(0);
-        }
-        int columns = rs.getMetaData().getColumnCount();
-        while(rs.next())
-        {  
-            Object[] row = new Object[columns];
-            for (int i = 1; i <= columns; i++)
-            {  
-                row[i - 1] = rs.getObject(i);
-            }
-            ((DefaultTableModel) jTable1.getModel()).insertRow(rs.getRow()-1,row);
-        }
-    }
-    catch(SQLException | ClassNotFoundException e){
-        Logger.getLogger(IncidentAnalysis.class.getName()).log(Level.SEVERE, null, e);
-    }
-}
     
-public void fillOrganisationalFactors() throws ClassNotFoundException{
+/**public void fillOrganisationalFactors() throws ClassNotFoundException{
     String reference = cboRef.getSelectedItem().toString();
     String search = "OSO";
-    String sql = "select * from IncidentAnalysis where ReferenceNumber = ? and FactorsDesc like '%"+search+"%'";
+    String sql = "select * from IncidentAnalysis where ReferenceNumber = ? and OrganisationalFactors like '%"+search+"%'";
     try{
         Connection con = DbConnection.dbConnection();
         PreparedStatement pst = con.prepareStatement(sql);
@@ -135,30 +78,8 @@ public void fillOrganisationalFactors() throws ClassNotFoundException{
     catch(SQLException | ClassNotFoundException e){
         Logger.getLogger(IncidentAnalysis.class.getName()).log(Level.SEVERE, null, e);
     }
-}
+}**/
 
-private void fillTheRest(){
-        String sql = "select * from IncidentAnalysis where ReferenceNumber = ?";
-        String reference = cboRef.getSelectedItem().toString(); 
-            try (Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-                PreparedStatement pst = con.prepareStatement(sql);){
-                pst.setString(1, reference);
-                ResultSet rs = pst.executeQuery();
-                if(rs.next()){
-                    String task = rs.getString("Task");
-                    cboTask.setSelectedItem(task.trim());
-                    String taskDesc = rs.getString("TaskDesc");
-                    txtTaskDesc.setText(taskDesc);
-                    String environment = rs.getString("Environment");
-                    cboEnvironment.setSelectedItem(environment.trim());
-                    String environmentDesc = rs.getString("EnviromentDesc");
-                    txtEnvironmentDesc.setText(environmentDesc);
-                }
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(this, e);
-        }
-    }
 
 
 private void reference(){
@@ -190,17 +111,25 @@ private void reference(){
         jLabel1 = new javax.swing.JLabel();
         txtDesc1 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
+        txtAbsense = new javax.swing.JTextField();
+        txtAbsentDesc = new javax.swing.JTextField();
+        txtAbsentDesc1 = new javax.swing.JTextField();
+        txtAbsent1 = new javax.swing.JTextField();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         cboTeam = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         txtTeamDesc3 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
+        txtIndividualAction = new javax.swing.JTextField();
+        txtIndividualAction1 = new javax.swing.JTextField();
+        txtIndividualActionDesc = new javax.swing.JTextField();
+        txtIndividualActionDesc1 = new javax.swing.JTextField();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        jCheckBox4 = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtTaskDesc = new javax.swing.JTextField();
@@ -211,9 +140,13 @@ private void reference(){
         jLabel5 = new javax.swing.JLabel();
         txtFactors1 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
+        txtOrganisationFactors = new javax.swing.JTextField();
+        txtOrganisationalFactors1 = new javax.swing.JTextField();
+        txtOrganisationalDesc = new javax.swing.JTextField();
+        txtOrganisationalDesc1 = new javax.swing.JTextField();
+        jCheckBox5 = new javax.swing.JCheckBox();
+        jCheckBox6 = new javax.swing.JCheckBox();
         jPanel6 = new javax.swing.JPanel();
         txtEnvironmentDesc = new javax.swing.JTextField();
         cboEnvironment = new javax.swing.JComboBox();
@@ -243,425 +176,526 @@ private void reference(){
 
         jLabel1.setText("Absent or failed defenses:");
 
-        txtDesc1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDesc1ActionPerformed(evt);
+        txtDesc1.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+
             }
-        });
 
-        jLabel8.setText("Description:");
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                //if(cboNature.getSelectedItem().toString().equals("Above R50 000")||cboNature.getSelectedItem().toString().equals("Fatality")){
+                    //txtReferenceNumber.setBackground(Color.RED);
+                    //}else{
+                    //txtReferenceNumber.setBackground(Color.GREEN);}
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-            },
-            new String [] {
-                "Absent or Failed defenses", "Description"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                //format.format(Integer.parseInt(txtTest.getText();
+                    //System.out.println(format.format(Integer.parseInt(txtTest.getText())));
+                    //jFormattedTextField1.setValue(Double.parseDouble(txtTest.getText()));
+                }
+            });
+            txtDesc1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    txtDesc1ActionPerformed(evt);
+                }
+            });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jLabel8.setText("Description:");
+
+            jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
+            jButton4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton4ActionPerformed(evt);
+                }
+            });
+
+            txtAbsentDesc.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    txtAbsentDescActionPerformed(evt);
+                }
+            });
+
+            jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jCheckBox1ActionPerformed(evt);
+                }
+            });
+
+            jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jCheckBox2ActionPerformed(evt);
+                }
+            });
+
+            javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+            jPanel2.setLayout(jPanel2Layout);
+            jPanel2Layout.setHorizontalGroup(
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtAbsent1)
+                        .addComponent(txtAbsense)
+                        .addComponent(cboAbsent1, 0, 258, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel1)
-                            .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel8)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(0, 0, 0))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtAbsentDesc)
+                                .addComponent(txtAbsentDesc1))
+                            .addGap(0, 0, 0)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jCheckBox1)
+                                .addComponent(jCheckBox2))))
+                    .addGap(0, 0, 0))
+            );
+            jPanel2Layout.setVerticalGroup(
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(1, 1, 1)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel8))
+                    .addGap(3, 3, 3)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cboAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(3, 3, 3)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jCheckBox1)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtAbsense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAbsentDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(3, 3, 3)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtAbsentDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAbsent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGap(2, 2, 2))
+            );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cboTeam.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable","IT00 : Make a Selection", "IT01: Supervision", "IT02: Operating authority", "IT03: Operating speed", "IT04: Equipment use", "IT05: Personal protactive equipment", "IT06: Procedural compliance", "IT07: Change management", "IT08: Equipment/Materails handling", "IT09: Misconduct", "IT10: Work method", "IT11: Occupational hygine practices", "IT12: Hazard recognition/perception", "IT:13 Risk Management", "Other(specify)"}));
-        cboTeam.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboTeamActionPerformed(evt);
-            }
-        });
+            cboTeam.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable", "IT01: Supervision", "IT02: Operating authority", "IT03: Operating speed", "IT04: Equipment use", "IT05: Personal protactive equipment", "IT06: Procedural compliance", "IT07: Change management", "IT08: Equipment/Materails handling", "IT09: Misconduct", "IT10: Work method", "IT11: Occupational hygine practices", "IT12: Hazard recognition/perception", "IT:13 Risk Management", "Other(specify)"}));
+            cboTeam.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    cboTeamActionPerformed(evt);
+                }
+            });
 
-        jLabel2.setText("Individual / Team Actions:");
+            jLabel2.setText("Individual / Team Actions:");
 
-        txtTeamDesc3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTeamDesc3ActionPerformed(evt);
-            }
-        });
+            txtTeamDesc3.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    txtTeamDesc3ActionPerformed(evt);
+                }
+            });
 
-        jLabel9.setText("Description:");
+            jLabel9.setText("Description:");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-            },
-            new String [] {
-                "Individual / team Actions", "Description"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+            jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
+            jButton5.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton5ActionPerformed(evt);
+                }
+            });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
+            txtIndividualAction.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    txtIndividualActionActionPerformed(evt);
+                }
+            });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addGap(0, 0, 0))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel9)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cboTeam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(1, 1, 1)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
+            jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jCheckBox3ActionPerformed(evt);
+                }
+            });
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jCheckBox4ActionPerformed(evt);
+                }
+            });
 
-        jLabel3.setText("Task / Environmental conditions (Workplace)");
+            javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+            jPanel3.setLayout(jPanel3Layout);
+            jPanel3Layout.setHorizontalGroup(
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtIndividualAction1)
+                        .addComponent(txtIndividualAction)
+                        .addComponent(cboTeam, 0, 263, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(txtTeamDesc3, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtIndividualActionDesc1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtIndividualActionDesc, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jCheckBox3)
+                                .addComponent(jCheckBox4)))))
+            );
+            jPanel3Layout.setVerticalGroup(
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jCheckBox3))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel9))
+                            .addGap(2, 2, 2)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(cboTeam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txtTeamDesc3))
+                            .addGap(2, 2, 2)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtIndividualAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtIndividualActionDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGap(2, 2, 2)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtIndividualAction1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtIndividualActionDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(2, 2, 2))
+                        .addComponent(jCheckBox4, javax.swing.GroupLayout.Alignment.TRAILING)))
+            );
 
-        cboTask.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Not Applicable", "TW01: Task Planning/preparation/manning", "TW02: Hazard analysis/JSA/Take 5", "TW03: Procedures - avalaibility and suitability", "TW04: Permit to work - availability and suitability", "TW05: Abnormal operational situation or condition", "TW06: Tools /equipment/materials", "TW07: Equipment intergrity", "TW08: House Keeping", "TWO09: Weather conditions", "TW10: Congestion/restriction/access", "TW11: routine/non routine task", "TW12: Fire and/or explosion hazard", "TW13: Lighting", "TW14: Temperature", "TW15: Noise", "TW16: Ventilation", "TW17: Pressure", "TW18: Gas, dust or fumes", "TW19: Radiation", "TW20:Chemical", "TW21: Training", "TW22:Wild life", "TW23: Surface gradient/conditions", "Other Specify" }));
+            jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel10.setText("Description:");
+            jLabel3.setText("Task / Environmental conditions (Workplace)");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+            cboTask.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Not Applicable", "TW01: Task Planning/preparation/manning", "TW02: Hazard analysis/JSA/Take 5", "TW03: Procedures - avalaibility and suitability", "TW04: Permit to work - availability and suitability", "TW05: Abnormal operational situation or condition", "TW06: Tools /equipment/materials", "TW07: Equipment intergrity", "TW08: House Keeping", "TWO09: Weather conditions", "TW10: Congestion/restriction/access", "TW11: routine/non routine task", "TW12: Fire and/or explosion hazard", "TW13: Lighting", "TW14: Temperature", "TW15: Noise", "TW16: Ventilation", "TW17: Pressure", "TW18: Gas, dust or fumes", "TW19: Radiation", "TW20:Chemical", "TW21: Training", "TW22:Wild life", "TW23: Surface gradient/conditions", "Other Specify" }));
+
+            jLabel10.setText("Description:");
+
+            javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+            jPanel4.setLayout(jPanel4Layout);
+            jPanel4Layout.setHorizontalGroup(
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(cboTask, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTaskDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
-                .addGap(0, 0, 0))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTaskDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+                        .addComponent(cboTask, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addComponent(jLabel10)
+                            .addContainerGap(414, Short.MAX_VALUE))
+                        .addComponent(txtTaskDesc)))
+            );
+            jPanel4Layout.setVerticalGroup(
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel10))
+                    .addGap(2, 2, 2)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cboTask)
+                        .addComponent(txtTaskDesc))
+                    .addGap(0, 2, Short.MAX_VALUE))
+            );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cboFactors.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable", "OS01: Leadership and accountability", "OS02: Legal requirements, committment and document control", "OS03: Risk and change management", "OS04: Planning, goals and targets", "OS05: Health and hygiene", "SO07: Communication, consult and participation", "SO08: Business conduct, human rights, community", "SO09: Design, construction and commisioning", "SO10: Operations and maintenance", "SO11: Suppliers, contractors and patners", "SO12: Stewardship", "SO13: Incident reporting and investigation", "SO14: Crisis and emergency management", "SO15: Monitoring, audit and review", "Others(specify)", " ", " ", " " }));
-        cboFactors.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboFactorsActionPerformed(evt);
-            }
-        });
+            cboFactors.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable", "OS01: Leadership and accountability", "OS02: Legal requirements, committment and document control", "OS03: Risk and change management", "OS04: Planning, goals and targets", "OS05: Health and hygiene", "SO07: Communication, consult and participation", "SO08: Business conduct, human rights, community", "SO09: Design, construction and commisioning", "SO10: Operations and maintenance", "SO11: Suppliers, contractors and patners", "SO12: Stewardship", "SO13: Incident reporting and investigation", "SO14: Crisis and emergency management", "SO15: Monitoring, audit and review", "Others(specify)", " ", " ", " " }));
+            cboFactors.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    cboFactorsActionPerformed(evt);
+                }
+            });
 
-        jLabel5.setText("Organisational Factors:");
+            jLabel5.setText("Organisational Factors:");
 
-        jLabel13.setText("Description:");
+            jLabel13.setText("Description:");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-            },
-            new String [] {
-                "Organisational Factors", "Description"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable3);
+            jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
+            jButton6.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton6ActionPerformed(evt);
+                }
+            });
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add139-4.png"))); // NOI18N
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
+            txtOrganisationFactors.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    txtOrganisationFactorsActionPerformed(evt);
+                }
+            });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(cboFactors, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
+            txtOrganisationalDesc.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    txtOrganisationalDescActionPerformed(evt);
+                }
+            });
+
+            jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jCheckBox5ActionPerformed(evt);
+                }
+            });
+
+            jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jCheckBox6ActionPerformed(evt);
+                }
+            });
+
+            javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+            jPanel5.setLayout(jPanel5Layout);
+            jPanel5Layout.setHorizontalGroup(
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtOrganisationalFactors1)
+                        .addComponent(txtOrganisationFactors, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(cboFactors, javax.swing.GroupLayout.Alignment.LEADING, 0, 400, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(txtFactors1)
+                            .addGap(0, 0, 0)
+                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel13)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(txtFactors1)
-                                .addGap(0, 0, 0)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 0, 0))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel13))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboFactors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFactors1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(1, 1, 1)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
+                                .addComponent(txtOrganisationalDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                                .addComponent(txtOrganisationalDesc1))
+                            .addGap(0, 0, 0)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jCheckBox5)
+                                .addComponent(jCheckBox6))))
+                    .addGap(0, 0, Short.MAX_VALUE))
+            );
+            jPanel5Layout.setVerticalGroup(
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel13))
+                    .addGap(2, 2, 2)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboFactors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtFactors1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(2, 2, 2)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtOrganisationFactors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtOrganisationalDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jCheckBox5))
+                    .addGap(2, 2, 2)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtOrganisationalFactors1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtOrganisationalDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jCheckBox6)))
+            );
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cboEnvironment.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable", "HF01: Complisency/motivation/attitude", "HF02: Drugs/Alcohol influence", "HF03: Fatigue", "HF04: Time/ productivity pressures", "HF05: Peer pressure/ Supervisory example", "HF06:Physical/mental capabilities", "HF07: Physical/mental stress", "HF08: Personal issues", "HF09: Distraction/pre-occupation", "HF10: Compitence/experience/skills for task", "HF11: Poor inadequate communication", "HF12: Tolarance of violations", "HF13: Change of routine", "Other(specify)", " " }));
-        cboEnvironment.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboEnvironmentActionPerformed(evt);
-            }
-        });
+            cboEnvironment.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Not Applicable", "HF01: Complisency/motivation/attitude", "HF02: Drugs/Alcohol influence", "HF03: Fatigue", "HF04: Time/ productivity pressures", "HF05: Peer pressure/ Supervisory example", "HF06:Physical/mental capabilities", "HF07: Physical/mental stress", "HF08: Personal issues", "HF09: Distraction/pre-occupation", "HF10: Compitence/experience/skills for task", "HF11: Poor inadequate communication", "HF12: Tolarance of violations", "HF13: Change of routine", "Other(specify)", " " }));
+            cboEnvironment.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    cboEnvironmentActionPerformed(evt);
+                }
+            });
 
-        jLabel11.setText("Task / Environmental conditions (Human)");
+            jLabel11.setText("Task / Environmental conditions (Human)");
 
-        jLabel12.setText("Description:");
+            jLabel12.setText("Description:");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(cboEnvironment, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(txtEnvironmentDesc))
-                .addGap(0, 0, 0))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboEnvironment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEnvironmentDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+            javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+            jPanel6.setLayout(jPanel6Layout);
+            jPanel6Layout.setHorizontalGroup(
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel11)
+                        .addComponent(cboEnvironment, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabel12)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(txtEnvironmentDesc))
+                    .addGap(0, 0, 0))
+            );
+            jPanel6Layout.setVerticalGroup(
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabel12))
+                    .addGap(2, 2, 2)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cboEnvironment)
+                        .addComponent(txtEnvironmentDesc))
+                    .addGap(0, 2, Short.MAX_VALUE))
+            );
 
-        jLabel4.setText("Reference Number:");
+            jLabel4.setText("Reference Number:");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboRef, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboRef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
+            javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+            jPanel1.setLayout(jPanel1Layout);
+            jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cboRef, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(0, 0, 0))
+            );
+            jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboRef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(2, 2, 2)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(2, 2, 2)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(2, 2, 2)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(2, 2, 2)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0))
+            );
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+            jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
+            jButton1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton1ActionPerformed(evt);
+                }
+            });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/question-mark-key.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+            jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/question-mark-key.png"))); // NOI18N
+            jButton2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton2ActionPerformed(evt);
+                }
+            });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/close.png"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+            jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/close.png"))); // NOI18N
+            jButton3.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton3ActionPerformed(evt);
+                }
+            });
 
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+            jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 53, Short.MAX_VALUE)
-        );
+            javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+            jPanel7.setLayout(jPanel7Layout);
+            jPanel7Layout.setHorizontalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 0, Short.MAX_VALUE)
+            );
+            jPanel7Layout.setVerticalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 53, Short.MAX_VALUE)
+            );
 
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+            jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 32, Short.MAX_VALUE)
-        );
+            javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+            jPanel8.setLayout(jPanel8Layout);
+            jPanel8Layout.setHorizontalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 0, Short.MAX_VALUE)
+            );
+            jPanel8Layout.setVerticalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 32, Short.MAX_VALUE)
+            );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, 0)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap())
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2)
+                        .addComponent(jButton3))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            );
 
-        pack();
-        setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+            pack();
+            setLocationRelativeTo(null);
+        }// </editor-fold>//GEN-END:initComponents
 
     private void cboTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTeamActionPerformed
         // TODO add your handling code here:
@@ -672,56 +706,49 @@ private void reference(){
     }//GEN-LAST:event_cboAbsent1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String sql = "insert into IncidentAnalysis(ReferenceNumber,Absent1,Absent2,Absent3,Team,Team1,Team2,Team3,"+
-                "Task,Environment,Factors,Factor1,Factor2,Desc0,Desc1,Desc2,TeamDesc,TeamDesc1,TeamDes2,TeamdDesc3,"+
-                "TaskDesc,EnviromentDesc,FactorsDesc,FactorsDesc1,FacorsDesc2)"+
-                "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into IncidentAnalysis(ReferenceNumber,AbsentDefenses,Description,"+
+                "AbsentDefenses1,Description1,IndividualAction,InidividualDescription,IndividualAction1,"+
+                "IndividualDescription1,TaskWorkPlace,TaskWorkPlaceDesc,EnvironmentHuman,"+
+                "EnvironmentHumanDesc,OrganisationalFactors,OrganisationDescription,OrganisationFactors1,"+
+                "OrganisationDescription1)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String reference = cboRef.getSelectedItem().toString();
-        String absent1 = cboAbsent1.getSelectedItem().toString();
-        String team = cboTeam.getSelectedItem().toString();
-        String task = cboTask.getSelectedItem().toString();
-        String environment = cboEnvironment.getSelectedItem().toString();
-        String factors = cboFactors.getSelectedItem().toString();
-        String factors1 = cboFactors.getSelectedItem().toString();
-        String factors2 = cboFactors.getSelectedItem().toString();
-        String desc = txtDesc1.getText();
-        String teamDisc3 = txtTeamDesc3.getText();
-        String taskDesc = txtTaskDesc.getText();
-        String environmentDesc = txtEnvironmentDesc.getText();
-        String factorsDesc = txtFactors1.getText();
+        String absenseDefenses = txtAbsense.getText();
+        String absenseDesc = txtAbsentDesc.getText();
+        String absenseDefenses1 = txtAbsent1.getText();
+        String absenseDesc1 = txtAbsentDesc1.getText();
+        String individualAction = txtIndividualAction.getText();
+        String individualActionDesc = txtIndividualActionDesc.getText();
+        String individualAction1 = txtIndividualAction1.getText();
+        String individualActionDesc1 = txtIndividualActionDesc1.getText();
+        String taskWorkPlace = cboTask.getSelectedItem().toString();
+        String taskWorkPlaceDesc = txtTaskDesc.getText();
+        String environmentHuman = cboEnvironment.getSelectedItem().toString();
+        String environmentHumanDesc = txtEnvironmentDesc.getText();
+        String OrganisationalFactors = txtOrganisationFactors.getText();
+        String OrganisationalFactorsDesc = txtOrganisationalDesc.getText();
+        String OrganisationalFactors1 = txtOrganisationalDesc1.getText();
+        String OrganisationalFactorsDesc1 = txtOrganisationalFactors1.getText();
         try{
             Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, reference);
-            TableModel tm = jTable1.getModel();
-            for(int row = 0; row < tm.getRowCount(); row++){
-                    String absentDefenses = tm.getValueAt(row, 0).toString();
-                    String description = tm.getValueAt(row, 1).toString();
-                    pst.setString(2, absentDefenses);
-                    pst.setString(3, description);
-             pst.addBatch();
-             pst.setString(4, team);
-             TableModel tm1 = jTable2.getModel();
-             for(int row1 = 0; row1 < tm.getRowCount(); row1++){
-                    String individualAction = tm1.getValueAt(row, 0).toString();
-                    String individualDescription = tm1.getValueAt(row, 1).toString();
-                    pst.setString(5, individualAction);
-                    pst.setString(6, individualDescription);
-                pst.addBatch();
-                pst.setString(7, task);
-                pst.setString(8, environment);
-                TableModel tm2 = jTable3.getModel();
-                for(int row2 = 0; row2 < tm.getRowCount(); row2++){
-                    String organisationalFactors = tm2.getValueAt(row, 0).toString();
-                    String organisationalDescription = tm2.getValueAt(row, 1).toString();
-                    pst.setString(9, organisationalFactors);
-                    pst.setString(10, organisationalDescription);
-                pst.addBatch();
-            }
-                }
-            }
-            pst.addBatch();
-            pst.executeBatch();
+            pst.setString(2, absenseDefenses);
+            pst.setString(3, absenseDesc);
+            pst.setString(4, absenseDefenses1);
+            pst.setString(5, absenseDesc1);
+            pst.setString(6, individualAction);
+            pst.setString(7, individualActionDesc);
+            pst.setString(8, individualAction1);
+            pst.setString(9, individualActionDesc1);
+            pst.setString(10, taskWorkPlace);
+            pst.setString(11, taskWorkPlaceDesc);
+            pst.setString(12, environmentHuman);
+            pst.setString(13, environmentHumanDesc);
+            pst.setString(14, OrganisationalFactors);
+            pst.setString(15, OrganisationalFactorsDesc);
+            pst.setString(16, OrganisationalFactors1);
+            pst.setString(17,OrganisationalFactorsDesc1);
+            pst.executeUpdate();
             JOptionPane.showMessageDialog(IncidentAnalysis.this, "Analysis successfully save.");
         }
         catch(SQLException | HeadlessException | ClassNotFoundException e){
@@ -757,27 +784,108 @@ private void reference(){
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         String absent = cboAbsent1.getSelectedItem().toString();
-        String description = txtDesc1.getText();
-        Object[] row = {absent,description};
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.addRow(row);
+            String description = txtDesc1.getText();
+            if(txtAbsentDesc.getText().equals("")){
+            txtAbsense.setText(absent);
+            txtAbsentDesc.setText(description);
+            txtAbsense.setEnabled(false);
+            jCheckBox1.setSelected(false);
+            }
+            else{
+                txtAbsent1.setText(absent);
+                txtAbsentDesc1.setText(description);
+                txtAbsent1.setEnabled(false);
+                jCheckBox2.setSelected(false);
+                
+            }
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         String absent = cboTeam.getSelectedItem().toString();
         String description = txtTeamDesc3.getText();
-        Object[] row = {absent,description};
-        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
-        model.addRow(row);
+        if(txtIndividualAction.getText().equals("")){
+        txtIndividualAction.setText(absent);
+        txtIndividualActionDesc.setText(description);
+        txtIndividualAction.setEnabled(false);
+        jCheckBox3.setSelected(false);
+        }else{
+            txtIndividualAction1.setText(absent);
+            txtIndividualActionDesc1.setText(description);
+            txtIndividualAction1.setEnabled(false);
+            jCheckBox4.setSelected(false);
+        }
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         String absent = cboFactors.getSelectedItem().toString();
         String description = txtFactors1.getText();
-        Object[] row = {absent,description};
-        DefaultTableModel model = (DefaultTableModel)jTable3.getModel();
-        model.addRow(row);
+        if(txtOrganisationFactors.getText().equals("")){
+        txtOrganisationFactors.setText(absent);
+        txtOrganisationalDesc.setText(description);
+        txtOrganisationFactors.setEnabled(false);
+        jCheckBox5.setSelected(false);
+        }else{
+            txtOrganisationalDesc1.setText(description);
+            txtOrganisationalFactors1.setText(absent);
+            txtOrganisationalFactors1.setEnabled(false);
+            jCheckBox6.setSelected(false);
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void txtIndividualActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIndividualActionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIndividualActionActionPerformed
+
+    private void txtOrganisationFactorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrganisationFactorsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtOrganisationFactorsActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        txtAbsense.setText("");
+        txtAbsentDesc.setText("");
+        txtAbsense.setEnabled(true);
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void txtAbsentDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAbsentDescActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAbsentDescActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        txtAbsent1.setText("");
+        txtAbsentDesc1.setText("");
+        txtAbsent1.setEnabled(true);
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
+
+    private void txtOrganisationalDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrganisationalDescActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtOrganisationalDescActionPerformed
+
+    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+        txtIndividualAction.setText("");
+        txtIndividualActionDesc.setText("");
+        txtIndividualAction.setEnabled(true);
+    }//GEN-LAST:event_jCheckBox3ActionPerformed
+
+    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+        txtIndividualAction1.setText("");
+            txtIndividualActionDesc1.setText("");
+            txtIndividualAction1.setEnabled(true);
+    }//GEN-LAST:event_jCheckBox4ActionPerformed
+
+    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
+        txtOrganisationalDesc1.setText("");
+            txtOrganisationalFactors1.setText("");
+            txtOrganisationalFactors1.setEnabled(true);
+    }//GEN-LAST:event_jCheckBox6ActionPerformed
+
+    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+        txtOrganisationFactors.setText("");
+        txtOrganisationalDesc.setText("");
+        txtOrganisationFactors.setEnabled(true);
+    }//GEN-LAST:event_jCheckBox5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -831,6 +939,12 @@ private void reference(){
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -850,15 +964,21 @@ private void reference(){
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JTextField txtAbsense;
+    private javax.swing.JTextField txtAbsent1;
+    private javax.swing.JTextField txtAbsentDesc;
+    private javax.swing.JTextField txtAbsentDesc1;
     private javax.swing.JTextField txtDesc1;
     private javax.swing.JTextField txtEnvironmentDesc;
     private javax.swing.JTextField txtFactors1;
+    private javax.swing.JTextField txtIndividualAction;
+    private javax.swing.JTextField txtIndividualAction1;
+    private javax.swing.JTextField txtIndividualActionDesc;
+    private javax.swing.JTextField txtIndividualActionDesc1;
+    private javax.swing.JTextField txtOrganisationFactors;
+    private javax.swing.JTextField txtOrganisationalDesc;
+    private javax.swing.JTextField txtOrganisationalDesc1;
+    private javax.swing.JTextField txtOrganisationalFactors1;
     private javax.swing.JTextField txtTaskDesc;
     private javax.swing.JTextField txtTeamDesc3;
     // End of variables declaration//GEN-END:variables
