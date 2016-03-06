@@ -5,6 +5,15 @@
  */
 package conceptium.biz;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author MathomeTD
@@ -15,17 +24,33 @@ public class ListRisk extends javax.swing.JFrame {
      * Creates new form ListRisk
      */
     private static ListRisk obj = null;
-    private ListRisk() {
+    private ListRisk() throws ClassNotFoundException, SQLException {
         setUndecorated(true);
         setResizable(false);
         initComponents();
+        updateTable();
     }
-public static ListRisk getObj(){
+public static ListRisk getObj() throws ClassNotFoundException, SQLException{
             if (obj == null){
                 obj = new ListRisk();
             }
             return obj;
         }
+
+public void updateTable() throws ClassNotFoundException, SQLException{
+    String sql = "Select * from Risk ";
+       try {
+           //Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
+           Connection con = DbConnection.dbConnection();
+           PreparedStatement pst = con.prepareStatement(sql);
+           //pst.setString(1, search);
+           ResultSet rs = pst.executeQuery();
+           jXTable1.setModel(DbUtils.resultSetToTableModel(rs));
+       }
+       catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, ex);
+       }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -162,7 +187,11 @@ public static ListRisk getObj(){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ListRisk().setVisible(true);
+                try {
+                    new ListRisk().setVisible(true);
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(ListRisk.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

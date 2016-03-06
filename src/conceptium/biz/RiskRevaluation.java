@@ -7,6 +7,7 @@ package conceptium.biz;
 
 import static conceptium.biz.Incident.cboEmployeeNumber;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author MathomeTD
  */
-public class RiskRevaluation extends javax.swing.JFrame {
+public final class RiskRevaluation extends javax.swing.JFrame {
 
     /**
      * Creates new form RiskRevaluation
@@ -27,10 +28,29 @@ public RiskRevaluation() throws SQLException {
         setUndecorated(true);
         setResizable(false);
         initComponents();
-        responsiblePerson();
+        referenceNUmber();
+        java.util.Date today = new java.util.Date();
+        dcTodayDate.setDate(today);
+        dcTodayDate.setEnabled(false);
+        //responsiblePerson();
     }
 
-private void responsiblePerson() throws SQLException{
+public void referenceNUmber(){
+                String sql1 = "select * from Risk";
+            try{
+                Connection con = DbConnection.dbConnection();
+                PreparedStatement pst = con.prepareStatement(sql1);
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                    String reference = rs.getString("ReferenceNumber");
+                    RiskRevaluation.cboReferenceNumber.addItem(reference);
+                }
+            }
+            catch(ClassNotFoundException | SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+}
+/**private void responsiblePerson() throws SQLException{
         String sql ="Select * from Persons";
             try {
                 Connection con = DbConnection.dbConnection();
@@ -44,7 +64,7 @@ private void responsiblePerson() throws SQLException{
         }
         catch(ClassNotFoundException | SQLException e){
             JOptionPane.showMessageDialog(this, e);
-        }}
+        }}**/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,24 +76,19 @@ private void responsiblePerson() throws SQLException{
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cboReferenceNumber = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtExistingControls = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jLabel5 = new javax.swing.JLabel();
-        cboResponsiblePerson = new javax.swing.JComboBox();
-        dcTodayDate = new com.toedter.calendar.JDateChooser();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        cboAdditionalControls = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ratingList = new javax.swing.JList();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ratingList = new javax.swing.JList();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        dcTodayDate = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
 
@@ -91,49 +106,17 @@ private void responsiblePerson() throws SQLException{
 
         jLabel2.setText("Existing Controls:");
 
+        txtExistingControls.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtExistingControlsActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Current Residual Rating:");
 
         jLabel4.setText("Additional Controls:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel5.setText("Responsible Person:");
-
-        jLabel6.setText("Status:");
-
-        jLabel7.setText("Date:");
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/close.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(0, 0, 0))
-        );
+        cboAdditionalControls.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         ratingList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Level 6 : Critical", "Level 5 : Major", "Level 4 : Moderate", "Level 3 : Minor", "Level 2 : Low        ", "Level 1 : Zero impact ", " " };
@@ -152,84 +135,107 @@ private void responsiblePerson() throws SQLException{
         });
         jScrollPane1.setViewportView(ratingList);
 
-        jCheckBox1.setText("Open");
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jCheckBox2.setText("Closed");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/save.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/close.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(0, 0, 0))
+        );
+
+        jLabel5.setText("Date:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel3)))
-                .addGap(2, 2, 2)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
-                .addGap(2, 2, 2)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(dcTodayDate, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox2))
+                                .addGap(105, 105, 105)
+                                .addComponent(jLabel5))
+                            .addComponent(jLabel3))
+                        .addGap(2, 2, 2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(dcTodayDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(2, 2, 2)
+                        .addComponent(cboReferenceNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cboResponsiblePerson, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(38, 38, 38)
+                                .addComponent(jLabel2)
+                                .addGap(2, 2, 2)
+                                .addComponent(txtExistingControls, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel4)
+                                .addGap(2, 2, 2)
+                                .addComponent(cboAdditionalControls, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
+                    .addComponent(cboReferenceNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(cboResponsiblePerson, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
+                    .addComponent(txtExistingControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cboAdditionalControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jCheckBox1)
-                                    .addComponent(jCheckBox2))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(dcTodayDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dcTodayDate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(3, 3, 3)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -262,12 +268,12 @@ private void responsiblePerson() throws SQLException{
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,8 +281,8 @@ private void responsiblePerson() throws SQLException{
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -289,36 +295,172 @@ private void responsiblePerson() throws SQLException{
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        java.util.Date date = new java.util.Date();
-        dcTodayDate.setDate(date);
-        dcTodayDate.setEnabled(false);
-    }//GEN-LAST:event_formWindowActivated
 
+    }//GEN-LAST:event_formWindowActivated
+    private int residualValue;
     private void ratingListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingListMouseClicked
         String term = ratingList.getSelectedValue().toString();
-        if(term.equals("Level 6 : Critical")||term.equals("Level 5 : Major")||term.equals("Level 4 : Moderate")){
-            jCheckBox1.setSelected(true);
-            jCheckBox2.setEnabled(false);
-        }else{
-        
-        jCheckBox2.setSelected(true);
-        jCheckBox1.setEnabled(false);
+        switch (term) {
+            case "Level 6 : Critical":
+                residualValue = 6;
+                break;
+            case "Level 5 : Major":
+                residualValue = 5;
+                break;
+            case "Level 4 : Moderate":
+                residualValue = 4;
+                break;
+            case "Level 3 : Minor":
+                residualValue = 3;
+                break;
+            case "Level 2 : Low":
+                
+                residualValue = 2;
+                break;
+            case "Level 1 : Zero Impact":
+                residualValue = 1;
+                break;
         }
     }//GEN-LAST:event_ratingListMouseClicked
 
     private void ratingListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ratingListValueChanged
         String term = ratingList.getSelectedValue().toString();
-        if(term.equals("Level 6 : Critical")||term.equals("Level 5 : Major")||term.equals("Level 4 : Moderate")){
-            jCheckBox1.setSelected(true);
-            jCheckBox2.setSelected(false);
-            jCheckBox2.setEnabled(false);
-        }else{
         
-        jCheckBox2.setSelected(true);
-        jCheckBox1.setSelected(false);
-        jCheckBox1.setEnabled(false);
-        }
     }//GEN-LAST:event_ratingListValueChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            try{                                         
+                String ref = cboReferenceNumber.getSelectedItem().toString();
+                String existingControls = txtExistingControls.getText();
+                //int residualRating = Integer.parseInt(ratingList.getSelectedValue().toString());
+                String addControls = cboAdditionalControls.getSelectedItem().toString();
+                //String responsiblePerson = cboResponsiblePerson.getSelectedItem().toString();
+                Date date = new java.sql.Date (dcTodayDate.getDate().getTime());
+                String sql = "insert into RiskRevaluation(ReferenceNumber,ExistingControls,"+
+                        "AdditionalControls,CurrentResidualValue,TodayDate)"+
+                        "values(?,?,?,?,?)";
+                try(Connection con = DbConnection.dbConnection();
+                        PreparedStatement pst = con.prepareStatement(sql);){
+                    pst.setString(1, ref);
+                    pst.setString(2, existingControls);
+                    pst.setString(3, addControls);
+                    pst.setInt(4, residualValue);
+                    pst.setDate(5, date);
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(RiskRevaluation.this, "incident"+" "+ ref+ " "+ "successfully saved.");
+                    
+                    DashBoards.newIncident();
+                    DashBoards.loadGraphs();
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(RiskRevaluation.this, e.getMessage());
+                }
+                CreateRisk risk = new CreateRisk();
+                CreateRisk.txtRef.setText(ref);
+                CreateRisk.txtRef.setEnabled(false);
+                String sql1 = "select * from Risk"; 
+                try{
+                Connection con = DbConnection.dbConnection();
+                PreparedStatement pst = con.prepareStatement(sql1);
+                ResultSet rs = pst.executeQuery();
+                if(rs.next()){
+                    String site = rs.getString("Site");
+                    CreateRisk.cboSite.setSelectedItem(site);
+                    CreateRisk.cboSite.setEnabled(false);
+                    String department = rs.getString("Department");
+                    CreateRisk.cboDepartment.setSelectedItem(department);
+                    CreateRisk.cboDepartment.setEnabled(false);
+                    String hazard = rs.getString("Hazard");
+                    CreateRisk.txtHazard.setText(hazard);
+                    CreateRisk.txtHazard.setEnabled(false);
+                    String riskCategory = rs.getString("RiskCategory");
+                    CreateRisk.cboRiskCategory.setSelectedItem(riskCategory);
+                    CreateRisk.cboRiskCategory.setEnabled(false);
+                    int severityScore = rs.getInt("SeverityScore");
+                    String sev = String.valueOf(severityScore);
+                    switch (sev) {
+                    case "6":
+                        severity = "Level 6 : Critical";
+                        break;
+                    case "5":
+                        severity = "Level 5 : Major";
+                        break;
+                    case "4":
+                        severity = "Level 4 : Moderate";
+                        break;
+                    case "3":
+                        severity = "Level 3 : Minor";
+                        break;
+                    case "2":
+                        severity = "Level 2 : Low";
+                        break;
+                    case "1":
+                        severity = "Level 1 : Zero Impact";
+                        break;
+                    }
+                    CreateRisk.lstSeverity.setSelectedValue(severity, false);
+                    CreateRisk.lstSeverity.setEnabled(false);
+                    int probabiliyScore = rs.getInt("ProbabiliyScore");
+                    String prob = String.valueOf(probabiliyScore);
+                    switch (prob) {
+                    case "6":
+                        probability = "6 - Almost certain";
+                        break;
+                    case "5":
+                        probability = "5 - Likely";
+                        break;
+                    case "4":
+                        probability = "4 - Possible";
+                        break;
+                    case "3":
+                        probability = "3 - unlikely";
+                        break;
+                    case "2":
+                        probability = "2 - rare";
+                        break;
+                    case "1":
+                        probability = "1 - not possible";
+                        break;
+                    }
+                    CreateRisk.lstProbability.setSelectedValue(probability, false);
+                    int rawScore  = rs.getInt("RawScore");
+                    CreateRisk.txtRawScore.setText(String.valueOf(rawScore));
+                    CreateRisk.txtRawScore.setEnabled(false);
+                    Date todayDate = rs.getDate("TodayDate");
+                    CreateRisk.dcTodayDate.setDate(todayDate);
+                    CreateRisk.dcTodayDate.setEnabled(false);
+                    String responsiblePerson1 = rs.getString("ResponsiblePerson");
+                    CreateRisk.cboResponsiblePerson.setSelectedItem(responsiblePerson1);
+                    CreateRisk.cboResponsiblePerson.setEnabled(false);
+                    String activity = rs.getString("Activity");
+                    CreateRisk.txtActivity.setText(activity);
+                    CreateRisk.txtActivity.setEnabled(false);
+                    Date dueDate = rs.getDate("DueDate");
+                    CreateRisk.dcDueDate.setDate(dueDate);
+                    CreateRisk.dcDueDate.setEnabled(false);
+                    java.util.Date today =  new java.util.Date();
+                    CreateRisk.dcClosingDate.setDate(today);
+                    CreateRisk.statusClosed.setSelected(true);
+                    CreateRisk.statusOpen.setSelected(false);
+                    CreateRisk.statusOpen.setEnabled(false);
+                    CreateRisk.statusClosed.setEnabled(false);
+                }
+                }catch(SQLException | ClassNotFoundException err){
+                JOptionPane.showMessageDialog(RiskRevaluation.this, err.getMessage());
+                }
+                System.out.println(severity);
+                System.out.println(probability);
+                risk.setVisible(true);
+                this.dispose();
+            }
+            catch(SQLException ex){
+                JOptionPane.showMessageDialog(RiskRevaluation.this, ex.getMessage());
+            }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtExistingControlsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExistingControlsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtExistingControlsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,27 +502,25 @@ private void responsiblePerson() throws SQLException{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cboResponsiblePerson;
+    private javax.swing.JComboBox cboAdditionalControls;
+    public static javax.swing.JComboBox cboReferenceNumber;
     private com.toedter.calendar.JDateChooser dcTodayDate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JList ratingList;
+    private javax.swing.JTextField txtExistingControls;
     // End of variables declaration//GEN-END:variables
+private String status;
+private String severity;
+private String probability;
 }

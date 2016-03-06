@@ -6,6 +6,7 @@
 package conceptium.biz;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -240,52 +241,128 @@ private void updateTable() throws SQLException,ClassNotFoundException{
             int row = jXTable1.getSelectedRow();
             DefaultTableModel model = (DefaultTableModel)jXTable1.getModel();
             String selected = model.getValueAt(row, 0).toString();
-            //Incident incident = new Incident();
-            Incident.cboEmployeeNumber.removeAllItems();
+            Incident iI = new Incident();
+            //Incident.cboEmployeeNumber.removeAllItems();
+            String sql = "Select * from Incident where ReferenceNumber = ?";
             try{
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-                PreparedStatement pst = con.prepareStatement("Select * from Incident where ReferenceNumber = ?");
+                Connection con = DbConnection.dbConnection();
+                PreparedStatement pst = con.prepareStatement(sql);
                 pst.setString(1, selected);
                 ResultSet rs = pst.executeQuery();
                 if (rs.next()){
                     String employeeNumber = rs.getString("EmployeeNumber");
-                    Incident.cboEmployeeNumber.addItem(employeeNumber);
-                    String name = rs.getString("Name");
-                    Incident.txtName.setText(name.trim());
-                    String surname = rs.getString("Surname");
-                    Incident.txtSurname.setText(surname.trim());
-                    String idNumber = rs.getString("IDNumber");
-                    Incident.txtIdNumber.setText(idNumber);
+                    Incident.cboEmployeeNumber.setSelectedItem(employeeNumber);
+                    Incident.txtIdNumber.setEnabled(false);
+                    Incident.txtName.setEnabled(false);
+                    Incident.txtSurname.setEnabled(false);
+                    Incident.cboEmployeeNumber.setEnabled(false);
+                    Incident.txtEmail.setEnabled(false);
+                    Incident.txtDepartment.setEnabled(false);
+                    Incident.txtSite.setEnabled(false);
+                    Incident.txtContactNumber.setEnabled(false);
+                    String reportTo = rs.getString("ReportedTo");
+                    Incident.cboReportedTo.setSelectedItem(reportTo);
+                    Incident.cboReportedTo.setEnabled(false);
+                    String incidentType = rs.getString("IncidentType");
+                    Incident.cboIncidentType.setSelectedItem(incidentType);
+                    Incident.cboIncidentType.setEnabled(false);
+                    String natureOfIncident = rs.getString("NatureOfIncident");
+                    Incident.cboNature.setSelectedItem(natureOfIncident);
+                    Incident.cboNature.setEnabled(false);
+                    Date dateOfIncident = rs.getDate("DateOfIncident");
+                    Incident.jDateChooser1.setDate(dateOfIncident);
+                    Incident.jDateChooser1.setEnabled(false);
+                    Date dateOfReportingIncident = rs.getDate("DateOfReportingIncident");
+                    Incident.jDateChooser2.setDate(dateOfReportingIncident);
+                    Incident.jDateChooser2.setEnabled(false);
+                    String status = rs.getString("Status");
+                    if(status.equals("Open")){
+                    Incident.statusOpen.setSelected(true);
+                    Incident.statusOpen.setEnabled(false);
+                    Incident.statusClosed.setEnabled(false);
+                    }else{
+                    Incident.statusClosed.setSelected(true);
+                    Incident.statusClosed.setEnabled(false);
+                    Incident.statusOpen.setEnabled(false);
+                    }
+                    Date todayDate = rs.getDate("TodayDate");
+                    Incident.dcTodayDate.setDate(todayDate);
+                    String yearsOfExperienceOnTask = rs.getString("YearsOfExperienceOnTask");
+                    Incident.txtYears.setText(yearsOfExperienceOnTask);
+                    String equipmentDemaged = rs.getString("EquipmentDemaged");
+                    Incident.txtYears.setEnabled(false);
+                    Incident.txtEquipmentDemaged.setText(equipmentDemaged);
+                    Incident.txtEquipmentDemaged.setEnabled(false);
+                    String estimatedValue = rs.getString("EstimatedValue");
+                    Incident.txtEstimatedValue.setText(estimatedValue);
+                    Incident.txtEstimatedValue.setEnabled(false);
+                    String area = rs.getString("Area");
+                    Incident.txtArea.setText(area);
+                    Incident.txtArea.setEnabled(false);
+                    String agent = rs.getString("Agent");
+                    Incident.cboAgent.setSelectedItem(agent);
+                    Incident.cboAgent.setEnabled(false);
+                    String timeOfExpose = rs.getString("TimeOfExpose");
+                    Incident.txtTimeExposed.setText(timeOfExpose);
+                    Incident.txtTimeExposed.setEnabled(false);
+                    String activityBiengCarriedOut = rs.getString("ActivityBiengCarriedOut");
+                    Incident.txtActivity.setText(activityBiengCarriedOut);
+                    Incident.txtActivity.setEnabled(false);
+                    String equipmentUsed = rs.getString("EquipmentUsed");
+                    Incident.txtEquipmentUsed.setText(equipmentUsed);
+                    Incident.txtEquipmentUsed.setEnabled(false);
+                    String hoursOnShift = rs.getString("HoursOnShift");
+                    Incident.cboHrs.setSelectedItem(hoursOnShift);
+                    Incident.cboHrs.setEnabled(false);
+                    String shift = rs.getString("Shift");
+                    Incident.cboShift.setSelectedItem(shift);
+                    Incident.cboShift.setEnabled(false);
+                    String NumberOfContinuosDaysWorked = rs.getString("NumberOfContinuosDaysWorked");
+                    Incident.cboNOCDW.setSelectedItem(NumberOfContinuosDaysWorked);
+                    Incident.cboNOCDW.setEnabled(false);
+                    String headNeck = rs.getString("Head_Neck");
+                    if(!rs.getString("Head_Neck").isEmpty()){
+                    Incident.headNeck.setSelected(true);}
+                    String eye = rs.getString("Eye");
                     
-                    //String ID = rs.getString("ContactNumber");
-                    //Incident.txtContactNumber.setText(ID.trim());
-                    //String email = rs.getString("EmailAddress");
-                    //Incident.txtEmail.setText(email.trim());
-                    //String department = rs.getString("Department");
-                    //Incident.txtDepartment.setText(department.trim());
-                    //String site = rs.getString("Site");
-                    //Incident.txtSite.setText(site.trim());
+                    String trunk = rs.getString("Trunk");
+                    
+                    String finger = rs.getString("Finger");
+                    
+                    String head = rs.getString("Head");
+                    
+                    String arm = rs.getString("Arm");
+                    
+                    String foot = rs.getString("Foot");
+                    
+                    String toe = rs.getString("toe");
+                    
+                    System.out.println(toe+foot+arm+head+finger);
+                    
                 }
             }
-            catch(Exception e){
-                JOptionPane.showMessageDialog(IncidentRegistry.this, e);
+            catch(ClassNotFoundException | SQLException e){
+                JOptionPane.showMessageDialog(IncidentRegistry.this, e.getCause());
             }
-            Incident iI = new Incident();
+            iI.jButton1.setEnabled(false);
+            iI.jButton4.setEnabled(false);
+            Incident.txtReferenceNumber.setText(selected);
+            
             iI.setVisible(true);
             //Incident.getObj().setVisible(true);
         }
-        catch(SQLException ex){
-            Logger.getLogger(IncidentRegistry.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        catch(SQLException | ClassNotFoundException ex){
+            JOptionPane.showMessageDialog(IncidentRegistry.this, ex.getMessage());
+        } 
     }//GEN-LAST:event_incidentInformationActionPerformed
 
     private void incidentDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incidentDescriptionActionPerformed
         int row = jXTable1.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel)jXTable1.getModel();
         String selected = model.getValueAt(row, 0).toString();
-        //IncidentDetails incident = new IncidentDetails();
+        IncidentDetails incident = new IncidentDetails();
         IncidentDetails.cboReference.setSelectedItem(selected);
-        IncidentDetails.getObj().setVisible(true);
+        incident.setVisible(true);
     }//GEN-LAST:event_incidentDescriptionActionPerformed
 
     private void jXTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jXTable1MouseReleased

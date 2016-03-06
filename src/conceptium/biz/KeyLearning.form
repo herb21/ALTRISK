@@ -108,10 +108,10 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtSupervisor" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="txtName" min="-2" pref="170" max="-2" attributes="0"/>
+                                  <Component id="txtAffectedEmployee" min="-2" pref="170" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jDateChooser1" max="32767" attributes="0"/>
+                              <Component id="dcDateOfIncident" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
@@ -138,7 +138,7 @@
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                          <Component id="dcDateOfIncident" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -159,7 +159,7 @@
                           </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="txtName" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtAffectedEmployee" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -295,12 +295,15 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtName">
+        <Component class="javax.swing.JTextField" name="txtAffectedEmployee">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtAffectedEmployeeActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
           <AuxValues>
@@ -333,7 +336,7 @@
             <Property name="text" type="java.lang.String" value="Description:"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+        <Component class="com.toedter.calendar.JDateChooser" name="dcDateOfIncident">
         </Component>
       </SubComponents>
     </Container>

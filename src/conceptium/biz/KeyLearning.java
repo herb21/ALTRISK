@@ -74,7 +74,7 @@ public class KeyLearning extends javax.swing.JFrame {
                 if(rs.next()){
                     String name = rs.getString("Name");
                     String surname = rs.getString("Surname");
-                    txtName.setText(name + "  " +surname);
+                    txtAffectedEmployee.setText(name + "  " +surname);
                     String site = rs.getString("Site");
                     txtSite.setText(site);
                     String supervisor = rs.getString("ReportedTo");
@@ -85,7 +85,7 @@ public class KeyLearning extends javax.swing.JFrame {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     Calendar c = Calendar.getInstance();
                     c.setTime(date);
-                    jDateChooser1.setDate(c.getTime());
+                    dcDateOfIncident.setDate(c.getTime());
                 }
         }
         catch(Exception e){
@@ -133,11 +133,11 @@ public class KeyLearning extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtSupervisor = new javax.swing.JTextField();
         txtDepartment = new javax.swing.JTextField();
-        txtName = new javax.swing.JTextField();
+        txtAffectedEmployee = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDescription = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        dcDateOfIncident = new com.toedter.calendar.JDateChooser();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -197,7 +197,12 @@ public class KeyLearning extends javax.swing.JFrame {
 
         txtDepartment.setBackground(new java.awt.Color(255, 255, 255));
 
-        txtName.setBackground(new java.awt.Color(255, 255, 255));
+        txtAffectedEmployee.setBackground(new java.awt.Color(255, 255, 255));
+        txtAffectedEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAffectedEmployeeActionPerformed(evt);
+            }
+        });
 
         txtDescription.setBackground(new java.awt.Color(255, 255, 255));
         txtDescription.setColumns(20);
@@ -241,9 +246,9 @@ public class KeyLearning extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSupervisor)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtAffectedEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(dcDateOfIncident, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -262,7 +267,7 @@ public class KeyLearning extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(txtSite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dcDateOfIncident, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -277,7 +282,7 @@ public class KeyLearning extends javax.swing.JFrame {
                             .addComponent(txtDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtAffectedEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
@@ -377,19 +382,32 @@ public class KeyLearning extends javax.swing.JFrame {
     }//GEN-LAST:event_cboReferenceNumberItemStateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String sql = "insert into KeyLearnings(ReferenceNumber,Keylearnings)values(?,?)";
+        String sql = "insert into KeyLearnings(ReferenceNumber,Keylearnings,Site,Department,"+
+                "DateOfIncident,Supervisor,Description,AffectedEmployee)values(?,?,?,?,?,?,?,?)";
         String referenceNumber = cboReferenceNumber.getSelectedItem().toString();
         String keyLearnings = txtLearnings.getText();
+        String site = txtSite.getText();
+        String department = txtDepartment.getText();
+        java.sql.Date dateOfIncident = new java.sql.Date(dcDateOfIncident.getDate().getTime());
+        String supervisor = txtSupervisor.getText();
+        String description = txtDescription.getText();
+        String employeeAffected = txtAffectedEmployee.getText();
         try{
-        Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+        Connection con = DbConnection.dbConnection();
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setString(1, referenceNumber);
         pst.setString(2, keyLearnings);
+        pst.setString(3, site);
+        pst.setString(4, department);
+        pst.setDate(5, dateOfIncident);
+        pst.setString(6, supervisor);
+        pst.setString(7, description);
+        pst.setString(8, employeeAffected);
         pst.executeUpdate();
         JOptionPane.showMessageDialog(KeyLearning.this, "Learnings for"+" "+referenceNumber+" "+"successfully saved");
-        }catch(SQLException | HeadlessException e){
-        JOptionPane.showMessageDialog(KeyLearning.this, e);
-        }
+        }catch(SQLException | HeadlessException | ClassNotFoundException e){
+        JOptionPane.showMessageDialog(KeyLearning.this, e.getMessage());
+        } 
         Properties props = new Properties();
         //props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.host", "mail.conceptium.biz");
@@ -411,11 +429,11 @@ public class KeyLearning extends javax.swing.JFrame {
                                //InternetAddress.parse("abc@def.com"), 
                                //InternetAddress.parse("ghi@abc.com")};
         //message.addRecipients(Message.RecipientType.CC, cc);
-        String site = txtSite.getText();
-        String supervisor = txtSupervisor.getText();
-        String department = txtDepartment.getText();
-        String employee = txtName.getText();
-        String description = txtDescription.getText();
+        //String site = txtSite.getText();
+        //String supervisor = txtSupervisor.getText();
+        //String department = txtDepartment.getText();
+        //String employee = txtAffectedEmployee.getText();
+        //String description = txtDescription.getText();
         try {
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress("herbert@conceptium.biz"));
@@ -424,7 +442,7 @@ public class KeyLearning extends javax.swing.JFrame {
             msg.setSubject("Learnings from Incident" + referenceNumber);
             msg.setText("Dear  Employee . Please note there was an+ incident that occured with the following details."+
                  "An incident"+" "+referenceNumber + "at"+ " "+site+" "+"in the"+" "+department+"."+
-                    "Employee"+" "+employee+" "+"under the supervision of"+" "+supervisor+" "+ "incurred"+" "+description+
+                    "Employee"+" "+employeeAffected+" "+"under the supervision of"+" "+supervisor+" "+ "incurred"+" "+description+
                     " and the following learnings were learnt"+" "+"\n"+
                     "Key Learnings"+"\n"+keyLearnings+
                     " "+ "  " + "\n"+"\n"+"Regards");
@@ -433,7 +451,7 @@ public class KeyLearning extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(KeyLearning.this, "Record successfully saved and Learnings distributed to  " + GroupA + "." );
         }
         catch(MessagingException | HeadlessException e){
-            JOptionPane.showMessageDialog(KeyLearning.this, e);
+            JOptionPane.showMessageDialog(KeyLearning.this, e.getMessage());
         }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -443,12 +461,16 @@ public class KeyLearning extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        jDateChooser1.setEnabled(false);
-        txtName.setEditable(false);
+        dcDateOfIncident.setEnabled(false);
+        txtAffectedEmployee.setEditable(false);
         txtSupervisor.setEditable(false);
         txtDepartment.setEditable(false);
         txtSite.setEditable(false);
     }//GEN-LAST:event_formWindowActivated
+
+    private void txtAffectedEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAffectedEmployeeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAffectedEmployeeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -487,9 +509,9 @@ public class KeyLearning extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JComboBox cboReferenceNumber;
+    private com.toedter.calendar.JDateChooser dcDateOfIncident;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -503,10 +525,10 @@ public class KeyLearning extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField txtAffectedEmployee;
     private javax.swing.JTextField txtDepartment;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextArea txtLearnings;
-    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtSite;
     private javax.swing.JTextField txtSupervisor;
     // End of variables declaration//GEN-END:variables

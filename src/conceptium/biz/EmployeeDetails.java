@@ -531,8 +531,8 @@ private void fillName() throws SQLException{
             iI.setVisible(true);
             //Incident.getObj().setVisible(true);
         }
-        catch(SQLException ex){
-            Logger.getLogger(EmployeeDetails.class.getName()).log(Level.SEVERE, null, ex);
+        catch(SQLException | ClassNotFoundException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_captureIncidentActionPerformed
 

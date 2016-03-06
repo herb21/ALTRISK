@@ -10,17 +10,8 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -188,7 +179,7 @@ public static Docs getObj(){
         String docType = cboDocType.getSelectedItem().toString();
         String docTitle = txtDocTitle.getText();
         String sql = "Insert into DOCUMENTS(DOCUMENTTYPE, DOCUMENTTITLE,DOC)values (?, ?, ?)";
-        try (Connection con = DriverManager.getConnection("jdbc:derby:MTD", "herbert", "elsie1*#");
+        try (Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);){
             pst.setString(1, docType);
             pst.setString(2, docTitle);
@@ -198,14 +189,10 @@ public static Docs getObj(){
             FileInputStream fi = new FileInputStream(newpdf);
             pst.setBinaryStream(3, fi);
             pst.executeUpdate();
+            JOptionPane.showMessageDialog(Docs.this, "Document successfully saved");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(Docs.getObj(), ex);
         }
-        String name = cboDocType.getSelectedItem().toString();
-        String doc = txtDocTitle.getText();
-        
-        //DefaultMutableTreeNode name = new DefaultMutableTreeNode();
-        //DashBoards.jTree1.setSelectionPath(cboDocType.getSelectedItem().toString());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

@@ -36,8 +36,8 @@ public class IncidentDetails extends javax.swing.JFrame {
      * Creates new form IncidentDetails
      */
     
-    private static IncidentDetails obj = null;
-    private IncidentDetails() {
+    //private static IncidentDetails obj = null;
+    public IncidentDetails() {
         setUndecorated(true);
         setResizable(true);
         initComponents();
@@ -48,12 +48,12 @@ public class IncidentDetails extends javax.swing.JFrame {
     }
     
     
-public static IncidentDetails getObj(){
+/**public static IncidentDetails getObj(){
             if (obj == null){
                 obj = new IncidentDetails();
             }
             return obj;
-        }
+        }**/
    private void fillId(){
         String sql ="Select * from Persons";
             try {
@@ -138,7 +138,7 @@ public static IncidentDetails getObj(){
                     }
                 }
         }
-        catch(Exception e){
+        catch(SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(this, e);
         }
     }
@@ -545,9 +545,9 @@ public static IncidentDetails getObj(){
             }
             iI.setVisible(true);
         }
-        catch(SQLException ex){
+        catch(SQLException | ClassNotFoundException ex){
             Logger.getLogger(IncidentDetails.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

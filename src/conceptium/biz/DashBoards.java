@@ -49,6 +49,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Action;
@@ -60,6 +61,7 @@ import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import net.infonode.gui.laf.InfoNodeLookAndFeel;
 import net.proteanit.sql.DbUtils;
@@ -79,6 +81,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.IntervalXYDataset;
 
 /**
  *
@@ -113,6 +116,7 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
         fillmodules();
         newIncident();
         OverDueIncidents();
+        updateTree();
         //jMenu28.setText("7 Messages");
         //HighlightPredicate predicate = new PatternPredicate(".*R50*.", 2, 2);
         //ColorHighlighter highlighter =  new ColorHighlighter(predicate,null,Color.red,null,null);
@@ -292,7 +296,13 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
     }
 
     
-   private static int totals;
+    private static int totals;
+    private static int total;
+    private static int totalTraining;
+    private static int totalMale;
+    private static int totalFemale;
+    private static int createdRisk;
+    private static int closedRisk;
     public final static void newIncident(){
         SimpleDateFormat format = new SimpleDateFormat("MMM d, yyyy");
         Date date = new Date();
@@ -423,47 +433,49 @@ public class DashBoards extends javax.swing.JFrame implements DraggableContent,I
     
     private void updateTree(){
         DefaultMutableTreeNode rootNode = null;
-        String sql = "Select * from Docs";
+        String sql = "Select * from Documents";
        try {
-           Connection con = DriverManager.getConnection("jdbc:derby:MTD","herbert","elsie1*#");
-           PreparedStatement pst = con.prepareStatement(sql);
+           Connection con = DbConnection.dbConnection();
+           PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
            ResultSet rs = pst.executeQuery();
-           rs.last();
-           int rowCount = rs.getRow();
-           rs.beforeFirst();
-           
-           int i = 0;
-           int j = 0;
-           
-           String [] nodeID = new String [rowCount];
-           String [] parentID = new String[rowCount];
-           DefaultMutableTreeNode [] node = new DefaultMutableTreeNode[rowCount];
-           
-           while (rs.next()){
-               String docCat = rs.getString("DocumentCategory");
-               String docName = rs.getString("DocumentName");
-               
-               node[i] = new DefaultMutableTreeNode(docCat);
-               parentID[i] = rs.getString("DocumentCategory");
-               nodeID[i] = rs.getString("node_id") + "";
-               
-                if (parentID.equals("null")){
-                   rootNode = node[i];
+            Vector<String> nodeID = new Vector<String>();
+            Vector<DefaultMutableTreeNode> node = new Vector<DefaultMutableTreeNode>();
+            Vector<String> parentID = new Vector<String>();
+            
+            rs.last();
+            int rowCount = rs.getRow();
+            rs.beforeFirst();
+            
+            int k = 0;
+            while(rs.next()){
+                String name = rs.getString("DocumentTitle");
+                
+                node.addElement(new DefaultMutableTreeNode(name));
+                nodeID.addElement(rs.getInt("DocID")+" ");
+                parentID.addElement(rs.getString("DocumentType"));
+                
+                if(parentID.elementAt(k).equals("null")){
+                rootNode = node.elementAt(k);
+                }
+                k++;
+            }
+            int i = 0;
+            while(i < rowCount){
+                int j = 0;
+                while(j < rowCount){
+                    if(parentID.elementAt(j).equals(nodeID.elementAt(i)) && node.elementAt(j) != null){
+                    node.elementAt(i).add(node.elementAt(j));
+                    if(!node.elementAt(i).getAllowsChildren()){
+                    node.insertElementAt(null, j);}
+                }
+                    j++;
                 }
                 i++;
-           }
-           for(i = 0; i <rowCount; i++){
-                for(j = 0; j < rowCount; j ++){
-                    if(parentID[j].equals(nodeID[i]) && node[i] != null){
-                        node[i].add(node[j]);
-                    }
-                    node[i] = null;
-                }
-           }
-           JTree tree = new JTree(rootNode);
+            }
+            System.out.println("done");
        }
        
-       catch (Exception ex) {
+       catch (ClassNotFoundException | SQLException ex) {
            JOptionPane.showMessageDialog(DashBoards.this, ex);
        }
 }
@@ -1870,6 +1882,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jMenuItem86.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add98.png"))); // NOI18N
     jMenuItem86.setText("Training Planning");
+    jMenuItem86.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem86ActionPerformed(evt);
+        }
+    });
     jMenu5.add(jMenuItem86);
     jMenu5.add(jSeparator80);
 
@@ -2179,6 +2196,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     jMenuItem57.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Dbase/Resources/add118.png"))); // NOI18N
     jMenuItem57.setText("Create Document");
+    jMenuItem57.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItem57ActionPerformed(evt);
+        }
+    });
     jMenu7.add(jMenuItem57);
     jMenu7.add(jSeparator107);
 
@@ -2515,41 +2537,75 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
     pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //jMenu33.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        
-        
-        
-        
-        
+public static void loadGraphs(){
+        String sql3 = "select COUNT(ReferenceNumber) as count from Risk ";
+        String sql4 = "select COUNT(ReferenceNumber) as count from Risk where status = ?";
+        String status = "Closed";
+        try{
+            Connection con = DbConnection.dbConnection();
+            PreparedStatement pst = con.prepareStatement(sql3);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+            createdRisk =  rs.getInt("count");
+            }
+            pst = con.prepareStatement(sql4);
+            pst.setString(1, status);
+            rs = pst.executeQuery();
+            if(rs.next()){
+            closedRisk = rs.getInt("count");
+            }
+        }
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        int oustanding = createdRisk - closedRisk;
         DefaultPieDataset pieDataSet = new DefaultPieDataset(); 
-        pieDataSet.setValue("Completed", new Integer(10));
-        pieDataSet.setValue("Awaiting Actions", new Integer(20));
-        pieDataSet.setValue("Pending", new Integer(30));
-        pieDataSet.setValue("Sheduled", new Integer(40));
-        JFreeChart chart = ChartFactory.createPieChart3D("Autit Schedule Report", pieDataSet, true, false, false);
+        pieDataSet.setValue("Reported Risk", new Integer(createdRisk));
+        pieDataSet.setValue("Completed Risk", new Integer(closedRisk));
+        pieDataSet.setValue("Open Cases", new Integer(oustanding));
+        JFreeChart chart = ChartFactory.createPieChart3D(null, pieDataSet, true, false, false);
         PiePlot p = (PiePlot)chart.getPlot();
         //p.setForegroundAlpha(BOTTOM_ALIGNMENT);
         ChartPanel CP = new ChartPanel(chart);
         CP.setVisible(true);
-        CP.setSize(350,250);
-        jPanel2.add(CP, BOTTOM_ALIGNMENT);
-        jPanel2.validate();
+        CP.setSize(485,120);
+        jPanel5.add(CP, BOTTOM_ALIGNMENT);
+        jPanel5.validate();
         
+        String sql = "select COUNT(ReferenceNumber) as count from Incident ";
+        String sql1 = "select COUNT(ReferenceNumber) as count from Incident where status = ?";
+        String search = "Closed";
+        try{
+            Connection con = DbConnection.dbConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+            totals =  rs.getInt("count");
+            }
+            pst = con.prepareStatement(sql1);
+            pst.setString(1, search);
+            rs = pst.executeQuery();
+            if(rs.next()){
+            total = rs.getInt("count");
+            }
+        }
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        int pending = totals - total;
         
         DefaultCategoryDataset barDataSet = new DefaultCategoryDataset();
-        barDataSet.setValue(1, "Medium Risk", "Medium");
-        barDataSet.setValue(4, "OutStanding", "Medium");
+        barDataSet.setValue(totals, "Total Incidents", "Total Incidents");
+        //barDataSet.setValue(1, "OutStanding", "Medium");
+        //barDataSet.setValue(1, "OutStanding", "MHigh");
         
-        barDataSet.setValue(3, "Low Risk", "Low");
-        barDataSet.setValue(1, "Outstanding", "Low");
+        barDataSet.setValue(pending, "Open Incidents", "Open Incidents");
+        //barDataSet.setValue(0, "Outstanding", "Low");
         
-        barDataSet.setValue(2, "High Risk", "High");
-        barDataSet.setValue(2, "Low Risk", "High");
+        barDataSet.setValue(total, "Open Incidents", "Closed Incidents");
+        //barDataSet.setValue(0, "Low Risk", "High");
         
-        JFreeChart chart1 = ChartFactory.createBarChart(null, "Trained", "Number", barDataSet,PlotOrientation.VERTICAL,true, true, true);
+        JFreeChart chart1 = ChartFactory.createBarChart3D(null, null, null, barDataSet,PlotOrientation.VERTICAL,true, true, true);
         CategoryPlot p1;
         p1 = chart1.getCategoryPlot();
         p1.setRangeGridlinePaint(Color.black);
@@ -2559,34 +2615,36 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         jPanel4.add(CP1, BOTTOM_ALIGNMENT);
         jPanel4.validate();
         
-        DefaultCategoryDataset plotDataSet = new DefaultCategoryDataset();
-        plotDataSet.setValue(10, "Incidents", "1st Quarter");
-        plotDataSet.setValue(5, "Incidents", "2nd Quarter");
-        
-        plotDataSet.setValue(7, "Incidents", "3rd Quarter");
-        plotDataSet.setValue(2, "Incidents", "4th Quarter");
-        
-        JFreeChart chart2 = ChartFactory.createLineChart("Incidents Vs Quaters", " Quarters" ,"Number of Incidents", plotDataSet,PlotOrientation.HORIZONTAL,true, true, false);
-        
-        ChartPanel CP2 = new ChartPanel(chart2);
-        CP2.setVisible(true);
-        CP2.setSize(485,120);
-        jPanel5.add(CP2, BOTTOM_ALIGNMENT);
-        jPanel5.validate();
         
         
-        
+        String sql2 = "select Total, TotalMale, TotalFemale from PlannedTraining ";
+        try{
+            Connection con = DbConnection.dbConnection();
+            PreparedStatement pst = con.prepareStatement(sql2);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+            totalTraining =  rs.getInt("Total");
+            totalMale = rs.getInt("TotalMale");
+            totalFemale = rs.getInt("TotalFemale");
+            
+            }
+        }
+        catch(ClassNotFoundException | SQLException e){
+        JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        int outstanding = (totalTraining -(totalFemale+totalMale));
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
-        dataSet.setValue(1, "trained", "Male");
-        dataSet.setValue(3, "trained", "Female");
+        dataSet.setValue(totalTraining, "Planned Training", "Planned Training");
+        //dataSet.setValue(0, "trained", "Female");
+        //dataSet.setValue(0, "trained", "Female");
         
-        dataSet.setValue(2, "awaitingtraining", "Male");
-        dataSet.setValue(4, "awaitingtraining", "Female");
+        dataSet.setValue(totalMale, "Achieved Training", "Male");
+        dataSet.setValue(totalFemale, "Achieved Training", "Female");
         
-        dataSet.setValue(1, "toBetrained", "Male");
-        dataSet.setValue(2, "toBetrained", "Female");
+        dataSet.setValue(outstanding, "Outstanding Training", "Outstanding Training");
+        //dataSet.setValue(0, "toBetrained", "Female");
         
-        JFreeChart chart3 = ChartFactory.createStackedAreaChart(null, "Incidents", "Number", dataSet,PlotOrientation.VERTICAL,true, true, true);
+        JFreeChart chart3 = ChartFactory.createStackedAreaChart(null, null, null, dataSet,PlotOrientation.VERTICAL,true, true, true);
         CategoryPlot p3;
         p3 = chart3.getCategoryPlot();
         p3.setRangeGridlinePaint(Color.black);
@@ -2595,15 +2653,14 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         CP3.setSize(905,255);
         jPanel3.add(CP3, BOTTOM_ALIGNMENT);
         jPanel3.validate();
+        System.out.println(createdRisk);
+}
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        loadGraphs();
         
-        
-        Calendar expireDate = Calendar.getInstance();
-        expireDate.set(2016, 02, 14);
-        System.out.println(expireDate.getTime());
-        if(Calendar.getInstance().getTime().after(expireDate.getTime())){
-            JOptionPane.showMessageDialog(DashBoards.this, "Your trial has expired please contact developer");
-            System.exit(0);
-        }
+        //jMenu33.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         //Splash splash = new Splash();
         //splash.setVisible(true);
         //for(int i = jTree3.getRowCount() - 1; i >= 0; i ++){
@@ -2625,14 +2682,14 @@ addWindowListener(new java.awt.event.WindowAdapter() {
             Incident incident = new Incident();
             //Incident.getObj().setVisible(true);
             incident.setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        //IncidentDetails iD = new IncidentDetails();
-        IncidentDetails.getObj().setVisible(true);
+        IncidentDetails iD = new IncidentDetails();
+        iD.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -2773,7 +2830,8 @@ addWindowListener(new java.awt.event.WindowAdapter() {
                     incident.setVisible(true);
                     break;
                 case "Additional Information":
-                    IncidentDetails.getObj().setVisible(true);
+                    Incident iD = new Incident();
+                    iD.setVisible(true);
                     break;
                 case "Rate Incident Risk":
                     RiskRating.getObj().setVisible(true);
@@ -2802,9 +2860,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
                     
                     break;
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTree3ValueChanged
@@ -2867,7 +2923,11 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }//GEN-LAST:event_jMenuItem55ActionPerformed
 
     private void jMenuItem54ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem54ActionPerformed
-        ListRisk.getObj().setVisible(true);
+        try {
+            ListRisk.getObj().setVisible(true);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(DashBoards.this, ex.getMessage());
+        }
     }//GEN-LAST:event_jMenuItem54ActionPerformed
 
     private void jTable3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseReleased
@@ -3035,6 +3095,18 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem25ActionPerformed
 
+    private void jMenuItem86ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem86ActionPerformed
+        try {
+            TrainingPlanning.getObj().setVisible(true);
+        } catch (SQLException | ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_jMenuItem86ActionPerformed
+
+    private void jMenuItem57ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem57ActionPerformed
+        Docs.getObj().setVisible(true);
+    }//GEN-LAST:event_jMenuItem57ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3064,12 +3136,16 @@ addWindowListener(new java.awt.event.WindowAdapter() {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+           
+            @Override
             public void run() {
+ 
                 try {
                     new DashBoards().setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(DashBoards.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             }
         });
     }
@@ -3226,10 +3302,10 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    public static javax.swing.JPanel jPanel2;
+    public static javax.swing.JPanel jPanel3;
+    public static javax.swing.JPanel jPanel4;
+    public static javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;

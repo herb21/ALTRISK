@@ -6,6 +6,7 @@
 package conceptium.biz;
 
 import com.alee.laf.WebLookAndFeel;
+import static conceptium.biz.Corrective.jTable1;
 import static conceptium.biz.Incident.cboEmployeeNumber;
 import static conceptium.biz.Incident.txtIdNumber;
 import static conceptium.biz.Incident.txtName;
@@ -500,7 +501,6 @@ public class RiskRating extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
         try{                                         
             String reference = cboReference.getSelectedItem().toString();
             String severity = cboSeverity.getSelectedItem().toString();
@@ -520,8 +520,8 @@ public class RiskRating extends javax.swing.JFrame {
             String sql = "insert into RiskRatings(EmployeeNumber,Name,Surname,Role,"+
                     "Email,Severity,Description, value1,Frequency, FrequencyDescription,"+
                     "Value2,Probability,probabilityDescription,Value3,RiskAssessmentTotal"+
-                    ",Category,Range,Results,WitnessStatement,SupportingDocument1,"+
-                    "SupportingDocument2,SupportingDocument3,SupportingDocument4,"+
+                    ",Category,Range,Results,WitnessStatement,SpportingDocument1,"+
+                    "SpportingDocument2,SpportingDocument3,SupportingDocument4,"+
                     "ReferenceNumber)"+
                     "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             try{
@@ -571,10 +571,10 @@ public class RiskRating extends javax.swing.JFrame {
                 pst.addBatch();
             }
             pst.executeBatch();
-                //JOptionPane.showMessageDialog(RiskRating.this, "Risk rating for"+" "+reference+" "+"successfully saved");
+                JOptionPane.showMessageDialog(RiskRating.this, "Risk rating for"+" "+reference+" "+"successfully saved");
             }
             catch(SQLException | FileNotFoundException e){
-                JOptionPane.showMessageDialog(RiskRating.this, e.getMessage());
+                JOptionPane.showMessageDialog(RiskRating.this, e.getCause());
             }
             Properties props = new Properties();
             //props.put("mail.smtp.host", "smtp.gmail.com");
@@ -593,57 +593,39 @@ public class RiskRating extends javax.swing.JFrame {
                             return new PasswordAuthentication("herbert@conceptium.biz", "Kaylad1*#");
                         }
                     });
-            String search = "select Emails from Teams where RiskCategory = ?";
-            try{
-                List list = new List();
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-                PreparedStatement pst = con.prepareStatement(sql);
-                pst.setString(1, search);
-                ResultSet rs = pst.executeQuery();
-                if(rs.next()){
-                    String email = rs.getString("EmailAddress");
-                    list.add(email);
-                }
-            }catch(HeadlessException | SQLException e){
-                JOptionPane.showMessageDialog(RiskRating.this, e);
-            }
-            String GroupA = "herbert@conceptium.biz";
-            //Address[] cc = new Address[] {InternetAddress.parse("abc@abc.com"),
-            //InternetAddress.parse("abc@def.com"),
-            //InternetAddress.parse("ghi@abc.com")};
-            //message.addRecipients(Message.RecipientType.CC, cc);
-            //String site = txtSite.getText();
-            //String supervisor = txtSupervisor.getText();
-            //String department = txtDepartment.getText();
-            //String employee = txtName.getText();
-            //String description = txtDescription.getText();
-            try {
-                Message msg = new MimeMessage(session);
-                msg.setFrom(new InternetAddress("herbert@conceptium.biz"));
-                //msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(GroupA));
-                msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse("herbertd@mathometd.com,molokgobi@yahoo.com,herbert@conceptium.biz"));
-                msg.setSubject("Learnings from Incident" + reference);
-                msg.setText("Dear  Employee . Please note there was an+ incident that occured with the following details."+
-                        "An incident"+" "+reference + "with risk assessment score "+ " "+riskAssessment+" "+"and a category"+" "+category+"."+
-                        "The recommended action is "+" "+results+" "+"under the supervision of"+" "+category+" "+ "incurred"+" "+description+
-                        " and the following learnings were learnt"+" "+"\n"+
-                        "Key Learnings"+"\n"+category+
-                        " "+ "  " + "\n"+"\n"+"Regards");
-                Transport.send(msg);
-                
-                JOptionPane.showMessageDialog(RiskRating.this, "Record successfully saved and investigation team notified  " + GroupA + "." );
-            }
-            catch(MessagingException | HeadlessException e){
-                JOptionPane.showMessageDialog(RiskRating.this, e.getMessage());
-            }
-            this.dispose();
-            IncidentAnalysis analysis = new IncidentAnalysis();
-            analysis.setVisible(true);
-            //IncidentAnalysis.getObj().setVisible(true);
-        }
+            TableModel tm = jXTable1.getModel();
+            for(int tableRow = 0; tableRow < tm.getRowCount(); tableRow++){
+                 Object val = tm.getValueAt(tableRow, 3);
+                 String emailAddress = val.toString();
+                 String GroupA = "herbert@conceptium.biz";
+                    try {
+                        Message msg = new MimeMessage(session);
+                        msg.setFrom(new InternetAddress("herbert@conceptium.biz"));
+                        //msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(GroupA));
+                        msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse(emailAddress));
+                        msg.setSubject("Learnings from Incident" + reference);
+                        msg.setText("Dear  Employee . Please note there was an+ incident that occured with the following details."+
+                                "An incident"+" "+reference + "with risk assessment score "+ " "+riskAssessment+" "+"and a category"+" "+category+"."+
+                                "The recommended action is "+" "+results+" "+"under the supervision of"+" "+category+" "+ "incurred"+" "+description+
+                                " and the following learnings were learnt"+" "+"\n"+
+                                "Key Learnings"+"\n"+category+
+                                " "+ "  " + "\n"+"\n"+"Regards");
+                        Transport.send(msg);
+
+                        JOptionPane.showMessageDialog(RiskRating.this, "Record successfully saved and investigation team notified  " + GroupA + "." );
+                    }
+                    catch(MessagingException | HeadlessException e){
+                        JOptionPane.showMessageDialog(RiskRating.this, e.getMessage());
+                    }
+                    this.dispose();
+                    IncidentAnalysis analysis = new IncidentAnalysis();
+                    analysis.setVisible(true);
+                    //IncidentAnalysis.getObj().setVisible(true);
+                   }
+               }
         catch(ClassNotFoundException ex){
             JOptionPane.showMessageDialog(this, ex.getException());
-        }
+                }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

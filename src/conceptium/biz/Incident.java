@@ -34,7 +34,7 @@ public class Incident extends javax.swing.JFrame {
      * Creates new form Incident
      */
     DbConnection connect = new DbConnection();
-    public Incident() throws SQLException {
+    public Incident() throws SQLException, ClassNotFoundException {
         setUndecorated(true);
         setResizable(false);
         initComponents();
@@ -48,9 +48,9 @@ public class Incident extends javax.swing.JFrame {
     }
     private  int staffId;
     private static final AtomicInteger counter = new AtomicInteger(0);
-    private void setReferenceNumber(){
+    private void setReferenceNumber() throws ClassNotFoundException{
         String sql = "select SHE_ID from AUTOSHE";
-        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+        try(Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
                 ResultSet rs = pst.executeQuery()){
             rs.afterLast();
@@ -67,12 +67,12 @@ public class Incident extends javax.swing.JFrame {
             //staffId = counter.incrementAndGet();
             }
         }catch(SQLException e){
-        JOptionPane.showMessageDialog(Incident.this, e + "Unable to set counter");}
+        JOptionPane.showMessageDialog(Incident.this, e.getMessage()+". "+ "Unable to set start database");}
     }
    private void fillId() throws SQLException{
         String sql ="Select * from Persons";
             try {
-                Connection con = connect.dbConnection();
+                Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
@@ -81,14 +81,14 @@ public class Incident extends javax.swing.JFrame {
                 }
         }
         catch(ClassNotFoundException | SQLException e){
-            JOptionPane.showMessageDialog(this, e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
             
     }
-        private void supervisor() throws SQLException{
+        private void supervisor() throws SQLException,ClassNotFoundException{
         String sql ="Select * from Site";
             try {
-                Connection con = connect.dbConnection();
+                Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
@@ -97,7 +97,7 @@ public class Incident extends javax.swing.JFrame {
                 }
         }
         catch(ClassNotFoundException | SQLException e){
-            JOptionPane.showMessageDialog(this, e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
         
@@ -167,14 +167,14 @@ public class Incident extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtEquipmentUsed = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
-        jRadioButton7 = new javax.swing.JRadioButton();
-        jRadioButton8 = new javax.swing.JRadioButton();
+        headNeck = new javax.swing.JRadioButton();
+        eye = new javax.swing.JRadioButton();
+        truck = new javax.swing.JRadioButton();
+        finger = new javax.swing.JRadioButton();
+        hand = new javax.swing.JRadioButton();
+        arm = new javax.swing.JRadioButton();
+        foot = new javax.swing.JRadioButton();
+        toe = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         cboAgent = new javax.swing.JComboBox();
         jLabel25 = new javax.swing.JLabel();
@@ -572,59 +572,59 @@ public class Incident extends javax.swing.JFrame {
 
         jLabel19.setText("Select body part injured if any:");
 
-        jRadioButton1.setText("Head/Neck");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        headNeck.setText("Head/Neck");
+        headNeck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                headNeckActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("Eye");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        eye.setText("Eye");
+        eye.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                eyeActionPerformed(evt);
             }
         });
 
-        jRadioButton3.setText("Trunk");
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        truck.setText("Trunk");
+        truck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton3ActionPerformed(evt);
+                truckActionPerformed(evt);
             }
         });
 
-        jRadioButton4.setText("Finger");
-        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+        finger.setText("Finger");
+        finger.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton4ActionPerformed(evt);
+                fingerActionPerformed(evt);
             }
         });
 
-        jRadioButton5.setText("Hand");
-        jRadioButton5.addActionListener(new java.awt.event.ActionListener() {
+        hand.setText("Hand");
+        hand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton5ActionPerformed(evt);
+                handActionPerformed(evt);
             }
         });
 
-        jRadioButton6.setText("Arm");
-        jRadioButton6.addActionListener(new java.awt.event.ActionListener() {
+        arm.setText("Arm");
+        arm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton6ActionPerformed(evt);
+                armActionPerformed(evt);
             }
         });
 
-        jRadioButton7.setText("Foot");
-        jRadioButton7.addActionListener(new java.awt.event.ActionListener() {
+        foot.setText("Foot");
+        foot.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton7ActionPerformed(evt);
+                footActionPerformed(evt);
             }
         });
 
-        jRadioButton8.setText("Toe");
-        jRadioButton8.addActionListener(new java.awt.event.ActionListener() {
+        toe.setText("Toe");
+        toe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton8ActionPerformed(evt);
+                toeActionPerformed(evt);
             }
         });
 
@@ -634,15 +634,15 @@ public class Incident extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jRadioButton2)
+                .addComponent(eye)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton1)
+                .addComponent(headNeck)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton3)
+                .addComponent(truck)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton4)
+                .addComponent(finger)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton5)
+                .addComponent(hand)
                 .addGap(33, 33, 33))
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -650,11 +650,11 @@ public class Incident extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton6)
+                        .addComponent(arm)
                         .addGap(0, 0, 0)
-                        .addComponent(jRadioButton7)
+                        .addComponent(foot)
                         .addGap(0, 0, 0)
-                        .addComponent(jRadioButton8))
+                        .addComponent(toe))
                     .addComponent(txtEquipmentUsed, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -668,15 +668,15 @@ public class Incident extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(jRadioButton6)
-                    .addComponent(jRadioButton7)
-                    .addComponent(jRadioButton8))
+                    .addComponent(arm)
+                    .addComponent(foot)
+                    .addComponent(toe))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4)
-                    .addComponent(jRadioButton5)
-                    .addComponent(jRadioButton2))
+                    .addComponent(headNeck)
+                    .addComponent(truck)
+                    .addComponent(finger)
+                    .addComponent(hand)
+                    .addComponent(eye))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -932,9 +932,9 @@ public class Incident extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(1, 1, 1)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, 0)
+                            .addGap(18, 18, 18)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 361, Short.MAX_VALUE)
@@ -1051,33 +1051,11 @@ public class Incident extends javax.swing.JFrame {
         String timeExposed = txtTimeExposed.getText();
         String equipmentDemaged = txtEquipmentDemaged.getText();
         String estimatedValue = txtEstimatedValue.getText();
-        String head_Neck = choice;
-        String eye = choice;
-        String truck = choice;
-        String finger = choice;
-        String hand = choice;
-        String arm = choice;
-        String foot = choice;
-        String toe = choice;
         String area = txtArea.getText();
         if(statusOpen.isSelected()){
         status = "Open";
         }else{
         status = "Closed";}
-        //String open = status;
-        //String status = txtStatus.getText();
-        /**DbaseOperation Db = new DbaseOperation();
-        String[] arr = {name,surname,idNumber,employeeNumber,referenceNumber,incidentType,natureOfIncident,shift,
-            hoursOnShift,reportTo,numberOfContiniousDaysWorked,contactNumber,contactEmail,department,site,equipmentUsed,activityBiengDone,
-        yearsOfExperience,agent,timeExposed,equipmentDemaged,estimatedValue,head_Neck,eye,truck,finger,hand,arm,foot,toe,
-        area,status};
-        Db.insertToDb("Incident","Name,Surname,IDNumber,EmployeeNumber,ReferenceNumber,"+
-                "IncidentType,NatureOfIncident,DateOfIncident,DateOfReportingIncident,Shift,HoursOnShift,"+
-                "ReportedTo,NumberOfContinuosDaysWorked,ContactNumber,ContactEmail,Department,Site,"+
-                "EquipmentUsed,Head_Neck,Eye,Trunk,Finger,Head,Arm,Foot,Toe,ActivityBiengCarriedOut,"+
-                "YearsOfExperienceOnTask,EquipmentDemaged,EstimatedValue,Area,Status,Agent,"+
-                "TimeOfExpose" , "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", arr);
-                JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "successfully saved.");**/
         String sql = "insert into Incident(Name,Surname,IDNumber,EmployeeNumber,ReferenceNumber,"+
                 "IncidentType,NatureOfIncident,DateOfIncident,DateOfReportingIncident,Shift,HoursOnShift,"+
                 "ReportedTo,NumberOfContinuosDaysWorked,ContactNumber,ContactEmail,Department,Site,"+
@@ -1105,13 +1083,13 @@ public class Incident extends javax.swing.JFrame {
         pst.setString(17, site);
         pst.setString(18, equipmentUsed);
         pst.setString(19,head_Neck);
-        pst.setString(20,eye);
-        pst.setString(21,truck);
-        pst.setString(22,finger);
-        pst.setString(23,hand);
-        pst.setString(24,arm);
-        pst.setString(25,foot);
-        pst.setString(26,toe);
+        pst.setString(20,eyes);
+        pst.setString(21,trunks);
+        pst.setString(22,fingers);
+        pst.setString(23,hands);
+        pst.setString(24,arms);
+        pst.setString(25,feet);
+        pst.setString(26,toes);
         pst.setString(27, activityBiengDone);
         pst.setString(28, yearsOfExperience);
         pst.setString(29, equipmentDemaged);
@@ -1128,17 +1106,18 @@ public class Incident extends javax.swing.JFrame {
         
         DashBoards.newIncident();
         DashBoards.OverDueIncidents();
+        DashBoards.loadGraphs();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(Incident.this, e);
         }
         this.dispose();
-        IncidentDetails iD = IncidentDetails.getObj();
+        IncidentDetails iD = new IncidentDetails();
         IncidentDetails.cboReference.removeAllItems();
         String sql1 = "select * from Incident where ReferenceNumber = ?";
         String ref = txtReferenceNumber.getText();
         try{
-        Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+        Connection con = DbConnection.dbConnection();
         PreparedStatement pst = con.prepareStatement(sql1);
         pst.setString(1, ref);
         ResultSet rs = pst.executeQuery();
@@ -1147,28 +1126,21 @@ public class Incident extends javax.swing.JFrame {
             IncidentDetails.cboReference.addItem(reference);
         }
         }
-        catch(Exception e){
+        catch(ClassNotFoundException | SQLException e){
         JOptionPane.showMessageDialog(Incident.this, e);
         }
         String sql2 = "insert into AUTOSHE(SHE_ID) values(?)";
-        try(Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents", "herbert", "elsie1*#");
+        try(Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql2);){
             pst.setInt(1, staffId);
             pst.executeUpdate();
-        }catch(SQLException e){
-        JOptionPane.showMessageDialog(Incident.this, e + "Unable to set counter");}
-       // SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        }catch(SQLException | ClassNotFoundException e){
+        JOptionPane.showMessageDialog(Incident.this, e + "Unable to set counter");
+        } 
                 Calendar c = Calendar.getInstance();
-                //c.setTime(new Date());
                 c.setTime(jDateChooser2.getDate());
-                //c.setTime(sdf.parse(dateChooserCombo1.getSelectedDate().toString()));
-                //int x = Integer.parseInt(txtDays.getText());
                 c.add(Calendar.DATE, 30);
-                //SimpleDateFormat print = new SimpleDateFormat("yyyy/MM/dd");
                 IncidentDetails.jDateChooser1.setDate(c.getTime());
-                //IncidentDetails.txtDate.setText(sdf.format(c.getTime()));
-                //IncidentDetails.txtDate.setEnabled(false);
-        //updateTable();
         iD.setVisible(true);
         this.dispose();}
         else{
@@ -1176,9 +1148,10 @@ public class Incident extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 public void fillName(){
     String select = cboEmployeeNumber.getSelectedItem().toString();
+    String sql = "Select * from Persons where EmployeeNumber = ?";
         try{
-            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-            PreparedStatement pst = con.prepareStatement("Select * from Persons where EmployeeNumber = ?");
+            Connection con = DbConnection.dbConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, select);
             ResultSet rs = pst.executeQuery();
             if (rs.next()){
@@ -1190,16 +1163,17 @@ public void fillName(){
                 txtIdNumber.setText(idNumber);
             }
         }
-        catch(Exception e){
-        JOptionPane.showMessageDialog(Incident.this, e);
+        catch(ClassNotFoundException | SQLException e){
+        JOptionPane.showMessageDialog(Incident.this, e.getMessage());
         }
 }
 
 public void fillSite(){
     String select = cboEmployeeNumber.getSelectedItem().toString();
+    String sql = "Select * from Site where EmployeeNumber = ?";
         try{
-            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
-            PreparedStatement pst = con.prepareStatement("Select * from Site where EmployeeNumber = ?");
+            Connection con = DbConnection.dbConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, select);
             ResultSet rs = pst.executeQuery();
             if (rs.next()){
@@ -1207,15 +1181,15 @@ public void fillSite(){
                 cboReportedTo.setSelectedItem(name);
             }
         }
-        catch(Exception e){
-        JOptionPane.showMessageDialog(Incident.this, e);
+        catch(ClassNotFoundException | SQLException e){
+        JOptionPane.showMessageDialog(Incident.this, e.getMessage());
         }
 }
 public void fillsupervisor(){
     String search = cboReportedTo.getSelectedItem().toString();
         String sql = "select * from Person where EmployeeNumber = ?";
         try{
-            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+            Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);
                 pst.setString(1, search);
                 ResultSet rs = pst.executeQuery();
@@ -1230,17 +1204,13 @@ public void fillsupervisor(){
                     txtSite.setText(site.trim());
                 }
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(Incident.this, e);
+        catch(SQLException | ClassNotFoundException e){
+            JOptionPane.showMessageDialog(Incident.this, e.getMessage());
         }
 }
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         dcTodayDate.setEnabled(false);
         dcClosingDate.setEnabled(false);
-        
-
-//staffId = counter.incrementAndGet();
-        //setReferenceNumber();
         Locale RSA = new Locale("en", "ZA");
         NumberFormat format = NumberFormat.getCurrencyInstance(RSA);
         format.setMaximumFractionDigits(2);
@@ -1261,29 +1231,21 @@ public void fillsupervisor(){
 
         txtActivity.setWrapStyleWord(true);
         txtActivity.setLineWrap(true);
-        //txtStatus.setEnabled(false);
-        //txtStatus.setText("Open");
-        //txtStatus.setBackground(Color.RED);
-        //txtStatus.setFont(new Font("Arial", Font.BOLD, 14));
         String search = cboIncidentType.getSelectedItem().toString();
         String sql1 ="Select * from IncidentOccurrance where IncidentType = ?";
-            //String sql = "select * from IncidentOccurance";
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql1);
                 pst.setString(1, search);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
                     String incidentResult = rs.getString("Nature");
                     cboNature.addItem(incidentResult.trim());
-                    //String description = rs.getString("Description");
-                    //txtDescription.setText(description.trim());
-                    //txtDescription.setLineWrap(true);
                 }
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(this, e);
-        }
+        catch(SQLException | ClassNotFoundException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } 
             fillsupervisor();
             //fillName();
     }//GEN-LAST:event_formWindowActivated
@@ -1292,37 +1254,37 @@ public void fillsupervisor(){
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        choice = "head_Neck";
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void headNeckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_headNeckActionPerformed
+        head_Neck = "headNeck";
+    }//GEN-LAST:event_headNeckActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        choice = "eye";
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    private void eyeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eyeActionPerformed
+        eyes = "eye";
+    }//GEN-LAST:event_eyeActionPerformed
 
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-        choice = "truck";
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
+    private void truckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_truckActionPerformed
+        trunks = "trunk";
+    }//GEN-LAST:event_truckActionPerformed
 
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-        choice = "finger";
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
+    private void fingerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fingerActionPerformed
+        fingers = "finger";
+    }//GEN-LAST:event_fingerActionPerformed
 
-    private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
-        choice = "hand";
-    }//GEN-LAST:event_jRadioButton5ActionPerformed
+    private void handActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_handActionPerformed
+        hands = "hand";
+    }//GEN-LAST:event_handActionPerformed
 
-    private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
-        choice = "arm";
-    }//GEN-LAST:event_jRadioButton6ActionPerformed
+    private void armActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_armActionPerformed
+        arms = "arm";
+    }//GEN-LAST:event_armActionPerformed
 
-    private void jRadioButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton7ActionPerformed
-        choice = "foot";
-    }//GEN-LAST:event_jRadioButton7ActionPerformed
+    private void footActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_footActionPerformed
+        feet = "foot";
+    }//GEN-LAST:event_footActionPerformed
 
-    private void jRadioButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton8ActionPerformed
-        choice = "toe";
-    }//GEN-LAST:event_jRadioButton8ActionPerformed
+    private void toeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toeActionPerformed
+        toes = "toe";
+    }//GEN-LAST:event_toeActionPerformed
 
     private void txtEquipmentUsedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEquipmentUsedActionPerformed
         // TODO add your handling code here:
@@ -1428,14 +1390,6 @@ public void fillsupervisor(){
         String timeExposed = txtTimeExposed.getText();
         String equipmentDemaged = txtEquipmentDemaged.getText();
         String estimatedValue = txtEstimatedValue.getText();
-        String head_Neck = choice;
-        String eye = choice;
-        String truck = choice;
-        String finger = choice;
-        String hand = choice;
-        String arm = choice;
-        String foot = choice;
-        String toe = choice;
         String area = txtArea.getText();
         if(statusOpen.isSelected()){
         status = "Open";
@@ -1485,13 +1439,13 @@ public void fillsupervisor(){
         pst.setString(17, site);
         pst.setString(18, equipmentUsed);
         pst.setString(19,head_Neck);
-        pst.setString(20,eye);
-        pst.setString(21,truck);
-        pst.setString(22,finger);
-        pst.setString(23,hand);
-        pst.setString(24,arm);
-        pst.setString(25,foot);
-        pst.setString(26,toe);
+        pst.setString(20,eyes);
+        pst.setString(21,trunks);
+        pst.setString(22,fingers);
+        pst.setString(23,hands);
+        pst.setString(24,arms);
+        pst.setString(25,feet);
+        pst.setString(26,toes);
         pst.setString(27, activityBiengDone);
         pst.setString(28, yearsOfExperience);
         pst.setString(33, agent);
@@ -1504,6 +1458,7 @@ public void fillsupervisor(){
         pst.setDate(36, new java.sql.Date(dcClosingDate.getDate().getTime()));
         pst.executeUpdate();
         JOptionPane.showMessageDialog(Incident.this, "incident"+" "+ referenceNumber+ " "+ "status saved.");
+        DashBoards.loadGraphs();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(Incident.this, e);
@@ -1583,16 +1538,20 @@ public void fillsupervisor(){
     }//GEN-LAST:event_cboNatureItemStateChanged
 
     private void txtActivityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtActivityKeyTyped
-        statusOpen.setSelected(true);
-        //statusPending.setEnabled(false);
-        statusClosed.setEnabled(false);
-        if(cboNature.getSelectedItem().toString().equals("Fatality")||cboNature.getSelectedItem().toString().equals("Above R50 000")){
-        txtReferenceNumber.setBackground(Color.red);
+        try {
+            statusOpen.setSelected(true);
+            //statusPending.setEnabled(false);
+            statusClosed.setEnabled(false);
+            if(cboNature.getSelectedItem().toString().equals("Fatality")||cboNature.getSelectedItem().toString().equals("Above R50 000")){
+                txtReferenceNumber.setBackground(Color.red);
+            }
+            setReferenceNumber();
+            java.util.Date date = new java.util.Date();
+            dcTodayDate.setDate(date);
+            dcClosingDate.setDate(null);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getException());
         }
-        setReferenceNumber();
-        java.util.Date date = new java.util.Date();
-        dcTodayDate.setDate(date);
-        dcClosingDate.setDate(null);
     }//GEN-LAST:event_txtActivityKeyTyped
 
     private void dcClosingDateMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dcClosingDateMousePressed
@@ -1667,7 +1626,7 @@ public void fillsupervisor(){
             public void run() {
                 try {
                     new Incident().setVisible(true);
-                } catch (SQLException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(Incident.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -1675,6 +1634,7 @@ public void fillsupervisor(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JRadioButton arm;
     public static javax.swing.JComboBox cboAgent;
     public static javax.swing.JComboBox cboEmployeeNumber;
     public static javax.swing.JComboBox cboHrs;
@@ -1685,9 +1645,14 @@ public void fillsupervisor(){
     public static javax.swing.JComboBox cboShift;
     public static com.toedter.calendar.JDateChooser dcClosingDate;
     public static com.toedter.calendar.JDateChooser dcTodayDate;
+    public static javax.swing.JRadioButton eye;
+    public static javax.swing.JRadioButton finger;
+    public static javax.swing.JRadioButton foot;
+    public static javax.swing.JRadioButton hand;
+    public static javax.swing.JRadioButton headNeck;
     public static javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
+    public static javax.swing.JButton jButton4;
     public static com.toedter.calendar.JDateChooser jDateChooser1;
     public static com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -1731,17 +1696,11 @@ public void fillsupervisor(){
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JCheckBox statusClosed;
     public static javax.swing.JCheckBox statusOpen;
+    public static javax.swing.JRadioButton toe;
+    public static javax.swing.JRadioButton truck;
     public static javax.swing.JTextArea txtActivity;
     public static javax.swing.JTextField txtArea;
     public static javax.swing.JTextField txtContactNumber;
@@ -1758,6 +1717,13 @@ public void fillsupervisor(){
     public static javax.swing.JTextField txtTimeExposed;
     public static javax.swing.JTextField txtYears;
     // End of variables declaration//GEN-END:variables
-private String choice;
+private String head_Neck;
+private String eyes;
+private String trunks;
+private String fingers;
+private String hands;
+private String arms;
+private String feet;
+private String toes;
 private String status;
 }

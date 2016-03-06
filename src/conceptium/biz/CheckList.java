@@ -5,10 +5,12 @@
  */
 package conceptium.biz;
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -397,7 +399,7 @@ public class CheckList extends javax.swing.JFrame {
         String telephone = txtTelephone.getText();
         String email = txtEmail.getText();
         try{
-            Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+            Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, reference);
             pst.setString(2, plantRegister);
@@ -407,9 +409,10 @@ public class CheckList extends javax.swing.JFrame {
             pst.setString(6, jobTitle);
             pst.setString(7, telephone);
             pst.setString(8, email);
+            pst.executeUpdate();
             JOptionPane.showMessageDialog(CheckList.this, "Check list for"+" "+reference+" "+"successfully saved");
         }
-        catch(Exception e){
+        catch(ClassNotFoundException | SQLException | HeadlessException e){
         JOptionPane.showMessageDialog(CheckList.this, e);
         }
         this.dispose();

@@ -5,6 +5,10 @@
  */
 package conceptium.biz;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author MathomeTD
@@ -42,6 +46,11 @@ public static About getObj(){
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -102,6 +111,22 @@ public static About getObj(){
         this.dispose();
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+                try{
+        String textLine;
+        FileReader fr = new FileReader("example.txt");
+            BufferedReader reader = new BufferedReader(fr);
+        while((textLine = reader.readLine())!=null){
+            textLine = reader.readLine();
+            jTextArea1.read(reader, "jTextArea1");
+            jTextArea1.setLineWrap(true);
+            jTextArea1.setWrapStyleWord(true);
+        }}
+        catch(Exception e){
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

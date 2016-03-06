@@ -5,8 +5,16 @@
  */
 package conceptium.biz;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.infonode.gui.laf.InfoNodeLookAndFeel;
@@ -24,13 +32,36 @@ public class Splash extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel( new InfoNodeLookAndFeel());
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(Splash.this, ex.getMessage());
         }
         setUndecorated(true);
         setResizable(false);
         initComponents();
     }
 
+    
+    
+    private void Dbase(){
+            try {
+                try (Connection con = DbConnection.dbConnection()) {
+                    lblProg.setText("Setting up database.....");
+                }
+        }
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    public void terminateProgram(){
+    Calendar expireDate = Calendar.getInstance();
+        expireDate.set(2016, 02, 14);
+        System.out.println(expireDate.getTime());
+        if(Calendar.getInstance().getTime().after(expireDate.getTime())){
+            JOptionPane.showMessageDialog(this, "Your trial has expired please contact developer");
+            System.exit(0);
+        }
+}
+    final static int interval = 250;
+    int value;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,8 +76,15 @@ public class Splash extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
+        lblProg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -83,17 +121,25 @@ public class Splash extends javax.swing.JFrame {
                     .addComponent(jLabel3)))
         );
 
+        lblProg.setText("jLabel4");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblProg)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(198, 198, 198)
+                .addGap(181, 181, 181)
+                .addComponent(lblProg)
+                .addGap(2, 2, 2)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -103,6 +149,66 @@ public class Splash extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        try {
+            DashBoards x = new DashBoards();
+            x.setVisible(true);
+            //DashBoards.loadGraphs();
+            value = 0;
+            t.start(); 
+            jProgressBar1.setValue(value);
+        } catch (SQLException ex) {
+            Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowActivated
+    Timer t = new Timer(interval, new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (value == 100){
+                //try {
+                    t.stop();
+                    //DashBoards x = new DashBoards();
+                    //x.setVisible(true);
+                    Splash.this.dispose();
+                //} catch (SQLException ex) {
+                    //JOptionPane.showMessageDialog(Splash.this, ex.getMessage());
+                //}
+                
+            }
+            if (value == 0){
+                lblProg.setText("Starting Application....");
+                //lblProg.setText("Loading ......");
+                value++;
+                jProgressBar1.setValue(value);
+            }
+            if (value == 25){
+                lblProg.setText("Setting up environment.....");
+                value++;
+                jProgressBar1.setValue(value);
+            }
+            if(value == 50){
+                lblProg.setText("Loading Modules.....");
+                //DashBoards.loadGraphs();
+                value++;
+                jProgressBar1.setValue(value);
+            }
+            if (value == 65){
+                lblProg.setText("Connecting to database....");
+                value++;
+                jProgressBar1.setValue(value);
+            }
+            if(value == 70){
+                Dbase();
+                terminateProgram();
+                value++;
+                jProgressBar1.setValue(value);
+            }
+            else {
+                value++;
+                jProgressBar1.setValue(value);
+            }
+        }
+    });
     /**
      * @param args the command line arguments
      */
@@ -144,5 +250,6 @@ public class Splash extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JLabel lblProg;
     // End of variables declaration//GEN-END:variables
 }

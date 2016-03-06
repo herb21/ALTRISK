@@ -5,6 +5,14 @@
  */
 package conceptium.biz;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
 /**
  *
  * @author MathomeTD
@@ -16,8 +24,86 @@ public class Standards extends javax.swing.JFrame {
      */
     public Standards() {
         initComponents();
+        pop_tree();
     }
 
+    
+    private Statement stm = null;
+    Connection con = null;
+    public DefaultMutableTreeNode processHierachy(Object[] hierachy){
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(hierachy[0]);
+        try{
+        int ctrow = 0;
+        int i =0;
+        try{
+            try{
+            con = DbConnection.dbConnection();
+            stm = con.createStatement();
+            }
+            catch(ClassNotFoundException | SQLException err){
+            err.getMessage();
+            }
+            String sql = "Select DocID,DocumentName from Doc";
+            ResultSet rs =  stm.executeQuery(sql);
+                while(rs.next()){
+                    ctrow = rs.getRow();
+                }
+                String L1Name[] = new String[ctrow];
+                String L1ID[] = new String[ctrow];
+                ResultSet rs1 = stm.executeQuery(sql);
+                    while(rs1.next()){
+                        L1Name[i] = rs1.getString("DOCUMENTNAME");
+                        L1ID[i] = rs1.getString("DOCID");
+                        i++;
+                    }
+                    DefaultMutableTreeNode child, grandChild;
+                        for(int childIndex = 0; childIndex < L1Name.length; childIndex++){
+                            child = new DefaultMutableTreeNode(L1Name[childIndex]);
+                            node.add(child);
+                            String sql2 = "select SDOCUMENTNAME from SUBDOC where DOCID = '"+L1ID[childIndex]+"'";
+                            ResultSet rs3 = stm.executeQuery(sql2);
+                            while(rs3.next()){
+                                grandChild = new DefaultMutableTreeNode(rs3.getString("SDOCUMENTNAME"));
+                                child.add(grandChild);
+                    }
+            }
+        }catch(SQLException ex){
+        ex.getMessage();
+        }
+        }catch(Exception e){
+        e.getMessage();
+        }
+        return node;
+    }
+    
+    
+    public final void pop_tree(){
+        try{
+            try{
+            con = DbConnection.dbConnection();
+            stm = con.createStatement();
+            }catch(ClassNotFoundException | SQLException ex){
+            ex.getMessage();
+            }
+            ArrayList  list = new ArrayList();
+            list.add("Document List");
+            String sql = "select * from Doc";
+
+            ResultSet rs = stm.executeQuery(sql);
+             while(rs.next()){
+                 Object value[] = {rs.getString("DOCID"),rs.getString("DOCUMENTNAME")};
+                 list.add(value);
+             }
+             Object hierachy[] = list.toArray();
+             DefaultMutableTreeNode root = processHierachy(hierachy);
+
+                DefaultTreeModel treeModel = new DefaultTreeModel(root);
+                jTree1.setModel(treeModel);
+            }catch(Exception e){
+            e.getMessage();
+            }
+        System.out.println("Done");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,17 +113,28 @@ public class Standards extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jScrollPane1.setViewportView(jTree1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(297, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(271, Short.MAX_VALUE))
         );
 
         pack();
@@ -79,5 +176,7 @@ public class Standards extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }

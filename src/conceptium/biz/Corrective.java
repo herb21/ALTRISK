@@ -34,7 +34,6 @@ import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
@@ -628,7 +627,6 @@ private void incident() throws SQLException, ClassNotFoundException{
         } 
         for(int tableRow = 0; tableRow < tm.getRowCount(); tableRow++){
                     Object val = tm.getValueAt(tableRow, 2);
-        String action = txtAction.getText();
         String responsibleName = val.toString();
         String [] args = responsibleName.split(" ");
         Date dueDate = new java.sql.Date(dcDueDate.getDate().getTime());
@@ -720,7 +718,7 @@ private void incident() throws SQLException, ClassNotFoundException{
         String sql = "select ReferenceNumber from KeyLearnings  where ReferenceNumber = ? ";
         String sql1 = "select * from checklist where referencenumber = ?";
         try{
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
+            Connection con = DbConnection.dbConnection();
             PreparedStatement pst = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             pst.setString(1, search);
             //pst.setString(2, search);
@@ -745,7 +743,7 @@ private void incident() throws SQLException, ClassNotFoundException{
                     JOptionPane.showMessageDialog(Corrective.this,ex.getCause());
                 }
         try{
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/Incidents","herbert","elsie1*#");
+            con = DbConnection.dbConnection();
             pst = con.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             pst.setString(1, search);
             //pst.setString(2, search);
@@ -758,9 +756,9 @@ private void incident() throws SQLException, ClassNotFoundException{
         
                 }
         }
-        catch(SQLException e){
-            JOptionPane.showMessageDialog(Corrective.this, e.getErrorCode());
-        }}}}
+        catch(SQLException | ClassNotFoundException e){
+            JOptionPane.showMessageDialog(Corrective.this, e.getMessage());
+        } }}}         
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -798,7 +796,7 @@ private void incident() throws SQLException, ClassNotFoundException{
             IncidentCorrectiveActionStatusUpdate.txtAllocatedTask.setText(model.getValueAt(row, 0).toString().trim());
             IncidentCorrectiveActionStatusUpdate.cboHierachy.setSelectedItem(model.getValueAt(row, 1).toString().trim());
             IncidentCorrectiveActionStatusUpdate.txtName.setText(model.getValueAt(row, 2).toString().trim());
-            String date = model.getValueAt(row, 4).toString();
+            String date = model.getValueAt(row, 3).toString();
             DateFormat df = new SimpleDateFormat("yyyy-MM-d");
             java.util.Date newDate = (java.util.Date) df.parse(date);
             IncidentCorrectiveActionStatusUpdate.jDateChooser1.setDate(newDate);
