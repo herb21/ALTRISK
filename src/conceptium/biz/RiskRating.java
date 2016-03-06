@@ -5,15 +5,8 @@
  */
 package conceptium.biz;
 
-import com.alee.laf.WebLookAndFeel;
-import static conceptium.biz.Corrective.jTable1;
-import static conceptium.biz.Incident.cboEmployeeNumber;
-import static conceptium.biz.Incident.txtIdNumber;
-import static conceptium.biz.Incident.txtName;
-import static conceptium.biz.Incident.txtSurname;
 import java.awt.Color;
 import java.awt.HeadlessException;
-import java.awt.List;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,8 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -34,8 +25,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
@@ -61,9 +50,11 @@ public class RiskRating extends javax.swing.JFrame {
         reference();
     }
    private void reference(){
-        String sql ="Select * from Incident";
-            try (Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+        String sql ="Select * from Incident where status = ?";
+        String currentStatus = "Open";
+            try (Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);){
+                pst.setString(1, currentStatus);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
                     String ID = rs.getString("ReferenceNumber");

@@ -7,7 +7,6 @@ package conceptium.biz;
 
 import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +34,7 @@ public class CheckList extends javax.swing.JFrame {
     private void names(){
         String sql ="Select * from Persons";
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
@@ -52,24 +51,26 @@ public class CheckList extends javax.swing.JFrame {
                     cboJobTitle.addItem(job.trim());
                 }
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(this, e);
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
     
     private void reference(){
-        String sql ="Select * from Incident";
+        String sql ="Select * from Incident where status = ?";
+        String currentStatus = "Open";
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, currentStatus);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
                     String reference = rs.getString("ReferenceNumber");
                     cboReference.addItem(reference.trim());
                 }
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(this, e);
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
     /**
@@ -358,7 +359,7 @@ public class CheckList extends javax.swing.JFrame {
         String [] args = search.split(" ");
         String sql ="Select * from Persons where name = ? and surname = ?";
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
+                Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql);
                 pst.setString(1, args[0]);
                 pst.setString(2, args[1]);
@@ -377,8 +378,8 @@ public class CheckList extends javax.swing.JFrame {
                     cboJobTitle.setSelectedItem(job.trim());
                 }
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(this, e);
+        catch(ClassNotFoundException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
 //names();
     }//GEN-LAST:event_cboManagerItemStateChanged
@@ -413,7 +414,7 @@ public class CheckList extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(CheckList.this, "Check list for"+" "+reference+" "+"successfully saved");
         }
         catch(ClassNotFoundException | SQLException | HeadlessException e){
-        JOptionPane.showMessageDialog(CheckList.this, e);
+        JOptionPane.showMessageDialog(CheckList.this, e.getMessage());
         }
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

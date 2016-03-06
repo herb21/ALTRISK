@@ -5,7 +5,6 @@
  */
 package conceptium.biz;
 
-import static conceptium.biz.Incident.cboEmployeeNumber;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -36,10 +35,12 @@ public RiskRevaluation() throws SQLException {
     }
 
 public void referenceNUmber(){
-                String sql1 = "select * from Risk";
+                String sql1 = "select * from Risk where status = ?";
+                String currentStatus = "Open";
             try{
                 Connection con = DbConnection.dbConnection();
                 PreparedStatement pst = con.prepareStatement(sql1);
+                pst.setString(1, currentStatus);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
                     String reference = rs.getString("ReferenceNumber");

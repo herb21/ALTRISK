@@ -36,11 +36,12 @@ public static IncidentRootCause getObj(){
             return obj;
         }
 private void reference(){
-        String sql ="Select * from Incident";
-        
+        String sql ="Select * from Incident where status = ?";
+        String currentStatus = "Open";
         String sql2= "select count as u from  login";
             try (Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
                 PreparedStatement pst = con.prepareStatement(sql);){
+                pst.setString(1, currentStatus);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
                     String ID = rs.getString("ReferenceNumber");

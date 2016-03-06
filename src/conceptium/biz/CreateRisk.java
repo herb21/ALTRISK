@@ -645,7 +645,7 @@ private void responsiblePerson() throws SQLException{
                 pst.setDate(8, today);
                 pst.setString(9, responsiblePerson);
                 pst.setString(10, ref);
-                pst.setDate(11, null);
+                pst.setDate(11, new java.sql.Date(dcClosingDate.getDate().getTime()));
                 pst.setString(12, activity);
                 pst.setString(13, status);
                 pst.setDate(14, dueDate);

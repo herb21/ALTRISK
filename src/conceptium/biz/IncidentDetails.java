@@ -74,10 +74,12 @@ public class IncidentDetails extends javax.swing.JFrame {
     }
    
    private void reference(){
-        String sql ="Select * from Incident";
+        String sql ="Select * from Incident where status = ?";
+        String currentStatus = "Open";
             try {
                 Connection con = DriverManager.getConnection("jdbc:derby:Incident","herbert","elsie1*#");
                 PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, currentStatus);
                 ResultSet rs = pst.executeQuery();
                 while(rs.next()){
                     String ID = rs.getString("ReferenceNumber");
